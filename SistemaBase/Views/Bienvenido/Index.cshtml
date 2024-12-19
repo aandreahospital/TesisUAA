@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Bienvenido</title>
+    <style>
+        .body {
+            background-image: url("assets/img/fondo.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        /* Agrega tus estilos aquí */
+        .snowflake {
+            position: fixed;
+            background: white;
+            z-index: 9999;
+            border-radius: 50%;
+            opacity: 1;
+        }
+
+        .hearts {
+            position: fixed;
+            z-index: 9999;
+            opacity: 0.5;
+        }
+
+        h1, h3 {
+            text-align: center;
+        }
+
+            h3.third-heading {
+                text-align: right;
+            }
+
+        .user-message {
+            text-align: left;
+            font-size: 18px;
+            color: white;
+        }
+
+        .container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding-right: 30px;
+            padding-top: 100px;
+        }
+    </style>
+</head>
+<body class="body">
+
+    <div class="container" style="text-align:left;">
+       @* <img src="../../assets/img/icons/logoSA.png" alt="" style="max-width:300px" />*@
+       @*  <h1 style="color:white">Universidad Autonoma de Asuncion</h1><br /> *@
+       <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <p class="user-message" style="text-align:center;"><b>¡HOLA,
+                @if (Context.User.Identity.IsAuthenticated)
+                {
+                    <span id="nombreUsuario">@Context.User.Claims.FirstOrDefault(x => x.Type == "NombreUsuario").Value</span>
+                }
+                else
+                {
+                    <span id="mensajeUsuarioOnline">Usuario Online</span>
+                }!
+            </b>
+        </p>
+            
+
+    </div>
+
+    <script>
+        /*// Obtener la hora actual
+        var horaActual = new Date().getHours();
+        var minutosActuales = new Date().getMinutes();
+
+        // Verificar si la hora está entre 14:45 y 14:50
+        if (horaActual === 15 && minutosActuales >= 00 && minutosActuales <= 10) {
+            // Aplicar cambios en el estilo
+            document.querySelector('.body').style.backgroundImage = 'url("assets/img/icons/ganado11.jpeg")';
+            document.querySelector('.container').style.textAlign = 'left';
+            document.querySelector('.container img').src = '../../assets/img/icons/logoSA.png';
+            document.querySelector('.user-message').style.textAlign = 'left';
+            document.querySelector('.user-message').style.color = '#000';
+        }*/
+
+        // Obtener la fecha actual
+        var fechaActual = new Date();
+        var mesActual = fechaActual.getMonth() + 1; // Los meses en JavaScript van de 0 a 11
+
+        // Verificar si la fecha está entre el 1 de diciembre y el 31 de diciembre
+        // if (mesActual === 12 && fechaActual.getDate() >= 1 && fechaActual.getDate() <= 31) {
+        //     // Aplicar cambios en el estilo
+        //     document.querySelector('.body').style.backgroundImage = 'url("assets/img/icons/ganado.jpeg")';
+        //     document.querySelector('.container').style.textAlign = 'right';
+        //     document.querySelector('.container img').src = '../../assets/img/img/logo.png';
+        //     document.querySelector('.user-message').style.textAlign = 'right';
+        //     document.querySelector('.user-message').style.color = '#fff';
+
+        //     // Crea los copos de nieve
+        //     for (let i = 0; i < 250; i++) {
+        //         let snowflake = document.createElement('div');
+        //         snowflake.classList.add('snowflake');
+        //         snowflake.style.left = Math.random() * window.innerWidth + 'px';
+        //         snowflake.style.top = Math.random() * window.innerHeight + 'px';
+        //         snowflake.style.width = Math.random() * 10 + 'px';
+        //         snowflake.style.height = snowflake.style.width;
+        //         snowflake.style.background = 'white';
+        //         document.body.appendChild(snowflake);
+        //     }
+
+        //     // Anima los copos de nieve
+        //     setInterval(() => {
+        //         document.querySelectorAll('.snowflake').forEach(snowflake => {
+        //             snowflake.style.top = parseInt(snowflake.style.top) + Math.random() * 6 + 'px';
+        //             if (parseInt(snowflake.style.top) > window.innerHeight) {
+        //                 snowflake.style.top = '-10px';
+        //             }
+        //         });
+        //     }, 50);
+
+        // }
+        // Verificar si la fecha está entre el 1 de febrero y el 28/29 de febrero
+        // if (mesActual === 2 && fechaActual.getDate() ===14) {
+
+        //     // Aplicar cambios en el estilo
+        //     document.querySelector('.body').style.backgroundImage = 'url("assets/img/icons/vacamor.jpg")';
+        //     document.querySelector('.container').style.textAlign = 'left';
+        //     //document.querySelector('.container img').src = '../../assets/img/icons/Corte.png';
+        //     //document.querySelector('.user-message').style.textAlign = 'left';
+        //     document.querySelector('.user-message').style.color = '#000';
+
+        //     // Crea los corazones como imágenes
+        //     for (let i = 0; i < 40; i++) {
+        //         let hearts = document.createElement('img');
+        //         hearts.classList.add('hearts');
+        //         hearts.src = '../../assets/img/icons/corazon1.png'; // Reemplaza 'ruta_de_tu_imagen' con la ruta de tu imagen de corazones
+        //         hearts.style.left = Math.random() * window.innerWidth + 'px';
+        //         hearts.style.top = Math.random() * window.innerHeight + 'px';
+        //         hearts.style.width = (Math.random() * (100 - 30) + 30) + 'px'; // Tamaño entre 30px y 100px
+        //         hearts.style.height = hearts.style.width;
+        //         document.body.appendChild(hearts);
+        //     }
+
+        //     // Anima los corazones
+        //     setInterval(() => {
+        //         document.querySelectorAll('.hearts').forEach(hearts => {
+        //             hearts.style.top = parseInt(hearts.style.top) + Math.random() * 6 + 'px';
+        //             if (parseInt(hearts.style.top) > window.innerHeight) {
+        //                 hearts.style.top = '-10px';
+        //                 hearts.style.left = Math.random() * window.innerWidth + 'px';
+        //                 hearts.style.width = (Math.random() * (100 - 30) + 30) + 'px'; // Cambiar tamaño entre 30px y 100px al reiniciar
+        //                 hearts.style.height = hearts.style.width;
+
+        //             }
+        //         });
+        //     }, 50);
+
+        // }
+    </script>
+
+</body>
+</html>

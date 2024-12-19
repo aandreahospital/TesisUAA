@@ -1,0 +1,133 @@
+﻿@model SistemaBase.ModelsCustom.DatosAlumnoCustom
+
+@{
+    ViewData["Title"] = "Index";
+}
+@section styles {
+    <link rel="stylesheet" type="text/css" href="./css/cdn.datatables.net_1.13.6_css_jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/cdn.jsdelivr.net_npm_sweetalert2@7.12.15_dist_sweetalert2.min.css">
+}
+
+
+<script src="~/js/jquery-3.7.0.js"></script>
+<script src="~/js/jquery-3.6.0.min.js"></script>
+<script src="~/js/jquery.datatables.min.js"></script>
+<script src="~/js/cdnjs.cloudflare.com_ajax_libs_moment.js_2.29.4_moment.min.js"></script>
+<script src="~/js/cdnjs.cloudflare.com_ajax_libs_sweetalert_2.1.2_sweetalert.min.js"></script>
+
+<div>
+    <div id="loader"></div>
+    <p>
+        <a class="d-none" id="detailsview" type="button" data-bs-toggle="modal" data-bs-target="#detailsModal"></a>
+    </p>
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4>Datos del Alumno</h4>
+        <button type="button" id="btnEditar" onclick="EditarDatos()" class="btn btn-primary">Editar</button>
+        <button type="submit" id="btnGuardar" onclick="GuardarDatos(event)" class="btn btn-primary" disabled>Guardar</button>
+    </div>
+  
+    <form class="was-validated" id="formDatosAlumno">
+       
+        <div class="mb-3">
+            <div class="row">
+                <div class="col-sm-4">
+                    <label class="form-label" for="exampleFormControlInput1">Numero Documento: </label>
+                </div>
+                <div class="col-sm">
+                    <input type="text" class="form-control" id="CodPersona" name="CodPersona" value="@Model.CodPersona" disabled>
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <div class="row">
+                <div class="col-sm-4">
+                    <label class="form-label" for="exampleFormControlInput1">Nombre y Apellido: </label>
+                </div>
+                <div class="col-sm">
+                    <input type="text" class="form-control" id="Nombre" name="Nombre" value="@Model.Nombre" disabled>
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <div class="row">
+                <div class="col-sm-4">
+                    <label class="form-label" for="exampleFormControlInput1">Correo: </label>
+                </div>
+                <div class="col-sm">
+                    <input type="text" class="form-control" id="Correo" name="Correo" value="@Model.Email" disabled>
+                </div>
+            </div>
+        </div>
+        <input id="usuario" name="usuario" type="hidden" value="@Context.User.Identity.Name" />
+    </form>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="mt-4">Experiencia Laboral</h4>
+        <a class="btn btn-primary mt-3" onclick="abrirLaboral(event)">
+            <span class="btn-label"><i class="fa fa-plus"></i></span>Agregar
+        </a>
+       @*  <button class="btnAbm  mt-3" onclick="abrirLaboral(event)" type="button">
+            <span class="btn-label"><i class="fa fa-plus"></i></span> Nuevo
+        </button> *@
+    </div>
+     
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Lugar de Trabajo</th>
+                <th>Cargo</th>
+                <th>Dirección Laboral</th>
+                <th>Antigüedad</th>
+            </tr>
+        </thead>
+        <tbody>
+             @if (Model != null)
+                            {
+                @foreach (var exp in Model.ExperienciaLaboral)
+                {
+                    <tr>
+                        <td>@exp.Lugartrabajo</td>
+                        <td>@exp.CargoIdcargo</td>
+                        <td>@exp.Direccionlaboral</td>
+                        <td>@exp.Antiguedad</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="mt-4">Educación</h4>
+        <button class="btnAbm  mt-3" onclick="modalcreate()">
+            <span class="btn-label"><i class="fa fa-plus"></i></span> Nuevo
+        </button>
+    </div>
+    
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Centro de Estudio</th>
+                <th>Carrera</th>
+                <th>Fecha de Inicio</th>
+                <th>Fecha de Fin</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                @foreach (var edu in Model.Educacion)
+                {
+                    <tr>
+                        <td>@edu.Idcentroestudio</td>
+                        <td>@edu.Idcarrera</td>
+                        <td>@edu.Fechainicio?.ToString("yyyy-MM-dd")</td>
+                        <td>@edu.Fechafin?.ToString("yyyy-MM-dd")</td>
+                        <td>@edu.Estado</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+<div id="details"></div>
+<script src="/js/DatosPersonales.js"></script>

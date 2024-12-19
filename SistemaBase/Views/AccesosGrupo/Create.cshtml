@@ -1,0 +1,172 @@
+﻿
+@model SistemaBase.ModelsCustom.AccesosGrupoCreateCustom
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "";
+    string namecheck = "";
+}
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModallLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailsModalLabel">Agregar Accesos Grupos</h5>
+                <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close" id="editmodal">
+                    <svg class="svg-inline--fa fa-xmark fs--1" aria-hidden="true" focusable="false" data-prefix="fas"
+                         data-icon="xmark" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="">
+                        <path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="Create" id="FormModalCreate" onsubmit="submitforms(event,'Create', 'FormModalCreate')" class="mb-0">
+                    <div class="row g-0 mt-0 mb-0">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-4">
+                                    <label asp-for="CodGrupo" class="form-control-label fs-0 subTitleModal"></label>
+                                </div>
+                                <div class="col-8">
+                                    <div class="form-check fromCheckSelect">
+                                        <div style="max-width: 350px;">
+                                            <select asp-for="CodGrupo" asp-items="Model.GruposUsuarios" class="form-select ps-4" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+                                            </select>
+                                            <span asp-validation-for="CodGrupo" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-4">
+                                    <label asp-for="CodModulo" class="form-control-label fs-0 subTitleModal"></label>
+                                </div>
+                                <div class="col-8">
+                                    <div class="form-check fromCheckSelect">
+                                        <div style="max-width: 350px;">
+                                            <select asp-for="CodModulo" asp-items="Model.Modulos" class="form-select ps-4" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+                                            </select>
+                                            <span asp-validation-for="CodModulo" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-4">
+                                    <label asp-for="NomForma" class="form-control-label fs-0 subTitleModal"></label>
+                                </div>
+                                <div class="col-8">
+                                    <div class="form-check fromCheckSelect">
+                                        <div style="max-width: 350px;">
+                                            <select asp-for="NomForma" asp-items="Model.FormasCustom" class="form-select ps-4" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+                                            </select>
+                                            <span asp-validation-for="NomForma" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-4">
+                                    <label class="form-control-label fs-0 subTitleModal" asp-for="PuedeInsertar"></label>
+                                </div>
+                                <div class="col-8">
+                                    <input class="form-control" hidden asp-for="PuedeInsertar" id="PuedeInsertar" value="N" />
+                                    <div class="form-check fromCheckSelect">
+                                        @{ namecheck = "PuedeInsertar" + "_2";}
+                                        <input class="form-check my_checkbox" type="checkbox" id="@namecheck" onchange="verifyCheckbox('PuedeInsertar')" />
+                                    </div>
+                                    <span asp-validation-for="PuedeInsertar" class="text-danger k-invalid-msg" data-for="PuedeInsertar"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-4">
+                                    <label class="form-control-label fs-0 subTitleModal" asp-for="PuedeBorrar"></label>
+                                </div>
+                                <div class="col-8">
+                                    <input class="form-control" hidden asp-for="PuedeBorrar" id="PuedeBorrar" value="N" />
+                                    <div class="form-check fromCheckSelect">
+                                        @{ namecheck = "PuedeBorrar" + "_2";}
+                                        <input class="form-check my_checkbox" type="checkbox" id="@namecheck" onchange="verifyCheckbox('PuedeBorrar')" />
+                                    </div>
+                                    <span asp-validation-for="PuedeBorrar" class="text-danger k-invalid-msg" data-for="PuedeBorrar"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-4">
+                                    <label class="form-control-label fs-0 subTitleModal" asp-for="PuedeActualizar"></label>
+                                </div>
+                                <div class="col-8">
+                                    <input class="form-control" hidden asp-for="PuedeActualizar" id="PuedeActualizar" value="N" />
+                                    <div class="form-check fromCheckSelect">
+                                        @{ namecheck = "PuedeActualizar" + "_2";}
+                                        <input class="form-check my_checkbox" type="checkbox" id="@namecheck" onchange="verifyCheckbox('PuedeActualizar')" />
+                                    </div>
+                                    <span asp-validation-for="PuedeActualizar" class="text-danger k-invalid-msg" data-for="PuedeActualizar"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-4">
+                                    <label class="form-control-label fs-0 subTitleModal" asp-for="PuedeConsultar"></label>
+                                </div>
+                                <div class="col-8">
+                                    <input class="form-control" hidden asp-for="PuedeConsultar" id="PuedeConsultar" value="N" />
+                                    <div class="form-check fromCheckSelect">
+                                        @{ namecheck = "PuedeConsultar" + "_2";}
+                                        <input class="form-check my_checkbox" type="checkbox" id="@namecheck" onchange="verifyCheckbox('PuedeConsultar')" />
+                                    </div>
+                                    <span asp-validation-for="PuedeConsultar" class="text-danger k-invalid-msg" data-for="PuedeConsultar"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <div class="">
+                                <input type="hidden" asp-for="ItemMenu" />
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <div class="">
+                                <input type="hidden" asp-for="Rowid" />
+                            </div>
+                        </div>
+
+                        <div class="text-center" id="loader_inv" style="visibility: hidden;">
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only"></span>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="modal-footer">
+                        <button class="btnAbm" type="submit">
+                            <span class="btn-label"><i class="fa fa-save"></i></span> Guardar
+                        </button>
+
+                        <button class="btnAbmCancelar" type="button" data-bs-dismiss="modal">
+                            <span class="btn-label"><i class="fa fa-remove"></i></span> Cancelar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
