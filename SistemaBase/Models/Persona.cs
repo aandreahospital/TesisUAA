@@ -1,17 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
+
 namespace SistemaBase.Models
 {
     public partial class Persona
     {
-        /*public Persona()
-        {
-            RmInformeDets = new HashSet<RmInformeDet>();
-        }*/
-        [Display(Name = "Codigo Persona")]
         public string CodPersona { get; set; } = null!;
         public string? CodPerFisica { get; set; }
         public string? CodPerJuridica { get; set; }
@@ -47,11 +40,7 @@ namespace SistemaBase.Models
         public string? CodIdent { get; set; }
         public string? CodPropietarioOld { get; set; }
         public string? EsCoordinador { get; set; }
-        public string? Email { get; set; }
         public Guid Rowid { get; set; }
-
-        public virtual ICollection<RmInformeDet>? RmInformeDets { get; set; }
-
-        public virtual ICollection<RmCertificacionesDet>? RmCertificacionesDets { get; set; }
+        public string? Email { get; set; }
     }
 }

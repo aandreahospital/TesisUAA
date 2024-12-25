@@ -118,9 +118,9 @@ namespace SistemaBase.Controllers
         public IActionResult Create()
         {
             ViewData["CodPais"] = new SelectList(_context.Paises, "CodPais", "Descripcion");
-            ViewData["CodSector"] = new SelectList(_context.Sectores, "CodSector", "Descripcion");
-            ViewData["TipoSociedad"] = new SelectList(_context.TiposSociedads, "TipoSociedad", "Descripcion");
-            ViewData["CodEstadoCivil"] = new SelectList(_context.EstadosCiviles, "CodEstadoCivil", "Descripcion");
+            //ViewData["CodSector"] = new SelectList(_context.Sectores, "CodSector", "Descripcion");
+            //ViewData["TipoSociedad"] = new SelectList(_context.TiposSociedads, "TipoSociedad", "Descripcion");
+            //ViewData["CodEstadoCivil"] = new SelectList(_context.EstadosCiviles, "CodEstadoCivil", "Descripcion");
 
             return View();
         }
@@ -152,9 +152,9 @@ namespace SistemaBase.Controllers
                 return NotFound();
             }
             ViewData["CodPais"] = new SelectList(_context.Paises, "CodPais", "Descripcion", persona.CodPais);
-            ViewData["CodSector"] = new SelectList(_context.Sectores, "CodSector", "Descripcion", persona.CodSector);
-            ViewData["TipoSociedad"] = new SelectList(_context.TiposSociedads, "TipoSociedad", "Descripcion", persona.TipoSociedad);
-            ViewData["CodEstadoCivil"] = new SelectList(_context.EstadosCiviles, "CodEstadoCivil", "Descripcion", persona.CodEstadoCivil);
+            //ViewData["CodSector"] = new SelectList(_context.Sectores, "CodSector", "Descripcion", persona.CodSector);
+            //ViewData["TipoSociedad"] = new SelectList(_context.TiposSociedads, "TipoSociedad", "Descripcion", persona.TipoSociedad);
+            ///ViewData["CodEstadoCivil"] = new SelectList(_context.EstadosCiviles, "CodEstadoCivil", "Descripcion", persona.CodEstadoCivil);
 
             return View(persona);
         }

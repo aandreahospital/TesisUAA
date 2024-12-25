@@ -7,7 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Views\RmAsignaciones\ReportePDF.cshtml" />
+    <Compile Remove="Views\RmAsignaciones\**" />
+    <Content Remove="Views\RmAsignaciones\**" />
+    <EmbeddedResource Remove="Views\RmAsignaciones\**" />
+    <None Remove="Views\RmAsignaciones\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -72,6 +75,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Class\" />
     <Folder Include="Views\Error404\" />
     <Folder Include="Views\Error500\" />
     <Folder Include="wwwroot\assets\img\ticket\" />
@@ -79,16 +83,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <UpToDateCheckInput Remove="Views\RmAsignaciones\ReportePDF.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Views\RmAsignaciones\ReportePDF.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="C:\Users\MSI\source\repos\registro_marca\SistemaBase\.editorconfig" />
-    <None Include="Views\RmAsignaciones\ReportePDF.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

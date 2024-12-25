@@ -33,9 +33,9 @@ namespace SistemaBase.Controllers
                                 CodDireccion = p.CodDireccion,
                                 TipDireccion = p.TipDireccion,
                                 Detalle = p.Detalle,
-                                CodCiudad = (_context.Ciudades.FirstOrDefault(prof => prof.CodCiudad == p.CodCiudad).Descripcion) ?? "",
-                                CodPais = (_context.Paises.FirstOrDefault(prof => prof.CodPais == p.CodPais).Descripcion) ?? "",
-                                CodProvincia = (_context.AvDepartamentos.FirstOrDefault(prof => prof.CodDepartamento == p.CodProvincia).Descripcion) ?? ""
+                                //CodCiudad = (_context.Ciudades.FirstOrDefault(prof => prof.CodCiudad == p.CodCiudad).Descripcion) ?? "",
+                                CodPais = (_context.Paises.FirstOrDefault(prof => prof.CodPais == p.CodPais).Descripcion) ?? ""
+                                //CodProvincia = (_context.AvDepartamentos.FirstOrDefault(prof => prof.CodDepartamento == p.CodProvincia).Descripcion) ?? ""
                             });
             var pageSize = 50;
             var totalCount = await personas.CountAsync();
@@ -71,9 +71,9 @@ namespace SistemaBase.Controllers
                                 CodDireccion = p.CodDireccion,
                                 TipDireccion = p.TipDireccion,
                                 Detalle = p.Detalle,
-                                CodCiudad = (_context.Ciudades.FirstOrDefault(prof => prof.CodCiudad == p.CodCiudad).Descripcion) ?? "",
+                               // CodCiudad = (_context.Ciudades.FirstOrDefault(prof => prof.CodCiudad == p.CodCiudad).Descripcion) ?? "",
                                 CodPais = (_context.Paises.FirstOrDefault(prof => prof.CodPais == p.CodPais).Descripcion) ?? "",
-                                CodProvincia = (_context.AvDepartamentos.FirstOrDefault(prof => prof.CodDepartamento == p.CodProvincia).Descripcion) ?? ""
+                               // CodProvincia = (_context.AvDepartamentos.FirstOrDefault(prof => prof.CodDepartamento == p.CodProvincia).Descripcion) ?? ""
                             });
             var pageSize = 50;
             var totalCount = await personas.CountAsync();
@@ -150,7 +150,7 @@ namespace SistemaBase.Controllers
                     var direcPersona = await _context.DirecPersonas.FindAsync(CodPersona,CodDireccion);
             ViewData["CodPais"] = new SelectList(_context.Paises, "CodPais", "Descripcion", direcPersona?.CodPais ?? "");
             ViewData["CodProvincia"] = new SelectList(_context.Provincias, "CodProvincia", "Descripcion", direcPersona?.CodProvincia ?? "");
-            ViewData["CodCiudad"] = new SelectList(_context.Ciudades, "CodCiudad", "Descripcion", direcPersona?.CodCiudad ?? "");
+            //ViewData["CodCiudad"] = new SelectList(_context.Ciudades, "CodCiudad", "Descripcion", direcPersona?.CodCiudad ?? "");
             ViewData["CodBarrio"] = new SelectList(_context.Barrios, "CodBarrio", "Descripcion", direcPersona?.CodBarrio ?? "");
             if (direcPersona == null)
                     {

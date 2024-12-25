@@ -12,9 +12,8 @@ namespace SistemaBase.Models
         public int? CargoIdcargo { get; set; }
         public string? Direccionlaboral { get; set; }
         public string? Antiguedad { get; set; }
-
-        public string? Cargo { get; set; }
         public Guid Rowid { get; set; }
+        public string? Cargo { get; set; }
 
         public virtual Usuario CodUsuarioNavigation { get; set; } = null!;
     }

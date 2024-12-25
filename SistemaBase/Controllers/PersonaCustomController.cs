@@ -46,7 +46,7 @@ namespace SistemaBase.Controllers
                                 Lucrativa = p.Lucrativa,
                                 Estatal = p.Estatal,
                                 PaginaWeb = p.PaginaWeb,
-                                CodEstadoCivil = (_context.EstadosCiviles.FirstOrDefault(prof => prof.CodEstadoCivil == p.CodEstadoCivil).Descripcion) ?? "",
+                              //  CodEstadoCivil = (_context.EstadosCiviles.FirstOrDefault(prof => prof.CodEstadoCivil == p.CodEstadoCivil).Descripcion) ?? "",
                                 NroRegistroProf = p.NroRegistroProf,
                                 NroRegistroSenacsa = p.NroRegistroSenacsa,
                                 EsFuncionarioSenacsa = p.EsFuncionarioSenacsa,

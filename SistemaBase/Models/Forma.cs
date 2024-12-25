@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace SistemaBase.Models
 {
@@ -10,9 +9,9 @@ namespace SistemaBase.Models
         public string NomForma { get; set; } = null!;
         public string? Titulo { get; set; }
         public string? Descripcion { get; set; }
-
-        [ScaffoldColumn(false)]
         public Guid Rowid { get; set; }
+        public decimal Id { get; set; }
+
         public virtual Modulo CodModuloNavigation { get; set; } = null!;
     }
 }

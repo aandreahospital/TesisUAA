@@ -20,7 +20,7 @@ builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<IViewCreate, ViewCreate>();
+//builder.Services.AddScoped<IViewCreate, ViewCreate>();
 builder.Services.AddWkhtmltopdf();
 
 builder.Services.AddScoped<IViewRenderService, ViewRenderService>();
@@ -59,10 +59,10 @@ builder.Services.AddScoped<AutorizarUsuarioFilter>(provider =>
     var accion = routeData?.Values["action"]?.ToString();
 
     // Otros servicios que puedan ser necesarios
-    var logger = provider.GetRequiredService<ILogger<AutorizarUsuarioFilter>>();
+     var logger = provider.GetRequiredService<ILogger<AutorizarUsuarioFilter>>();
     var dbContext = provider.GetRequiredService<DbvinDbContext>();
 
-    return new AutorizarUsuarioFilter(controlador, accion, logger, dbContext, httpContextAccessor);
+     return new AutorizarUsuarioFilter(controlador, accion, logger, dbContext, httpContextAccessor);
 });
 
 
@@ -70,11 +70,7 @@ builder.Services.AddControllers();
 //var connectionString = builder.Configuration.GetConnectionString("AppDb");
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
-builder.Services.AddDbContext<DbvinDbContext>(options => options.UseSqlServer("Server=146.190.125.170,1433; Database=db_restore;Persist Security Info=False;User ID=sa;Password=23Mlkakd##d;Encrypt=False;Trusted_Connection=False; MultipleActiveResultSets=true;"));
-builder.Services.AddDbContext<DbPruebaContext>(options => options.UseSqlServer("Server=tcp:proecan.database.windows.net,1433;Initial Catalog=jekakuaapruebas;Persist Security Info=False;User ID=proecan;Password=Guardian.2391;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"));
-builder.Services.AddDbContext<DbIdentificacionesContext>(options => options.UseSqlServer("Server=172.30.8.83,1433; Database=identificaciones;Persist Security Info=False;User ID=Conexion_Auxiliares_MyS;Password=Auxiliares_MyS;Encrypt=False;Trusted_Connection=False; MultipleActiveResultSets=true;"));
-builder.Services.AddDbContext<DbAuxiliaresContext>(options => options.UseSqlServer("Server=172.30.8.83,1433; Database=sgjasu_ALE;Persist Security Info=False;User ID=Conexion_Auxiliares_MyS;Password=Auxiliares_MyS;Encrypt=False;Trusted_Connection=False; MultipleActiveResultSets=true;"));
-builder.Services.AddDbContext<DbPercepcionesContext>(options => options.UseSqlServer("Server=172.30.8.22,1433; Database=Percepciones;Persist Security Info=False;User ID=Conexion_MyS;Password=Conexion_MyS;Encrypt=False;Trusted_Connection=False; MultipleActiveResultSets=true;"));
+builder.Services.AddDbContext<DbvinDbContext>(options => options.UseSqlServer("Data Source=DESKTOP-KP48E0B\\SQLEXPRESS; Integrated Security=SSPI; Initial Catalog=UAAconecta;"));
 builder.Services.AddControllersWithViews(options => options.EnableEndpointRouting = false).AddSessionStateTempDataProvider();
 builder.Services.AddAuthorization(options =>
 {

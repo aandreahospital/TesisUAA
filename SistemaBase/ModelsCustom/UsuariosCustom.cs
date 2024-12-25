@@ -37,10 +37,10 @@ namespace SistemaBase.ModelsCustom
         public decimal? CodOficina { get; set; }
         [ScaffoldColumn(false)]
         public Guid Rowid { get; set; }
-        public virtual Sucursale? Cod { get; set; }
-        public virtual Empresa? CodEmpresaNavigation { get; set; }
+        //public virtual Sucursale? Cod { get; set; }
+        //public virtual Empresa? CodEmpresaNavigation { get; set; }
         public virtual GruposUsuario? CodGrupoNavigation { get; set; }
-        public virtual ICollection<RmLevantamiento> RmLevantamientos { get; set; }
+       // public virtual ICollection<RmLevantamiento> RmLevantamientos { get; set; }
 
     }
 

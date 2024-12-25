@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace SistemaBase.Models
 {
@@ -10,6 +9,7 @@ namespace SistemaBase.Models
         {
             Usuarios = new HashSet<Usuario>();
         }
+
         public string CodEmpresa { get; set; } = null!;
         public string CodSucursal { get; set; } = null!;
         public string? Descripcion { get; set; }
@@ -32,12 +32,12 @@ namespace SistemaBase.Models
         public string? StockPropio { get; set; }
         public string? IndUmDef { get; set; }
         public string? CodRegional { get; set; }
-        [ScaffoldColumn(false)]
         public Guid Rowid { get; set; }
+
         public virtual Barrio? Cod { get; set; }
         public virtual Empresa CodEmpresaNavigation { get; set; } = null!;
         public virtual Provincia? CodP { get; set; }
         public virtual Paise? CodPaisNavigation { get; set; }
-        public virtual ICollection<Usuario>? Usuarios { get; set; }
+        public virtual ICollection<Usuario> Usuarios { get; set; }
     }
 }
