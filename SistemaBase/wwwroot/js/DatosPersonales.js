@@ -8,7 +8,15 @@
 }
 
 
-
+const verifyCheckbox = (id) => {
+    var checkBox = document.getElementById(id + "_2");
+    var text = document.getElementById(id);
+    if (checkBox.checked == true) {
+        text.value = "S";
+    } else {
+        text.value = "N";
+    }
+};
 
 const GuardarDatos = (e) => {
     e.preventDefault();// Evita la propagación del evento
@@ -111,4 +119,68 @@ const abrirLaboral = (e) => {
         document.getElementById("detailsview").click();
         
     });
+}
+
+const abrirAcademico = (e) => {
+    e.preventDefault();
+    axios({
+        baseURL: "/DatosAlumno/AbrirAcademico",
+        method: 'Get',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Response-View': 'Json'
+        }
+    }).then(response => {
+        //var nuevaVista = response.data;
+        //window.open(nuevaVista);
+        document.getElementById("details").innerHTML = response.data;
+        document.getElementById("detailsview").click();
+
+    });
+}
+
+
+const AddAcademico = (e) => {
+    e.preventDefault();// Evita la propagación del evento
+    document.getElementById('btnAddLaboral').disabled = true;
+    // Bloquear el formulario
+    var datosFormulario = document.getElementById('FormModalCreate');
+    const formData = new FormData();
+    formData.append('CodUsuario', document.getElementById('CodUsuario').value)
+    formData.append('Idcentroestudio', document.getElementById('Idcentroestudio').value)
+    formData.append('Idcarrera', document.getElementById('Idcarrera').value)
+    formData.append('Fechainicio', document.getElementById('Fechainicio').value)
+    formData.append('Fechafin', document.getElementById('Fechafin').value)
+    formData.append('Estado', document.getElementById('Estado').value)
+    axios({
+        method: "post",
+        url: "/DatosAlumno/GuardarLaboral",
+        data: formData,
+        headers: {
+            "Content-Type": "multipart/form-data",
+            'X-Response-View': 'Json'
+        }
+    })
+        .then(function (response) {
+            console.log({ 'then ': response });
+            if (response.status == 200) {
+                swal({
+                    icon: 'success',
+                    title: 'Listo',
+                    text: 'La operación se realizó correctamente.'
+                }).then(() => {
+                    // Código para actualizar la pantalla después de cerrar el modal
+                    location.reload();
+                });
+            }
+
+        })
+        .catch(function (response) {
+
+            desbloquearFormulario(datosFormulario);
+            document.getElementById('btnAddAcademico').disabled = false
+            loader.style.display = 'none';
+        })
+
 }

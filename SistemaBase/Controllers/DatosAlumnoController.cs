@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using SistemaBase.Models;
@@ -142,6 +143,35 @@ namespace SistemaBase.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public async Task<IActionResult> GuardarEducacion(Datosacademico datosAcademico)
+        {
+            try
+            {
+              
+                var academicos = _context.Datosacademicos.Max(m => m.Iddatosacademicos) + 1;
+                Datosacademico addAcademico = new()
+                {
+                    Iddatosacademicos = academicos,
+                    Idcentroestudio = datosAcademico.Idcentroestudio,
+                    Idcarrera = datosAcademico.Idcarrera,
+                    Fechainicio = datosAcademico?.Fechainicio,
+                    Fechafin = datosAcademico?.Fechafin,
+                    Estado = datosAcademico?.Estado
+                };
+                _context.Add(addAcademico);
+                _context.SaveChanges();
+
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                    return NotFound();
+               
+            }
+            return RedirectToAction("Index");
+        }
+
+
         private bool UsuarioExist(string id)
         {
             return (_context.Usuarios?.Any(e => e.CodUsuario == id)).GetValueOrDefault();
@@ -152,6 +182,15 @@ namespace SistemaBase.Controllers
             
             return View("AddLaboral");
             //return View("AddTitular", new PersonaTitular());
+
+        }
+
+        public ActionResult AbrirAcademico()
+        {
+            ViewBag.CentoEstudio = new SelectList(_context.Centroestudios, "Idcentroestudio", "Descripcion");
+            ViewBag.Carrera = new SelectList(_context.Carreras, "Idcarrera", "Descripcion");
+
+            return View("AddAcademico");
 
         }
     }
