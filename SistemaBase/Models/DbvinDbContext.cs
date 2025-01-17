@@ -52,6 +52,8 @@ namespace SistemaBase.Models
             }
         }
 
+
+        //AJDFDLAF
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<PermisosOpcione>(entity =>
