@@ -17,6 +17,9 @@ namespace SistemaBase.Controllers
         {
             _context = context;
         }
+
+        [TypeFilter(typeof(AutorizarUsuarioFilter), Arguments = new object[] { "SCDATOS", "Index", "DatosAlumno" })]
+
         public IActionResult Index()
         {
             var usuarios = _context.Usuarios.FirstOrDefault(x=>x.CodUsuario == User.Identity.Name);
@@ -35,6 +38,10 @@ namespace SistemaBase.Controllers
                 CodPersona = usuarios.CodPersona,
                 Nombre = alumno.Nombre,
                 Email = alumno?.Email??"",
+                SitioWeb = alumno?.SitioWeb??"",
+                Sexo = alumno?.Sexo??"",
+                DireccionParticular = alumno?.DireccionParticular??"",
+                FecNacimiento = alumno.FecNacimiento,
                 ExperienciaLaboral = experiencia,
                 Educacion = educacion
             };
@@ -50,10 +57,10 @@ namespace SistemaBase.Controllers
 
             var listaLaborales = laboral.Select(laboral => new Datoslaborale
             {
-                Lugartrabajo = laboral.Lugartrabajo ?? "",
-                Cargo = laboral.Cargo,
-                Direccionlaboral = laboral.Direccionlaboral ?? "",
-                Antiguedad = laboral.Antiguedad ?? ""
+                Lugartrabajo = laboral?.Lugartrabajo ?? "",
+                Cargo = laboral?.Cargo??"",
+                Direccionlaboral = laboral?.Direccionlaboral ?? "",
+                Antiguedad = laboral?.Antiguedad ?? ""
             }).ToList();
 
             return listaLaborales;
@@ -62,12 +69,17 @@ namespace SistemaBase.Controllers
         private List<Datosacademico> ObtenerEducacion()
         {
             var academico = _context.Datosacademicos.Where(x => x.CodUsuario == User.Identity.Name).ToList();
-
             // Simulando datos; reemplaza con datos reales
             var ListaAcademico = academico.Select(academico => new Datosacademico
-            {                
-                Idcentroestudio = academico?.Idcentroestudio?? 0,
-                Idcarrera = academico?.Idcarrera??0,
+            {
+                CentroEducativo = _context.Centroestudios
+                .Where(ce => ce.Idcentroestudio == academico.Idcentroestudio)
+                .Select(ce => ce.Descripcion)
+                .FirstOrDefault() ?? "",
+                Carrera = _context.Carreras
+                .Where(c => c.Idcarrera == academico.Idcarrera)
+                .Select(c => c.Descripcion)
+                .FirstOrDefault() ?? "",
                 Fechainicio = academico?.Fechainicio??DateTime.MinValue,
                 Fechafin = academico?.Fechafin??DateTime.MinValue,
                 Estado = academico?.Estado?? ""
@@ -89,6 +101,10 @@ namespace SistemaBase.Controllers
                 {
                     datosPersonales.Nombre = datosAlumno.Nombre;
                     datosPersonales.Email  = datosAlumno?.Email;
+                    datosPersonales.Sexo = datosAlumno?.Sexo;
+                    datosPersonales.FecNacimiento = datosAlumno?.FecNacimiento;
+                    datosPersonales.SitioWeb = datosAlumno?.SitioWeb;
+                    datosPersonales.DireccionParticular = datosAlumno?.DireccionParticular;
                     _context.Update(datosPersonales);
                     _context.SaveChanges();
                 }
@@ -123,7 +139,9 @@ namespace SistemaBase.Controllers
                     Lugartrabajo = datosLaboral?.Lugartrabajo,
                     Cargo = datosLaboral?.Cargo,
                     Antiguedad = datosLaboral?.Antiguedad,
-                    Direccionlaboral = datosLaboral?.Direccionlaboral
+                    Direccionlaboral = datosLaboral?.Direccionlaboral,
+                    Herramientas = datosLaboral?.Herramientas
+                    
                 };
                  _context.Add(addLaboral);
                  _context.SaveChanges();
@@ -152,6 +170,7 @@ namespace SistemaBase.Controllers
                 var academicos = _context.Datosacademicos.Max(m => m.Iddatosacademicos) + 1;
                 Datosacademico addAcademico = new()
                 {
+                    CodUsuario = datosAcademico.CodUsuario,
                     Iddatosacademicos = academicos,
                     Idcentroestudio = datosAcademico.Idcentroestudio,
                     Idcarrera = datosAcademico.Idcarrera,

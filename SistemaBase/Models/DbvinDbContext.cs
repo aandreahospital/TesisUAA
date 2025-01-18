@@ -400,6 +400,26 @@ namespace SistemaBase.Models
                     .IsUnicode(false)
                     .HasColumnName("CARGO");
 
+                entity.Property(e => e.Herramientas)
+                  .HasMaxLength(500)
+                  .IsUnicode(false)
+                  .HasColumnName("HERRAMIENTAS");
+
+                entity.Property(e => e.Sector)
+                 .HasMaxLength(500)
+                 .IsUnicode(false)
+                 .HasColumnName("SECTOR");
+
+                entity.Property(e => e.Materia)
+                 .HasMaxLength(500)
+                 .IsUnicode(false)
+                 .HasColumnName("MATERIA");
+
+                entity.Property(e => e.Estado)
+                  .HasMaxLength(1)
+                  .IsUnicode(false)
+                  .HasColumnName("ESTADO");
+
                 entity.Property(e => e.CargoIdcargo).HasColumnName("CARGO_IDCARGO");
 
                 entity.Property(e => e.CodUsuario)
@@ -887,10 +907,7 @@ namespace SistemaBase.Models
 
                 entity.ToTable("PERSONAS", "INV");
 
-                entity.HasIndex(e => new { e.CodSector, e.CodPersona }, "IND_SECTOR")
-                    .IsUnique()
-                    .HasFilter("([COD_SECTOR] IS NOT NULL)");
-
+                
                 entity.HasIndex(e => e.Rowid, "ROWID$INDEX")
                     .IsUnique();
 
@@ -909,100 +926,23 @@ namespace SistemaBase.Models
                     .IsUnicode(false)
                     .HasColumnName("ALTA_POR");
 
-                entity.Property(e => e.CodEstadoCivil)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_ESTADO_CIVIL");
-
-                entity.Property(e => e.CodIdent)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_IDENT");
-
-                entity.Property(e => e.CodPais)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_PAIS");
-
-                entity.Property(e => e.CodPerFisica)
-                    .HasMaxLength(30)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_PER_FISICA");
-
-                entity.Property(e => e.CodPerJuridica)
-                    .HasMaxLength(30)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_PER_JURIDICA");
-
-                entity.Property(e => e.CodPropietarioOld)
-                    .HasMaxLength(30)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_PROPIETARIO_OLD");
-
-                entity.Property(e => e.CodSector)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_SECTOR");
-
-                entity.Property(e => e.Conyugue)
-                    .HasMaxLength(15)
-                    .IsUnicode(false)
-                    .HasColumnName("CONYUGUE");
-
-                entity.Property(e => e.DirecElectronica)
-                    .HasMaxLength(80)
-                    .IsUnicode(false)
-                    .HasColumnName("DIREC_ELECTRONICA");
+                
 
                 entity.Property(e => e.Email)
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("EMAIL");
 
-                entity.Property(e => e.EsCoordinador)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("ES_COORDINADOR");
+                entity.Property(e => e.SitioWeb)
+                 .HasMaxLength(255)
+                 .IsUnicode(false)
+                 .HasColumnName("SITIOWEB");
 
-                entity.Property(e => e.EsFiscalizador)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("ES_FISCALIZADOR");
+                entity.Property(e => e.DireccionParticular)
+                 .HasMaxLength(255)
+                 .IsUnicode(false)
+                 .HasColumnName("DIRECCIONPARTICULAR");
 
-                entity.Property(e => e.EsFisica)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("ES_FISICA");
-
-                entity.Property(e => e.EsFuncionarioSenacsa)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("ES_FUNCIONARIO_SENACSA");
-
-                entity.Property(e => e.EsMalDeudor)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("ES_MAL_DEUDOR");
-
-                entity.Property(e => e.EsPropietario)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("ES_PROPIETARIO");
-
-                entity.Property(e => e.EsVacunador)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("ES_VACUNADOR");
-
-                entity.Property(e => e.EsVeterinario)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("ES_VETERINARIO");
-
-                entity.Property(e => e.Estatal)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("ESTATAL");
 
                 entity.Property(e => e.FecActualizacion)
                     .HasPrecision(0)
@@ -1016,46 +956,13 @@ namespace SistemaBase.Models
                     .HasPrecision(0)
                     .HasColumnName("FEC_NACIMIENTO");
 
-                entity.Property(e => e.Lucrativa)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("LUCRATIVA");
-
-                entity.Property(e => e.NivelEstudios)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("NIVEL_ESTUDIOS");
-
-                entity.Property(e => e.NombFantasia)
-                    .HasMaxLength(200)
-                    .IsUnicode(false)
-                    .HasColumnName("NOMB_FANTASIA");
-
+               
                 entity.Property(e => e.Nombre)
                     .HasMaxLength(200)
                     .IsUnicode(false)
                     .HasColumnName("NOMBRE");
 
-                entity.Property(e => e.NroRegistroProf)
-                    .HasMaxLength(15)
-                    .IsUnicode(false)
-                    .HasColumnName("NRO_REGISTRO_PROF");
-
-                entity.Property(e => e.NroRegistroSenacsa)
-                    .HasMaxLength(15)
-                    .IsUnicode(false)
-                    .HasColumnName("NRO_REGISTRO_SENACSA");
-
-                entity.Property(e => e.PaginaWeb)
-                    .HasMaxLength(60)
-                    .IsUnicode(false)
-                    .HasColumnName("PAGINA_WEB");
-
-                entity.Property(e => e.Profesion)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("PROFESION");
-
+               
                 entity.Property(e => e.Rowid)
                     .HasColumnName("ROWID")
                     .HasDefaultValueSql("(newid())");
@@ -1065,14 +972,6 @@ namespace SistemaBase.Models
                     .IsUnicode(false)
                     .HasColumnName("SEXO");
 
-                entity.Property(e => e.TipoSociedad)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("TIPO_SOCIEDAD");
-
-                entity.Property(e => e.TotalIngresos)
-                    .HasColumnType("numeric(18, 2)")
-                    .HasColumnName("TOTAL_INGRESOS");
             });
 
             modelBuilder.Entity<Profesione>(entity =>

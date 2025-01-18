@@ -23,7 +23,7 @@
                         <div class="col-12">
                             <div class="row">
                                 <div class="col-4">
-                                    <label class="form-control-label fs-0 subTitleModal " >Cento de Estudio</label>
+                                    <label class="form-control-label fs-0 subTitleModal " >Centro de Estudio</label>
                                 </div>
                                 <div class="col-8">
                                     <div class="dropup">
@@ -72,23 +72,12 @@
                                 <div class="col-4">
                                     <label class="form-control-label fs-0 subTitleModal text-900">Estado</label>
                                 </div>
-                                <div class="col-8">
-                                    <input class="form-control" hidden asp-for="Estado" id="Estado" />
-                                    <div class="form-check fromCheckSelect">
-                                        @{
-                                            nameCheck = "EsFisica" + "_2";
-                                        }
-                                        @if (@Model.Estado == "S")
-                                        {
-                                            <input class="form-check my_checkbox" type="checkbox" id="@nameCheck" onchange="verifyCheckbox('Estado')" checked="checked">
-                                        }
-                                        else
-                                        {
-                                            <input class="form-check my_checkbox" type="checkbox" id="@nameCheck" onchange="verifyCheckbox('Estado')" />
-                                        }
+                                    <div class="col-sm">
+                                    <select asp-for="Estado" class="form-select ps-4" id="Estado" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}' >
+                                            <option value="A">Activo</option>
+                                            <option value="I">Inactivo</option>
+                                        </select>
                                     </div>
-                                    <span asp-validation-for="Estado" class="text-danger k-invalid-msg" data-for="Estado"></span>
-                                </div>
                             </div>
                         </div>
                         <div class="text-center" id="loader_inv" style="visibility: hidden;">

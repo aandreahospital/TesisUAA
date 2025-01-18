@@ -19,7 +19,9 @@ namespace SistemaBase.Controllers
         }
 
         // GET: Foro
-    public async Task<IActionResult> Index()
+        [TypeFilter(typeof(AutorizarUsuarioFilter), Arguments = new object[] { "SCFORO", "Index", "Foro" })]
+
+        public async Task<IActionResult> Index()
     {
         ViewData["CodUsuario"] = new SelectList(_context.Usuarios, "CodUsuario", "CodUsuario");
         var dbvinDbContext = _context.Forodebates.Include(f => f.CodUsuarioNavigation);

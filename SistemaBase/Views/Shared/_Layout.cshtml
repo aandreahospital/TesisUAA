@@ -33,6 +33,43 @@
     <script src="/js/Helper.js"></script>
     <script src="~/js/lottie.min.js"></script>
     <style>
+
+        .arrow-button {
+            position: relative;
+            padding: 10px 20px; /* Ajusta el tamaño del botón */
+            background-color: #007bff; /* Color de fondo */
+            color: white; /* Color del texto */
+            border-radius: 5px; /* Bordes redondeados */
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+            .arrow-button::after {
+                content: '';
+                position: absolute;
+                top: 50%;
+                right: 10px; /* Distancia del extremo derecho */
+                transform: translateY(-50%);
+                width: 10px; /* Ancho de la flecha */
+                height: 10px; /* Alto de la flecha */
+                background-color: white; /* Color de la flecha */
+                clip-path: polygon(0 50%, 100% 0, 100% 100%); /* Forma de triángulo */
+                transition: transform 0.3s ease;
+            }
+
+            .arrow-button:hover {
+                background-color: #0056b3; /* Cambia el color al pasar el mouse */
+            }
+
+                .arrow-button:hover::after {
+                    transform: translateY(-50%) translateX(5px); /* Animación de movimiento */
+                }
+
+
         * {
             margin: 0;
             padding: 0;
@@ -256,7 +293,7 @@
 
                                                 </div>
                                                 <span class="nav-link-icon"><span data-feather="clipboard"></span></span>
-                                                <span class="nav-link-text ms-2"> Movimientos</span>
+                                                <span class="nav-link-text ms-2"> Secciones</span>
 
                                                 
                                             </div>
@@ -265,14 +302,14 @@
                                         <div class="parent-wrapper label-1">
                                            
                                             <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="registro-marca">
-                                                <p class="collapsed-nav-item-title d-none">Movimientos</p>
+                                                <p class="collapsed-nav-item-title d-none">Secciones</p>
                                            @*    <input type="text" id="searchPag" placeholder="Buscar por nombre" onkeyup="filterNames()" > *@
                                                 <li class="nav-item">
                                                 <li class="nav-item">
                                                     <a class="nav-link" asp-controller="DatosAlumno" asp-action="index"
                                                        data-bs-toggle="" aria-expanded="false">
                                                         <div class="d-flex align-items-center">
-                                                            <span class="nav-link-text">Datos Personales</span>
+                                                            <span class="nav-link-text">Mis datos</span>
                                                         </div>
                                                     </a>
                                                 </li>
@@ -343,10 +380,14 @@
                     </div>
                 }
                 <div class="navbar-vertical-footer">
-                    <button class="btn navbar-vertical-toggle border-0 fw-semi-bold w-100 text-start white-space-nowrap">
-                        <span class="uil uil-left-arrow-to-left fs-0"></span><span class="uil uil-arrow-from-right fs-0"></span><span class="navbar-vertical-footer-text ms-2">Colapsar vista</span>
-                    </button>
-                </div>
+            <button class="btn navbar-vertical-toggle border-0 fw-semi-bold w-100 text-start white-space-nowrap arrow-button">
+                <span class="navbar-vertical-footer-text ms-2">Cerrar vista</span>
+            </button>
+                    @*  <button class="btn navbar-vertical-toggle border-0 fw-semi-bold w-100 text-start white-space-nowrap" >
+                        cerra
+                        <span class="uil uil-left-arrow-to-left fs-0"></span><span class="uil uil-arrow-from-right fs-0"></span><span class="navbar-vertical-footer-text ms-2">Cerrar vista</span>
+                </button> *@
+        </div>
             </nav>
             <nav class="navbar navbar-top navbar-expand" id="navbarDefault">
                 <div class="collapse navbar-collapse justify-content-between">
@@ -361,7 +402,7 @@
                         </button>
                         <a class="navbar-brand me-1 me-sm-3" asp-controller="Bienvenido" asp-action="Index">
                             <div class="d-flex align-items-center">
-                            <img src="~/assets/img/logo.png" alt="phoenix" width="100" height="50" />
+                            <img src="~/assets/img/logo.png" alt="uaa" width="60" height="60" />
                           
                             </div>
                         </a>

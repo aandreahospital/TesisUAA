@@ -19,7 +19,9 @@ namespace SistemaBase.Controllers
         }
 
         // GET: Carrera
-    public async Task<IActionResult> Index()
+        [TypeFilter(typeof(AutorizarUsuarioFilter), Arguments = new object[] { "BSCARRE", "Index", "Carrera" })]
+
+        public async Task<IActionResult> Index()
     {
             return _context.Carreras != null ?
               View(await _context.Carreras.AsNoTracking().ToListAsync()) :

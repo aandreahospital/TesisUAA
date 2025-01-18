@@ -19,7 +19,9 @@ namespace SistemaBase.Controllers
         }
 
         // GET: Datoslaborale
-    public async Task<IActionResult> Index()
+        [TypeFilter(typeof(AutorizarUsuarioFilter), Arguments = new object[] { "BSDALAB", "Index", "Datoslaborale" })]
+
+        public async Task<IActionResult> Index()
     {
         ViewData["CodUsuario"] = new SelectList(_context.Usuarios, "CodUsuario", "CodUsuario");
         var dbvinDbContext = _context.Datoslaborales.Include(d => d.CodUsuarioNavigation);

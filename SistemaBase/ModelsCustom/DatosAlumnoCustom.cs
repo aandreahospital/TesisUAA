@@ -10,6 +10,8 @@ namespace SistemaBase.ModelsCustom
         public string? Nombre { get; set; }
         public string? Sexo { get; set; }
         public string? Email { get; set; }
+        public string? DireccionParticular { get; set; }
+        public string? SitioWeb { get; set; }
         public DateTime? FecNacimiento { get; set; }
         public string? Profesion { get; set; }
         public string? Conyugue { get; set; }

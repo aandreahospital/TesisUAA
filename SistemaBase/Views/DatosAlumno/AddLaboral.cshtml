@@ -22,7 +22,7 @@
                         <div class="col-12">
                             <div class="row">
                                 <div class="col-4">
-                                    <label class="form-control-label fs-0 subTitleModal " asp-for="Lugartrabajo"></label>
+                                    <label class="form-control-label fs-0 subTitleModal ">Empresa:</label>
                                 </div>
                                 <div class="col-8">
                                     <input id="Lugartrabajo" class="form-control"  asp-for="Lugartrabajo" />
@@ -33,11 +33,28 @@
                         <div class="col-12">
                             <div class="row">
                                 <div class="col-4">
-                                    <label class="form-control-label fs-0 subTitleModal">Cargo</label>
+                                    <label class="form-control-label fs-0 subTitleModal">Sector:</label>
+                                </div>
+                                <div class="col-8">
+                                    <select asp-for="Sector" class="form-select ps-4" id="Sector" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+                                        <option value="E">Educativo</option>
+                                        <option value="EF">Economica y Finanzas</option>
+                                        <option value="T">Tecnologia</option>
+                                        <option value="I">Industrial</option>
+                                        <option value="S">Salud</option>
+                                        <option value="O">Otros</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-4">
+                                    <label class="form-control-label fs-0 subTitleModal">Entidad Educativa:</label>
                                 </div>
                                 <div class="col-8">
                                     <div class="dropup">
-                                        <input id="CargoIdcargo" class="form-control" asp-for="CargoIdcargo" />
+                                        <input type="text" id="Universidadtrabajo" class="form-control" asp-for="Universidadtrabajo" disabled />
                                     </div>
                                 </div>
                             </div>
@@ -45,7 +62,32 @@
                         <div class="col-12">
                             <div class="row">
                                 <div class="col-4">
-                                    <label class="form-control-label fs-0 subTitleModal " asp-for="Direccionlaboral"></label>
+                                    <label class="form-control-label fs-0 subTitleModal">Materia:</label>
+                                </div>
+                                <div class="col-8">
+                                    <div class="dropup">
+                                        <input type="text" id="Materia" class="form-control" asp-for="Materia" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-4">
+                                    <label class="form-control-label fs-0 subTitleModal">Cargo:</label>
+                                </div>
+                                <div class="col-8">
+                                    <div class="dropup">
+                                        <input type="text" id="CargoIdcargo" class="form-control" asp-for="CargoIdcargo" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-4">
+                                    <label class="form-control-label fs-0 subTitleModal ">Direccion Laboral:</label>
                                 </div>
                                 <div class="col-8">
                                     <input id="Direccionlaboral" class="form-control"  asp-for="Direccionlaboral" />
@@ -56,11 +98,37 @@
                         <div class="col-12">
                             <div class="row">
                                 <div class="col-4">
-                                    <label class="form-control-label fs-0 subTitleModal " asp-for="Antiguedad"></label>
+                                    <label class="form-control-label fs-0 subTitleModal " asp-for="Antiguedad">Antiguedad:</label>
                                 </div>
                                 <div class="col-8">
                                     <input id="Antiguedad" class="form-control"  asp-for="Antiguedad" />
                                     <span asp-validation-for="Antiguedad" class="text-danger k-invalid-msg" data-for="Antiguedad"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-4">
+                                    <label class="form-control-label fs-0 subTitleModal ">Herramientas Utilizadas:</label>
+                                </div>
+                                <div class="col-8">
+                                    <input id="Herramientas" class="form-control" asp-for="Herramientas" />
+                                    <span asp-validation-for="Herramientas" class="text-danger k-invalid-msg" data-for="Herramientas"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-4">
+                                    <label class="form-control-label fs-0 subTitleModal ">Actualmente tengo este cargo </label>
+                                </div>
+                                <div class="col-8">
+                                    <select asp-for="Estado" class="form-select ps-4" id="Estado" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+                                        <option value="S">Si</option>
+                                        <option value="N">No</option>
+                                     </select>
                                 </div>
                             </div>
                         </div>

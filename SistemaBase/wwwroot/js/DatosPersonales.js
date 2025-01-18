@@ -1,9 +1,13 @@
 ﻿const EditarDatos = () => {
     document.getElementById('btnGuardar').disabled = false;
     document.getElementById('btnEditar').disabled = true;
-    document.getElementById('CodPersona').disabled = false;
+    //document.getElementById('CodPersona').disabled = false;
     document.getElementById('Nombre').disabled = false;
     document.getElementById('Correo').disabled = false;
+    document.getElementById('FecNacimiento').disabled = false;
+    document.getElementById('Sexo').disabled = false;
+    document.getElementById('DireccionParticular').disabled = false;
+    document.getElementById('SitioWeb').disabled = false;
     
 }
 
@@ -27,6 +31,10 @@ const GuardarDatos = (e) => {
     formData.append('CodPersona', document.getElementById('CodPersona').value)
     formData.append('Nombre', document.querySelector('input[name="Nombre"]').value)
     formData.append('Email', document.querySelector('input[name="Correo"]').value)
+    formData.append('FecNacimiento', document.querySelector('input[name="FecNacimiento"]').value)
+    formData.append('Sexo', document.querySelector('input[name="Sexo"]').value)
+    formData.append('DireccionParticular', document.querySelector('input[name="DireccionParticular"]').value)
+    formData.append('SitioWeb', document.querySelector('input[name="SitioWeb"]').value)
     axios({
         method: "post",
         url: "/DatosAlumno/GuardarDatos",
@@ -70,6 +78,7 @@ const AddLaboral = (e) => {
     formData.append('CargoIdcargo', document.getElementById('CargoIdcargo').value)
     formData.append('Direccionlaboral', document.getElementById('Direccionlaboral').value)
     formData.append('Antiguedad', document.getElementById('Antiguedad').value)
+    formData.append('Herramientas', document.getElementById('Herramientas').value)
     axios({
         method: "post",
         url: "/DatosAlumno/GuardarLaboral",
@@ -143,7 +152,7 @@ const abrirAcademico = (e) => {
 
 const AddAcademico = (e) => {
     e.preventDefault();// Evita la propagación del evento
-    document.getElementById('btnAddLaboral').disabled = true;
+    document.getElementById('btnAddAcademico').disabled = true;
     // Bloquear el formulario
     var datosFormulario = document.getElementById('FormModalCreate');
     const formData = new FormData();
@@ -155,7 +164,7 @@ const AddAcademico = (e) => {
     formData.append('Estado', document.getElementById('Estado').value)
     axios({
         method: "post",
-        url: "/DatosAlumno/GuardarLaboral",
+        url: "/DatosAlumno/GuardarEducacion",
         data: formData,
         headers: {
             "Content-Type": "multipart/form-data",

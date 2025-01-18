@@ -22,7 +22,7 @@
     </p>
 
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4>Datos del Alumno</h4>
+        <h4>Datos Personales</h4>
         <button type="button" id="btnEditar" onclick="EditarDatos()" class="btn btn-primary">Editar</button>
         <button type="submit" id="btnGuardar" onclick="GuardarDatos(event)" class="btn btn-primary" disabled>Guardar</button>
     </div>
@@ -52,6 +52,29 @@
         <div class="mb-3">
             <div class="row">
                 <div class="col-sm-4">
+                    <label class="form-label" for="exampleFormControlInput1">Fecha Nacimiento: </label>
+                </div>
+                <div class="col-sm">
+                    <input class="form-control  datetimepicker" name="FecNacimiento" id="FecNacimiento" type="datetime" style="max-width: 350px;" placeholder="d/m/y" data-options='{"disableMobile":true}' disabled />
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <div class="row">
+                <div class="col-sm-4">
+                    <label class="form-label" for="exampleFormControlInput1">Sexo: </label>
+                </div>
+                <div class="col-sm">
+                    <select asp-for="Sexo" class="form-select ps-4" id="Sexo" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}' disabled>
+                        <option value="F">Femenino</option>
+                        <option value="M">Masculino</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <div class="row">
+                <div class="col-sm-4">
                     <label class="form-label" for="exampleFormControlInput1">Correo: </label>
                 </div>
                 <div class="col-sm">
@@ -59,6 +82,27 @@
                 </div>
             </div>
         </div>
+        <div class="mb-3">
+            <div class="row">
+                <div class="col-sm-4">
+                    <label class="form-label" for="exampleFormControlInput1">Direccion Particular: </label>
+                </div>
+                <div class="col-sm">
+                    <input type="text" class="form-control" id="DireccionParticular" name="DireccionParticular" value="@Model.DireccionParticular" disabled>
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <div class="row">
+                <div class="col-sm-4">
+                    <label class="form-label" for="exampleFormControlInput1">Sitio Web: </label>
+                </div>
+                <div class="col-sm">
+                    <input type="text" class="form-control" id="SitioWeb" name="SitioWeb" value="@Model.SitioWeb" disabled>
+                </div>
+            </div>
+        </div>
+
         <input id="usuario" name="usuario" type="hidden" value="@Context.User.Identity.Name" />
     </form>
     <div class="d-flex justify-content-between align-items-center mb-3">
@@ -116,8 +160,8 @@
                 @foreach (var edu in Model.Educacion)
                 {
                     <tr>
-                        <td>@edu.Idcentroestudio</td>
-                        <td>@edu.Idcarrera</td>
+                        <td>@edu.CentroEducativo</td>
+                        <td>@edu.Carrera</td>
                         <td>@edu.Fechainicio?.ToString("yyyy-MM-dd")</td>
                         <td>@edu.Fechafin?.ToString("yyyy-MM-dd")</td>
                         <td>@edu.Estado</td>
