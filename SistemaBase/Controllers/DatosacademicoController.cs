@@ -19,7 +19,9 @@ namespace SistemaBase.Controllers
         }
 
         // GET: Datosacademico
-    public async Task<IActionResult> Index()
+        [TypeFilter(typeof(AutorizarUsuarioFilter), Arguments = new object[] { "BSDAACA", "Index", "Datosacademico" })]
+
+        public async Task<IActionResult> Index()
     {
         ViewData["CodUsuario"] = new SelectList(_context.Usuarios, "CodUsuario", "CodUsuario");
         var dbvinDbContext = _context.Datosacademicos.Include(d => d.CodUsuarioNavigation);

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,21 +9,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SistemaBase.Controllers
 {
-    public class GruposUsuarioController : BaseRyMController
+    public class GruposUsuarioController : Controller
     {
         private readonly DbvinDbContext _context;
 
-        public GruposUsuarioController(DbvinDbContext context, IServiceProvider serviceProvider) : base(serviceProvider)
+        public GruposUsuarioController(DbvinDbContext context)
         {
             _context = context;
         }
 
-        
-        //FILTRO QUE AUTORIZA AL USUARIO PARA ACCEDER AL CONTROLADOR CON EL PERMISO
+        // GET: GruposUsuario
         [TypeFilter(typeof(AutorizarUsuarioFilter), Arguments = new object[] { "BSGRUPOS", "Index", "GruposUsuario" })]
 
-
-    public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index()
     {
             return _context.GruposUsuarios != null ?
               View(await _context.GruposUsuarios.AsNoTracking().ToListAsync()) :
@@ -82,25 +80,17 @@ namespace SistemaBase.Controllers
             // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
             [HttpPost]
             [ValidateAntiForgeryToken]
-        //FILTRO QUE AUTORIZA AL USUARIO PARA ACCEDER AL CONTROLADOR CON EL PERMISO
-        [TypeFilter(typeof(AutorizarUsuarioFilter), Arguments = new object[] { "BSGRUPOS", "Create", "GruposUsuario" })]
-
         public async Task<IActionResult> Create( GruposUsuario gruposUsuario)
-        {
-            var existingGrup = _context.GruposUsuarios.FirstOrDefault(g=>g.CodGrupo== gruposUsuario.CodGrupo);
-            if (existingGrup != null)
-            {
-                return Json(new { success = false, message = "Grupo de Usuario ya existe" });
-            }
-            else
-            {
-                _context.Add(gruposUsuario);
-                await _context.SaveChangesAsync();
+                {
+            _context.Add(gruposUsuario);
+            await _context.SaveChangesAsync();
                 return RedirectToAction("ResultTable");
-            }
-            
+
+                //return RedirectToAction(nameof(Index));
+                return RedirectToAction("ResultTable");
+
                 // return View(gruposUsuario);
-        }
+                }
 
                 // GET: GruposUsuario/Edit/5
         public async Task<IActionResult> Edit(string CodGrupo)
@@ -119,10 +109,7 @@ namespace SistemaBase.Controllers
                     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
                     [HttpPost]
                     [ValidateAntiForgeryToken]
-        //FILTRO QUE AUTORIZA AL USUARIO PARA ACCEDER AL CONTROLADOR CON EL PERMISO
-        [TypeFilter(typeof(AutorizarUsuarioFilter), Arguments = new object[] { "BSGRUPOS", "Edit", "GruposUsuario" })]
-
-        public async Task<IActionResult>
+                    public async Task<IActionResult>
                         Edit(string CodGrupo,  GruposUsuario gruposUsuario)
                         {
 
@@ -168,10 +155,7 @@ namespace SistemaBase.Controllers
                             // POST: GruposUsuario/Delete/5
                             [HttpPost, ActionName("Delete")]
                             [ValidateAntiForgeryToken]
-        //FILTRO QUE AUTORIZA AL USUARIO PARA ACCEDER AL CONTROLADOR CON EL PERMISO
-        [TypeFilter(typeof(AutorizarUsuarioFilter), Arguments = new object[] { "BSGRUPOS", "Delete", "GruposUsuario" })]
-
-        public async Task<IActionResult>
+                            public async Task<IActionResult>
                                 DeleteConfirmed(string CodGrupo)
                                 {
                                 if (_context.GruposUsuarios == null)

@@ -10,7 +10,6 @@ namespace SistemaBase.Models
         public string? Titulo { get; set; }
         public string? Descripcion { get; set; }
         public Guid Rowid { get; set; }
-        public decimal Id { get; set; }
 
         public virtual Modulo CodModuloNavigation { get; set; } = null!;
     }

@@ -38,9 +38,9 @@ namespace SistemaBase.Controllers
                 CodPersona = usuarios.CodPersona,
                 Nombre = alumno.Nombre,
                 Email = alumno?.Email??"",
-                SitioWeb = alumno?.SitioWeb??"",
+                SitioWeb = alumno?.Sitioweb??"",
                 Sexo = alumno?.Sexo??"",
-                DireccionParticular = alumno?.DireccionParticular??"",
+                DireccionParticular = alumno?.Direccionparticular??"",
                 FecNacimiento = alumno.FecNacimiento,
                 ExperienciaLaboral = experiencia,
                 Educacion = educacion
@@ -103,8 +103,8 @@ namespace SistemaBase.Controllers
                     datosPersonales.Email  = datosAlumno?.Email;
                     datosPersonales.Sexo = datosAlumno?.Sexo;
                     datosPersonales.FecNacimiento = datosAlumno?.FecNacimiento;
-                    datosPersonales.SitioWeb = datosAlumno?.SitioWeb;
-                    datosPersonales.DireccionParticular = datosAlumno?.DireccionParticular;
+                    datosPersonales.Sitioweb = datosAlumno?.SitioWeb;
+                    datosPersonales.Direccionparticular = datosAlumno?.DireccionParticular;
                     _context.Update(datosPersonales);
                     _context.SaveChanges();
                 }

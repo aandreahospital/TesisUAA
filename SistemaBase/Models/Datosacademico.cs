@@ -10,13 +10,13 @@ namespace SistemaBase.Models
         public string CodUsuario { get; set; } = null!;
         public int Idcentroestudio { get; set; }
         public int Idcarrera { get; set; }
+        public DateTime? Fechainicio { get; set; }
+        public DateTime? Fechafin { get; set; }
+        public string? Estado { get; set; }
         [NotMapped]
         public string? CentroEducativo { get; set; }
         [NotMapped]
         public string? Carrera { get; set; }
-        public DateTime? Fechainicio { get; set; }
-        public DateTime? Fechafin { get; set; }
-        public string? Estado { get; set; }
         public Guid Rowid { get; set; }
 
         public virtual Usuario CodUsuarioNavigation { get; set; } = null!;

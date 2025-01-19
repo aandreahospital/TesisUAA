@@ -1,5 +1,4 @@
-dotnet aspnet-codegenerator controller -name AccesosGrupoController -m AccesosGrupo  -dc SistemaBase.Models.DbvinDbContext --relativeFolderPath Controllers --useDefaultLayout --referenceScriptLibraries 
-dotnet aspnet-codegenerator controller -name AccesosRrhhController -m AccesosRrhh  -dc SistemaBase.Models.DbvinDbContext --relativeFolderPath Controllers --useDefaultLayout --referenceScriptLibraries 
+adotnet aspnet-codegenerator controller -name AccesosRrhhController -m AccesosRrhh  -dc SistemaBase.Models.DbvinDbContext --relativeFolderPath Controllers --useDefaultLayout --referenceScriptLibraries 
 dotnet aspnet-codegenerator controller -name ActividadesEconController -m ActividadesEcon  -dc SistemaBase.Models.DbvinDbContext --relativeFolderPath Controllers --useDefaultLayout --referenceScriptLibraries 
 dotnet aspnet-codegenerator controller -name ActivPersonaController -m ActivPersona  -dc SistemaBase.Models.DbvinDbContext --relativeFolderPath Controllers --useDefaultLayout --referenceScriptLibraries 
 dotnet aspnet-codegenerator controller -name AgendaDiariumController -m AgendaDiarium  -dc SistemaBase.Models.DbvinDbContext --relativeFolderPath Controllers --useDefaultLayout --referenceScriptLibraries 

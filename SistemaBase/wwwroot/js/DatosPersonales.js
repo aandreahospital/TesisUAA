@@ -1,13 +1,30 @@
-﻿const EditarDatos = () => {
+﻿
+document.addEventListener('DOMContentLoaded', () => {
+
+    addEventListeners();
+});
+
+const addEventListeners = () => {
+
+    //var sexo = document.querySelector('select[name="Sexo"]');
+    //sexo.setAttribute('disabled', 'disabled');
+
+}
+const EditarDatos = () => {
     document.getElementById('btnGuardar').disabled = false;
     document.getElementById('btnEditar').disabled = true;
     //document.getElementById('CodPersona').disabled = false;
     document.getElementById('Nombre').disabled = false;
     document.getElementById('Correo').disabled = false;
     document.getElementById('FecNacimiento').disabled = false;
-    document.getElementById('Sexo').disabled = false;
     document.getElementById('DireccionParticular').disabled = false;
     document.getElementById('SitioWeb').disabled = false;
+
+    var sexo = document.querySelector('select[name="Sexo"]');
+    //sexo.disabled = false;
+   sexo.removeAttribute('disabled');
+
+
     
 }
 
@@ -32,7 +49,7 @@ const GuardarDatos = (e) => {
     formData.append('Nombre', document.querySelector('input[name="Nombre"]').value)
     formData.append('Email', document.querySelector('input[name="Correo"]').value)
     formData.append('FecNacimiento', document.querySelector('input[name="FecNacimiento"]').value)
-    formData.append('Sexo', document.querySelector('input[name="Sexo"]').value)
+    formData.append('Sexo', document.querySelector('select[name="Sexo"]').value)
     formData.append('DireccionParticular', document.querySelector('input[name="DireccionParticular"]').value)
     formData.append('SitioWeb', document.querySelector('input[name="SitioWeb"]').value)
     axios({

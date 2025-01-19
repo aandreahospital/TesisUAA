@@ -17,7 +17,6 @@ namespace SistemaBase.Models
         }
 
         public virtual DbSet<AccesosGrupo> AccesosGrupos { get; set; } = null!;
-        public virtual DbSet<Barrio> Barrios { get; set; } = null!;
         public virtual DbSet<Cargo> Cargos { get; set; } = null!;
         public virtual DbSet<Carrera> Carreras { get; set; } = null!;
         public virtual DbSet<CarreraUsuario> CarreraUsuarios { get; set; } = null!;
@@ -25,7 +24,6 @@ namespace SistemaBase.Models
         public virtual DbSet<Comentario> Comentarios { get; set; } = null!;
         public virtual DbSet<Datosacademico> Datosacademicos { get; set; } = null!;
         public virtual DbSet<Datoslaborale> Datoslaborales { get; set; } = null!;
-        public virtual DbSet<DirecPersona> DirecPersonas { get; set; } = null!;
         public virtual DbSet<Empresa> Empresas { get; set; } = null!;
         public virtual DbSet<Forma> Formas { get; set; } = null!;
         public virtual DbSet<Forodebate> Forodebates { get; set; } = null!;
@@ -33,15 +31,11 @@ namespace SistemaBase.Models
         public virtual DbSet<Modulo> Modulos { get; set; } = null!;
         public virtual DbSet<Ofertaacademica> Ofertaacademicas { get; set; } = null!;
         public virtual DbSet<Ofertalaboral> Ofertalaborals { get; set; } = null!;
-        public virtual DbSet<Paise> Paises { get; set; } = null!;
+        public virtual DbSet<PermisosOpcione> PermisosOpciones { get; set; } = null!;
         public virtual DbSet<Persona> Personas { get; set; } = null!;
-        public virtual DbSet<Profesione> Profesiones { get; set; } = null!;
-        public virtual DbSet<Provincia> Provincias { get; set; } = null!;
-        public virtual DbSet<RmAutorizante> RmAutorizantes { get; set; } = null!;
         public virtual DbSet<RmUsuario> RmUsuarios { get; set; } = null!;
         public virtual DbSet<Sucursale> Sucursales { get; set; } = null!;
         public virtual DbSet<Usuario> Usuarios { get; set; } = null!;
-        public virtual DbSet<PermisosOpcione> PermisosOpciones { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -52,45 +46,8 @@ namespace SistemaBase.Models
             }
         }
 
-
-        //AJDFDLAF
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<PermisosOpcione>(entity =>
-            {
-                entity.HasKey(e => new { e.CodEmpresa, e.CodUsuario, e.CodModulo, e.Parametro, e.NomForma });
-                entity.ToTable("PERMISOS_OPCIONES", "INV");
-                entity.HasIndex(e => e.Rowid, "ROWID$INDEX")
-                    .IsUnique();
-                entity.Property(e => e.CodEmpresa)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_EMPRESA");
-                entity.Property(e => e.CodUsuario)
-                    .HasMaxLength(20)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_USUARIO");
-                entity.Property(e => e.CodModulo)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_MODULO");
-                entity.Property(e => e.Parametro)
-                    .IsUnicode(false)
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .HasColumnName("PARAMETRO");
-                entity.Property(e => e.NomForma)
-                    .HasMaxLength(10)
-                    .IsUnicode(false)
-                    .HasColumnName("NOM_FORMA");
-                entity.Property(e => e.Permiso)
-                    .HasMaxLength(1)
-                    .HasColumnName("PERMISO");
-                entity.Property(e => e.Rowid)
-                    .HasColumnName("ROWID")
-                    .HasDefaultValueSql("(newid())");
-            });
-
             modelBuilder.Entity<AccesosGrupo>(entity =>
             {
                 entity.HasKey(e => new { e.CodGrupo, e.CodModulo, e.NomForma });
@@ -150,48 +107,11 @@ namespace SistemaBase.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ACC_GRUPOS_GRP");
 
-                entity.HasOne(d => d.CodModuloNavigation)
-                    .WithMany(p => p.AccesosGrupos)
-                    .HasForeignKey(d => d.CodModulo)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ACC_GRU_MOD");
-            });
-
-            modelBuilder.Entity<Barrio>(entity =>
-            {
-                entity.HasKey(e => new { e.CodPais, e.CodProvincia, e.CodCiudad, e.CodBarrio });
-
-                entity.ToTable("BARRIOS", "INV");
-
-                entity.Property(e => e.CodPais)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_PAIS");
-
-                entity.Property(e => e.CodProvincia)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_PROVINCIA");
-
-                entity.Property(e => e.CodCiudad)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_CIUDAD");
-
-                entity.Property(e => e.CodBarrio)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_BARRIO");
-
-                entity.Property(e => e.Abreviatura)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("ABREVIATURA");
-
-                entity.Property(e => e.Descripcion)
-                    .HasMaxLength(80)
-                    .IsUnicode(false)
-                    .HasColumnName("DESCRIPCION");
+                //entity.HasOne(d => d.CodModuloNavigation)
+                //    .WithMany(p => p.AccesosGrupos)
+                //    .HasForeignKey(d => d.CodModulo)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_ACC_GRU_MOD");
             });
 
             modelBuilder.Entity<Cargo>(entity =>
@@ -400,26 +320,6 @@ namespace SistemaBase.Models
                     .IsUnicode(false)
                     .HasColumnName("CARGO");
 
-                entity.Property(e => e.Herramientas)
-                  .HasMaxLength(500)
-                  .IsUnicode(false)
-                  .HasColumnName("HERRAMIENTAS");
-
-                entity.Property(e => e.Sector)
-                 .HasMaxLength(500)
-                 .IsUnicode(false)
-                 .HasColumnName("SECTOR");
-
-                entity.Property(e => e.Materia)
-                 .HasMaxLength(500)
-                 .IsUnicode(false)
-                 .HasColumnName("MATERIA");
-
-                entity.Property(e => e.Estado)
-                  .HasMaxLength(1)
-                  .IsUnicode(false)
-                  .HasColumnName("ESTADO");
-
                 entity.Property(e => e.CargoIdcargo).HasColumnName("CARGO_IDCARGO");
 
                 entity.Property(e => e.CodUsuario)
@@ -432,14 +332,34 @@ namespace SistemaBase.Models
                     .IsUnicode(false)
                     .HasColumnName("DIRECCIONLABORAL");
 
+                entity.Property(e => e.Estado)
+                    .HasMaxLength(1)
+                    .IsUnicode(false)
+                    .HasColumnName("ESTADO");
+
+                entity.Property(e => e.Herramientas)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("HERRAMIENTAS");
+
                 entity.Property(e => e.Lugartrabajo)
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("LUGARTRABAJO");
 
+                entity.Property(e => e.Materia)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("MATERIA");
+
                 entity.Property(e => e.Rowid)
                     .HasColumnName("ROWID")
                     .HasDefaultValueSql("(newid())");
+
+                entity.Property(e => e.Sector)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("SECTOR");
 
                 entity.Property(e => e.Universidadtrabajo)
                     .HasMaxLength(255)
@@ -451,90 +371,6 @@ namespace SistemaBase.Models
                     .HasForeignKey(d => d.CodUsuario)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_DATOSLABORALES_USUARIO");
-            });
-
-            modelBuilder.Entity<DirecPersona>(entity =>
-            {
-                entity.HasKey(e => new { e.CodPersona, e.CodDireccion });
-
-                entity.ToTable("DIREC_PERSONAS", "INV");
-
-                entity.HasIndex(e => e.Rowid, "ROWID$INDEX")
-                    .IsUnique();
-
-                entity.Property(e => e.CodPersona)
-                    .HasMaxLength(15)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_PERSONA");
-
-                entity.Property(e => e.CodDireccion)
-                    .HasMaxLength(8)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_DIRECCION");
-
-                entity.Property(e => e.Barrio)
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .HasColumnName("BARRIO");
-
-                entity.Property(e => e.CasillaCorreo)
-                    .HasMaxLength(15)
-                    .IsUnicode(false)
-                    .HasColumnName("CASILLA_CORREO");
-
-                entity.Property(e => e.Ciudad)
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .HasColumnName("CIUDAD");
-
-                entity.Property(e => e.CodBarrio)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_BARRIO");
-
-                entity.Property(e => e.CodCiudad)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_CIUDAD");
-
-                entity.Property(e => e.CodPais)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_PAIS");
-
-                entity.Property(e => e.CodProvincia)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_PROVINCIA");
-
-                entity.Property(e => e.CodigoPostal)
-                    .HasMaxLength(10)
-                    .IsUnicode(false)
-                    .HasColumnName("CODIGO_POSTAL");
-
-                entity.Property(e => e.DescripcionRef)
-                    .HasMaxLength(100)
-                    .IsUnicode(false)
-                    .HasColumnName("DESCRIPCION_REF");
-
-                entity.Property(e => e.Detalle)
-                    .HasMaxLength(160)
-                    .IsUnicode(false)
-                    .HasColumnName("DETALLE");
-
-                entity.Property(e => e.PorDefecto)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("POR_DEFECTO");
-
-                entity.Property(e => e.Rowid)
-                    .HasColumnName("ROWID")
-                    .HasDefaultValueSql("(newid())");
-
-                entity.Property(e => e.TipDireccion)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("TIP_DIRECCION");
             });
 
             modelBuilder.Entity<Empresa>(entity =>
@@ -635,10 +471,7 @@ namespace SistemaBase.Models
                     .IsUnicode(false)
                     .HasColumnName("DESCRIPCION");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("numeric(18, 0)")
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("id");
+                
 
                 entity.Property(e => e.Rowid)
                     .HasColumnName("ROWID")
@@ -649,11 +482,11 @@ namespace SistemaBase.Models
                     .IsUnicode(false)
                     .HasColumnName("TITULO");
 
-                entity.HasOne(d => d.CodModuloNavigation)
-                    .WithMany(p => p.Formas)
-                    .HasForeignKey(d => d.CodModulo)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_FORMAS_MOD");
+                //entity.HasOne(d => d.CodModuloNavigation)
+                //    .WithMany(p => p.Formas)
+                //    .HasForeignKey(d => d.CodModulo)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_FORMAS_MOD");
             });
 
             modelBuilder.Entity<Forodebate>(entity =>
@@ -857,48 +690,42 @@ namespace SistemaBase.Models
                     .HasConstraintName("FK_OFERTALABORAL_USUARIO");
             });
 
-            modelBuilder.Entity<Paise>(entity =>
+            modelBuilder.Entity<PermisosOpcione>(entity =>
             {
-                entity.HasKey(e => e.CodPais);
+                entity.HasKey(e => new { e.CodEmpresa, e.CodUsuario, e.CodModulo, e.Parametro, e.NomForma });
 
-                entity.ToTable("PAISES", "INV");
+                entity.ToTable("PERMISOS_OPCIONES", "INV");
 
-                entity.HasIndex(e => e.Rowid, "ROWID$INDEX")
+                entity.HasIndex(e => e.Rowid, "ROWID_INDEX")
                     .IsUnique();
 
-                entity.Property(e => e.CodPais)
+                entity.Property(e => e.CodEmpresa)
                     .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_PAIS");
+                    .HasColumnName("COD_EMPRESA");
 
-                entity.Property(e => e.Abreviatura)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("ABREVIATURA");
-
-                entity.Property(e => e.CodigoArea)
-                    .HasMaxLength(10)
-                    .IsUnicode(false)
-                    .HasColumnName("CODIGO_AREA");
-
-                entity.Property(e => e.Descripcion)
-                    .HasMaxLength(80)
-                    .IsUnicode(false)
-                    .HasColumnName("DESCRIPCION");
-
-                entity.Property(e => e.Nacionalidad)
+                entity.Property(e => e.CodUsuario)
                     .HasMaxLength(20)
-                    .IsUnicode(false)
-                    .HasColumnName("NACIONALIDAD");
+                    .HasColumnName("COD_USUARIO");
+
+                entity.Property(e => e.CodModulo)
+                    .HasMaxLength(5)
+                    .HasColumnName("COD_MODULO");
+
+                entity.Property(e => e.Parametro)
+                    .HasMaxLength(50)
+                    .HasColumnName("PARAMETRO");
+
+                entity.Property(e => e.NomForma)
+                    .HasMaxLength(10)
+                    .HasColumnName("NOM_FORMA");
+
+                entity.Property(e => e.Permiso)
+                    .HasMaxLength(1)
+                    .HasColumnName("PERMISO");
 
                 entity.Property(e => e.Rowid)
                     .HasColumnName("ROWID")
                     .HasDefaultValueSql("(newid())");
-
-                entity.Property(e => e.Siglas)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("SIGLAS");
             });
 
             modelBuilder.Entity<Persona>(entity =>
@@ -907,7 +734,10 @@ namespace SistemaBase.Models
 
                 entity.ToTable("PERSONAS", "INV");
 
-                
+                entity.HasIndex(e => new { e.CodSector, e.CodPersona }, "IND_SECTOR")
+                    .IsUnique()
+                    .HasFilter("([COD_SECTOR] IS NOT NULL)");
+
                 entity.HasIndex(e => e.Rowid, "ROWID$INDEX")
                     .IsUnique();
 
@@ -926,23 +756,25 @@ namespace SistemaBase.Models
                     .IsUnicode(false)
                     .HasColumnName("ALTA_POR");
 
-                
+                entity.Property(e => e.CodEstadoCivil)
+                    .HasMaxLength(5)
+                    .IsUnicode(false)
+                    .HasColumnName("COD_ESTADO_CIVIL");
+
+                entity.Property(e => e.CodSector)
+                    .HasMaxLength(5)
+                    .IsUnicode(false)
+                    .HasColumnName("COD_SECTOR");
+
+                entity.Property(e => e.Direccionparticular)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("DIRECCIONPARTICULAR");
 
                 entity.Property(e => e.Email)
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("EMAIL");
-
-                entity.Property(e => e.SitioWeb)
-                 .HasMaxLength(255)
-                 .IsUnicode(false)
-                 .HasColumnName("SITIOWEB");
-
-                entity.Property(e => e.DireccionParticular)
-                 .HasMaxLength(255)
-                 .IsUnicode(false)
-                 .HasColumnName("DIRECCIONPARTICULAR");
-
 
                 entity.Property(e => e.FecActualizacion)
                     .HasPrecision(0)
@@ -956,13 +788,21 @@ namespace SistemaBase.Models
                     .HasPrecision(0)
                     .HasColumnName("FEC_NACIMIENTO");
 
-               
+                entity.Property(e => e.NivelEstudios)
+                    .HasMaxLength(5)
+                    .IsUnicode(false)
+                    .HasColumnName("NIVEL_ESTUDIOS");
+
+                entity.Property(e => e.NombFantasia)
+                    .HasMaxLength(200)
+                    .IsUnicode(false)
+                    .HasColumnName("NOMB_FANTASIA");
+
                 entity.Property(e => e.Nombre)
                     .HasMaxLength(200)
                     .IsUnicode(false)
                     .HasColumnName("NOMBRE");
 
-               
                 entity.Property(e => e.Rowid)
                     .HasColumnName("ROWID")
                     .HasDefaultValueSql("(newid())");
@@ -972,119 +812,10 @@ namespace SistemaBase.Models
                     .IsUnicode(false)
                     .HasColumnName("SEXO");
 
-            });
-
-            modelBuilder.Entity<Profesione>(entity =>
-            {
-                entity.HasKey(e => e.CodProfesion);
-
-                entity.ToTable("PROFESIONES", "INV");
-
-                entity.HasIndex(e => e.Rowid, "ROWID$INDEX")
-                    .IsUnique();
-
-                entity.Property(e => e.CodProfesion)
-                    .HasMaxLength(5)
+                entity.Property(e => e.Sitioweb)
+                    .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("COD_PROFESION");
-
-                entity.Property(e => e.Abreviatura)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("ABREVIATURA");
-
-                entity.Property(e => e.Descripcion)
-                    .HasMaxLength(80)
-                    .IsUnicode(false)
-                    .HasColumnName("DESCRIPCION");
-
-                entity.Property(e => e.Rowid)
-                    .HasColumnName("ROWID")
-                    .HasDefaultValueSql("(newid())");
-
-                entity.Property(e => e.Siglas)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("SIGLAS");
-            });
-
-            modelBuilder.Entity<Provincia>(entity =>
-            {
-                entity.HasKey(e => new { e.CodPais, e.CodProvincia });
-
-                entity.ToTable("PROVINCIAS", "INV");
-
-                entity.HasIndex(e => e.Rowid, "ROWID$INDEX")
-                    .IsUnique();
-
-                entity.Property(e => e.CodPais)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_PAIS");
-
-                entity.Property(e => e.CodProvincia)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_PROVINCIA");
-
-                entity.Property(e => e.Abreviatura)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("ABREVIATURA");
-
-                entity.Property(e => e.Descripcion)
-                    .HasMaxLength(80)
-                    .IsUnicode(false)
-                    .HasColumnName("DESCRIPCION");
-
-                entity.Property(e => e.Rowid)
-                    .HasColumnName("ROWID")
-                    .HasDefaultValueSql("(newid())");
-
-                entity.HasOne(d => d.CodPaisNavigation)
-                    .WithMany(p => p.Provincia)
-                    .HasForeignKey(d => d.CodPais)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_PROVIN_PAI");
-            });
-
-            modelBuilder.Entity<RmAutorizante>(entity =>
-            {
-                entity.HasKey(e => e.IdAutorizante)
-                    .HasName("RM_AUTORIZANTES_PK");
-
-                entity.ToTable("RM_AUTORIZANTES", "INV");
-
-                entity.HasIndex(e => e.Rowid, "ROWID$INDEX")
-                    .IsUnique();
-
-                entity.Property(e => e.IdAutorizante)
-                    .HasColumnType("numeric(8, 0)")
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("ID_AUTORIZANTE");
-
-                entity.Property(e => e.CodCiudad)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_CIUDAD");
-
-                entity.Property(e => e.DescripAutorizante)
-                    .HasMaxLength(100)
-                    .IsUnicode(false)
-                    .HasColumnName("DESCRIP_AUTORIZANTE");
-
-                entity.Property(e => e.MatriculaRegistro)
-                    .HasColumnType("numeric(8, 0)")
-                    .HasColumnName("MATRICULA_REGISTRO");
-
-                entity.Property(e => e.Rowid)
-                    .HasColumnName("ROWID")
-                    .HasDefaultValueSql("(newid())");
-
-                entity.Property(e => e.TipoAutorizante)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("TIPO_AUTORIZANTE");
+                    .HasColumnName("SITIOWEB");
             });
 
             modelBuilder.Entity<RmUsuario>(entity =>
@@ -1179,41 +910,6 @@ namespace SistemaBase.Models
                     .IsUnicode(false)
                     .HasColumnName("CASILLA_CORREO");
 
-                entity.Property(e => e.CodBarrio)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_BARRIO");
-
-                entity.Property(e => e.CodCiudad)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_CIUDAD");
-
-                entity.Property(e => e.CodCustodioIni)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_CUSTODIO_INI");
-
-                entity.Property(e => e.CodPais)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_PAIS");
-
-                entity.Property(e => e.CodProvincia)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_PROVINCIA");
-
-                entity.Property(e => e.CodRegional)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_REGIONAL");
-
-                entity.Property(e => e.CodSucursalCentral)
-                    .HasMaxLength(2)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_SUCURSAL_CENTRAL");
-
                 entity.Property(e => e.CodigoPostal)
                     .HasMaxLength(10)
                     .IsUnicode(false)
@@ -1229,25 +925,10 @@ namespace SistemaBase.Models
                     .IsUnicode(false)
                     .HasColumnName("DETALLE_DIR");
 
-                entity.Property(e => e.EsMatriz)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("ES_MATRIZ");
-
                 entity.Property(e => e.Estado)
                     .HasMaxLength(1)
                     .IsUnicode(false)
                     .HasColumnName("ESTADO");
-
-                entity.Property(e => e.IndUmDef)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("IND_UM_DEF");
-
-                entity.Property(e => e.ManejaStock)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("MANEJA_STOCK");
 
                 entity.Property(e => e.NroPatronal)
                     .HasMaxLength(10)
@@ -1262,41 +943,11 @@ namespace SistemaBase.Models
                     .HasColumnName("ROWID")
                     .HasDefaultValueSql("(newid())");
 
-                entity.Property(e => e.StockPropio)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("STOCK_PROPIO");
-
-                entity.Property(e => e.TrabajaDom)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("TRABAJA_DOM");
-
-                entity.Property(e => e.TrabajaSab)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("TRABAJA_SAB");
-
                 entity.HasOne(d => d.CodEmpresaNavigation)
                     .WithMany(p => p.Sucursales)
                     .HasForeignKey(d => d.CodEmpresa)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_SUCUR_EMP");
-
-                entity.HasOne(d => d.CodPaisNavigation)
-                    .WithMany(p => p.Sucursales)
-                    .HasForeignKey(d => d.CodPais)
-                    .HasConstraintName("FK_SUCUR_PAI");
-
-                entity.HasOne(d => d.CodP)
-                    .WithMany(p => p.Sucursales)
-                    .HasForeignKey(d => new { d.CodPais, d.CodProvincia })
-                    .HasConstraintName("FK_SUCUR_PROVIN");
-
-                entity.HasOne(d => d.Cod)
-                    .WithMany(p => p.Sucursales)
-                    .HasForeignKey(d => new { d.CodPais, d.CodProvincia, d.CodCiudad, d.CodBarrio })
-                    .HasConstraintName("FK_SUCUR_BAR");
             });
 
             modelBuilder.Entity<Usuario>(entity =>
