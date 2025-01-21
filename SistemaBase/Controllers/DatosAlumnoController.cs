@@ -41,7 +41,7 @@ namespace SistemaBase.Controllers
                 SitioWeb = alumno?.Sitioweb??"",
                 Sexo = alumno?.Sexo??"",
                 DireccionParticular = alumno?.Direccionparticular??"",
-                FecNacimiento = alumno.FecNacimiento,
+                FecNacimiento = alumno?.FecNacimiento,
                 ExperienciaLaboral = experiencia,
                 Educacion = educacion
             };

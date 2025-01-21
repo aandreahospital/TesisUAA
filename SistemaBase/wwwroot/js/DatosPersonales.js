@@ -92,7 +92,7 @@ const AddLaboral = (e) => {
     const formData = new FormData();
     formData.append('CodUsuario', document.getElementById('usuario').value)
     formData.append('Lugartrabajo', document.getElementById('Lugartrabajo').value)
-    formData.append('CargoIdcargo', document.getElementById('CargoIdcargo').value)
+    formData.append('Cargo', document.getElementById('Cargo').value)
     formData.append('Direccionlaboral', document.getElementById('Direccionlaboral').value)
     formData.append('Antiguedad', document.getElementById('Antiguedad').value)
     formData.append('Herramientas', document.getElementById('Herramientas').value)
