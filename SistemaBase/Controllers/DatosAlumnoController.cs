@@ -53,7 +53,7 @@ namespace SistemaBase.Controllers
 
         private List<Datoslaborale> ObtenerExperienciaLaboral()
         {
-            var laboral = _context.Datoslaborales.Where(x => x.CodUsuario == User.Identity.Name).ToList();
+            var laboral = _context.Datoslaborales.OrderBy(x=>x.Iddatoslaborales).Where(x => x.CodUsuario == User.Identity.Name).ToList();
 
             var listaLaborales = laboral.Select(laboral => new Datoslaborale
             {
@@ -68,7 +68,7 @@ namespace SistemaBase.Controllers
 
         private List<Datosacademico> ObtenerEducacion()
         {
-            var academico = _context.Datosacademicos.Where(x => x.CodUsuario == User.Identity.Name).ToList();
+            var academico = _context.Datosacademicos.OrderBy(x=>x.Iddatosacademicos).Where(x => x.CodUsuario == User.Identity.Name).ToList();
             // Simulando datos; reemplaza con datos reales
             var ListaAcademico = academico.Select(academico => new Datosacademico
             {
