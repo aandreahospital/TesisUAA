@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using iText.Kernel.Pdf.Canvas.Wmf;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using SistemaBase.Models;
 using SistemaBase.ModelsCustom;
 using System.Security.Claims;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace SistemaBase.Controllers
 {
@@ -18,7 +20,7 @@ namespace SistemaBase.Controllers
             _context = context;
         }
 
-        [TypeFilter(typeof(AutorizarUsuarioFilter), Arguments = new object[] { "SCDATOS", "Index", "DatosAlumno" })]
+        //[TypeFilter(typeof(AutorizarUsuarioFilter), Arguments = new object[] { "SCDATOS", "Index", "DatosAlumno" })]
 
         public IActionResult Index()
         {
@@ -38,9 +40,9 @@ namespace SistemaBase.Controllers
                 CodPersona = usuarios.CodPersona,
                 Nombre = alumno.Nombre,
                 Email = alumno?.Email??"",
-                SitioWeb = alumno?.Sitioweb??"",
+                SitioWeb = alumno?.SitioWeb??"",
                 Sexo = alumno?.Sexo??"",
-                DireccionParticular = alumno?.Direccionparticular??"",
+                DireccionParticular = alumno?.DireccionParticular??"",
                 FecNacimiento = alumno?.FecNacimiento,
                 ExperienciaLaboral = experiencia,
                 Educacion = educacion
@@ -51,37 +53,44 @@ namespace SistemaBase.Controllers
 
 
 
-        private List<Datoslaborale> ObtenerExperienciaLaboral()
+        private List<DatosLaborale> ObtenerExperienciaLaboral()
         {
-            var laboral = _context.Datoslaborales.OrderBy(x=>x.Iddatoslaborales).Where(x => x.CodUsuario == User.Identity.Name).ToList();
+            var laboral = _context.DatosLaborales.OrderByDescending(x=>x.IdDatosLaborales).Where(x => x.CodUsuario == User.Identity.Name).ToList();
 
-            var listaLaborales = laboral.Select(laboral => new Datoslaborale
+            var listaLaborales = laboral.Select(laboral => new DatosLaborale
             {
-                Lugartrabajo = laboral?.Lugartrabajo ?? "",
+                IdDatosLaborales = laboral.IdDatosLaborales,
+                LugarTrabajo = laboral?.LugarTrabajo ?? "",
                 Cargo = laboral?.Cargo??"",
-                Direccionlaboral = laboral?.Direccionlaboral ?? "",
-                Antiguedad = laboral?.Antiguedad ?? ""
+                Antiguedad = laboral?.Antiguedad ?? 0,
+                MateriaTrabajo =laboral?.MateriaTrabajo ?? "",
+                UniversidadTrabajo = laboral?.UniversidadTrabajo??"",
+                Sector = laboral?.Sector ?? "",
+                Estado = laboral?.Estado ??"",
+                Herramientas = laboral?.Herramientas ??""
+
             }).ToList();
 
             return listaLaborales;
         }
 
-        private List<Datosacademico> ObtenerEducacion()
+        private List<DatosAcademicoCustom> ObtenerEducacion()
         {
-            var academico = _context.Datosacademicos.OrderBy(x=>x.Iddatosacademicos).Where(x => x.CodUsuario == User.Identity.Name).ToList();
+            var academico = _context.DatosAcademicos.OrderByDescending(x=>x.IdDatosAcademicos).Where(x => x.CodUsuario == User.Identity.Name).ToList();
             // Simulando datos; reemplaza con datos reales
-            var ListaAcademico = academico.Select(academico => new Datosacademico
+            var ListaAcademico = academico.Select(academico => new DatosAcademicoCustom
             {
-                CentroEducativo = _context.Centroestudios
-                .Where(ce => ce.Idcentroestudio == academico.Idcentroestudio)
+                IdDatosAcademicos = academico.IdDatosAcademicos,
+                CentroEstudio = _context.CentroEstudios
+                .Where(ce => ce.IdCentroEstudio == academico.IdCentroEstudio)
                 .Select(ce => ce.Descripcion)
                 .FirstOrDefault() ?? "",
                 Carrera = _context.Carreras
-                .Where(c => c.Idcarrera == academico.Idcarrera)
+                .Where(c => c.IdCarrera == academico.IdCarrera)
                 .Select(c => c.Descripcion)
                 .FirstOrDefault() ?? "",
-                Fechainicio = academico?.Fechainicio??DateTime.MinValue,
-                Fechafin = academico?.Fechafin??DateTime.MinValue,
+                AnhoInicio = academico?.AnhoInicio??"",
+                AnhoFin = academico?.AnhoFin ?? "",
                 Estado = academico?.Estado?? ""
             }).ToList();
 
@@ -103,8 +112,8 @@ namespace SistemaBase.Controllers
                     datosPersonales.Email  = datosAlumno?.Email;
                     datosPersonales.Sexo = datosAlumno?.Sexo;
                     datosPersonales.FecNacimiento = datosAlumno?.FecNacimiento;
-                    datosPersonales.Sitioweb = datosAlumno?.SitioWeb;
-                    datosPersonales.Direccionparticular = datosAlumno?.DireccionParticular;
+                    datosPersonales.SitioWeb = datosAlumno?.SitioWeb;
+                    datosPersonales.DireccionParticular = datosAlumno?.DireccionParticular;
                     _context.Update(datosPersonales);
                     _context.SaveChanges();
                 }
@@ -126,21 +135,23 @@ namespace SistemaBase.Controllers
       
 
         [HttpPost]
-        public async Task<IActionResult> GuardarLaboral(Datoslaborale datosLaboral)
+        public async Task<IActionResult> GuardarLaboral(DatosLaborale datosLaboral)
         {
             try
             {
-                var datosLaborales = _context.Datoslaborales.FirstOrDefault(m => m.CodUsuario == datosLaboral.CodUsuario);
-                var laborales = _context.Datoslaborales.Max(m => m.Iddatoslaborales) + 1;
-                Datoslaborale addLaboral = new()
+                var datosLaborales = _context.DatosLaborales.FirstOrDefault(m => m.CodUsuario == datosLaboral.CodUsuario);
+               
+                DatosLaborale addLaboral = new()
                 {
-                    Iddatoslaborales = laborales,
                     CodUsuario = datosLaboral.CodUsuario,
-                    Lugartrabajo = datosLaboral?.Lugartrabajo,
+                    LugarTrabajo = datosLaboral?.LugarTrabajo,
                     Cargo = datosLaboral?.Cargo,
                     Antiguedad = datosLaboral?.Antiguedad,
-                    Direccionlaboral = datosLaboral?.Direccionlaboral,
-                    Herramientas = datosLaboral?.Herramientas
+                    Estado = datosLaboral?.Estado,
+                    MateriaTrabajo= datosLaboral?.MateriaTrabajo ?? "NO APLICA",
+                    UniversidadTrabajo = datosLaboral?.UniversidadTrabajo ?? "NO APLICA",
+                    Herramientas = datosLaboral?.Herramientas,
+                    Sector = datosLaboral?.Sector
                     
                 };
                  _context.Add(addLaboral);
@@ -162,20 +173,17 @@ namespace SistemaBase.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> GuardarEducacion(Datosacademico datosAcademico)
+        public async Task<IActionResult> GuardarEducacion(DatosAcademico datosAcademico)
         {
             try
             {
-              
-                var academicos = _context.Datosacademicos.Max(m => m.Iddatosacademicos) + 1;
-                Datosacademico addAcademico = new()
+                DatosAcademico addAcademico = new()
                 {
                     CodUsuario = datosAcademico.CodUsuario,
-                    Iddatosacademicos = academicos,
-                    Idcentroestudio = datosAcademico.Idcentroestudio,
-                    Idcarrera = datosAcademico.Idcarrera,
-                    Fechainicio = datosAcademico?.Fechainicio,
-                    Fechafin = datosAcademico?.Fechafin,
+                    IdCentroEstudio = datosAcademico.IdCentroEstudio,
+                    IdCarrera = datosAcademico.IdCarrera,
+                    AnhoInicio = datosAcademico?.AnhoInicio,
+                    AnhoFin = datosAcademico?.AnhoFin,
                     Estado = datosAcademico?.Estado
                 };
                 _context.Add(addAcademico);
@@ -206,11 +214,180 @@ namespace SistemaBase.Controllers
 
         public ActionResult AbrirAcademico()
         {
-            ViewBag.CentoEstudio = new SelectList(_context.Centroestudios, "Idcentroestudio", "Descripcion");
-            ViewBag.Carrera = new SelectList(_context.Carreras, "Idcarrera", "Descripcion");
+            ViewBag.CentoEstudio = new SelectList(_context.CentroEstudios, "IdCentroEstudio", "Descripcion");
+            ViewBag.Carrera = new SelectList(_context.Carreras, "IdCarrera", "Descripcion");
 
             return View("AddAcademico");
 
         }
+
+
+        //PARA ABRIR LA PANTALLA DE EDICION
+
+        [HttpGet]
+        public IActionResult EditLaboral(int id)
+        {
+            var experiencia = _context.DatosLaborales.Find(id);
+            if (experiencia == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                DatosLaborale laboral = new()
+                {
+                    IdDatosLaborales = experiencia.IdDatosLaborales,
+                    CodUsuario = experiencia?.CodUsuario??"",
+                    LugarTrabajo = experiencia?.LugarTrabajo ?? "",
+                    Cargo = experiencia?.Cargo ?? "",
+                    Antiguedad = experiencia?.Antiguedad ?? 0,
+                    Estado = experiencia?.Estado ?? "",
+                    MateriaTrabajo = experiencia?.MateriaTrabajo ?? "NO APLICA",
+                    UniversidadTrabajo = experiencia?.UniversidadTrabajo ?? "NO APLICA",
+                    Herramientas = experiencia?.Herramientas ?? "",
+                    Sector = experiencia?.Sector ?? ""
+
+                };
+
+                return View("EditLaboral", laboral);
+            }
+        }
+
+        //PARA GUARAR LA EDICION
+
+        [HttpPost]
+        public async Task<IActionResult> GuardarEditLaboral(DatosLaborale datosLaboral)
+        {
+            try
+            {
+                var datosLaborales = _context.DatosLaborales.FirstOrDefault(m => m.IdDatosLaborales == datosLaboral.IdDatosLaborales);
+                if (datosLaborales != null) {
+                    datosLaborales.CodUsuario = datosLaboral.CodUsuario;
+                    datosLaborales.LugarTrabajo = datosLaboral?.LugarTrabajo;
+                    datosLaborales.Cargo = datosLaboral?.Cargo;
+                    datosLaborales.Antiguedad = datosLaboral?.Antiguedad;
+                    datosLaborales.Estado = datosLaboral?.Estado;
+                    datosLaborales.MateriaTrabajo = datosLaboral?.MateriaTrabajo ?? "NO APLICA";
+                    datosLaborales.UniversidadTrabajo = datosLaboral?.UniversidadTrabajo ?? "NO APLICA";
+                    datosLaborales.Herramientas = datosLaboral?.Herramientas;
+                    datosLaborales.Sector = datosLaboral?.Sector;
+                    _context.Update(datosLaborales);
+                    _context.SaveChanges();
+                }
+                
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UsuarioExist(datosLaboral.CodUsuario))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult Edit(int id, DatosLaborale model)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Update(model);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult DeleteLaboral(int id)
+        {
+            var experiencia = _context.DatosLaborales.Find(id);
+            if (experiencia == null)
+            {
+                return NotFound();
+            }
+            _context.DatosLaborales.Remove(experiencia);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        //PARA ABRIR LA PANTALLA DE EDICION
+
+        [HttpGet]
+        public IActionResult EditAcademico(int id)
+        {
+            var academico = _context.DatosAcademicos.Find(id);
+            if (academico == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                ViewBag.CentoEstudio = new SelectList(_context.CentroEstudios, "IdCentroEstudio", "Descripcion", academico.IdCentroEstudio);
+                ViewBag.Carrera = new SelectList(_context.Carreras, "IdCarrera", "Descripcion", academico.IdCarrera);
+                DatosAcademicoCustom EditAcademico = new()
+                {
+                    IdCarrera = academico.IdCarrera,
+                    IdCentroEstudio = academico.IdCentroEstudio,
+                    IdDatosAcademicos = academico.IdDatosAcademicos,
+                    AnhoInicio = academico?.AnhoInicio ?? "",
+                    AnhoFin = academico?.AnhoFin ?? "",
+                    Estado = academico?.Estado ?? ""
+                };
+               
+                return View("EditAcademico", EditAcademico);
+            }
+        }
+
+        //PARA GUARAR LA EDICION
+        [HttpPost]
+        public async Task<IActionResult> GuardarEditEducacion(DatosAcademico datosAcademico)
+        {
+            try
+            {
+                var academico = _context.DatosAcademicos.Find(datosAcademico.IdDatosAcademicos);
+                if (academico != null)
+                {
+                    academico.CodUsuario = datosAcademico.CodUsuario;
+                    academico.IdCentroEstudio = datosAcademico.IdCentroEstudio;
+                    academico.IdCarrera = datosAcademico.IdCarrera;
+                    academico.AnhoInicio = datosAcademico?.AnhoInicio;
+                    academico.AnhoFin = datosAcademico?.AnhoFin;
+                    academico.Estado = datosAcademico?.Estado;
+
+                    _context.Update(academico);
+                    _context.SaveChanges();
+                }
+                
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return NotFound();
+
+            }
+            return RedirectToAction("Index");
+        }
+
+
+        [HttpGet]
+        public IActionResult DeleteAcademico(int id)
+        {
+            var academico = _context.DatosAcademicos.Find(id);
+            if (academico == null)
+            {
+                return NotFound();
+            }
+            _context.DatosAcademicos.Remove(academico);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+
+
+
     }
 }

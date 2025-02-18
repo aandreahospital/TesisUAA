@@ -3,22 +3,21 @@ using System.Collections.Generic;
 
 namespace SistemaBase.Models
 {
-    public partial class Datoslaborale
+    public partial class DatosLaborale
     {
-        public int Iddatoslaborales { get; set; }
+        public int IdDatosLaborales { get; set; }
         public string CodUsuario { get; set; } = null!;
-        public string? Lugartrabajo { get; set; }
-        public string? Universidadtrabajo { get; set; }
-        public int? CargoIdcargo { get; set; }
-        public string? Direccionlaboral { get; set; }
-        public string? Antiguedad { get; set; }
-        public Guid Rowid { get; set; }
+        public string? LugarTrabajo { get; set; }
         public string? Cargo { get; set; }
+        public int? Antiguedad { get; set; }
         public string? Herramientas { get; set; }
-        public string? Estado { get; set; }
-        public string? Materia { get; set; }
-        public string? Sector { get; set; }
 
-        public virtual Usuario CodUsuarioNavigation { get; set; } = null!;
+        public string? Sector { get; set; }
+        public string? UniversidadTrabajo { get; set; }
+        public string? Estado { get; set; }
+
+        public string? MateriaTrabajo { get; set; }
+
+        //public virtual Usuario CodUsuarioNavigation { get; set; } = null!;
     }
 }

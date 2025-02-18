@@ -18,15 +18,12 @@ namespace SistemaBase.Controllers
             _context = context;
         }
 
-        //FILTRO QUE AUTORIZA AL USUARIO PARA ACCEDER AL CONTROLADOR CON EL PERMISO
-        [TypeFilter(typeof(AutorizarUsuarioFilter), Arguments = new object[] { "BSUSUARI", "Index", "Usuario" })]
-
-        public async Task<IActionResult> Index()
+        // GET: Usuario
+    public async Task<IActionResult> Index()
     {
-        ViewData["CodSucursal"] = new SelectList(_context.Sucursales, "CodSucursal", "CodSucursal");
-        ViewData["CodEmpresa"] = new SelectList(_context.Empresas, "CodEmpresa", "CodEmpresa");
         ViewData["CodGrupo"] = new SelectList(_context.GruposUsuarios, "CodGrupo", "CodGrupo");
-        var dbvinDbContext = _context.Usuarios.Include(u => u.Cod).Include(u => u.CodEmpresaNavigation).Include(u => u.CodGrupoNavigation);
+        ViewData["CodPersona"] = new SelectList(_context.Personas, "CodPersona", "CodPersona");
+        var dbvinDbContext = _context.Usuarios.Include(u => u.CodGrupoNavigation).Include(u => u.CodPersonaNavigation);
         return View(await dbvinDbContext.AsNoTracking().ToListAsync());
     }
 
@@ -41,11 +38,10 @@ namespace SistemaBase.Controllers
     public async Task<IActionResult>
     ResultTable()
     {
-        ViewData["CodSucursal"] = new SelectList(_context.Sucursales, "CodSucursal", "CodSucursal");
-        ViewData["CodEmpresa"] = new SelectList(_context.Empresas, "CodEmpresa", "CodEmpresa");
         ViewData["CodGrupo"] = new SelectList(_context.GruposUsuarios, "CodGrupo", "CodGrupo");
+        ViewData["CodPersona"] = new SelectList(_context.Personas, "CodPersona", "CodPersona");
     ViewData["Show"] = true;
-        var dbvinDbContext = _context.Usuarios.Include(u => u.Cod).Include(u => u.CodEmpresaNavigation).Include(u => u.CodGrupoNavigation);
+        var dbvinDbContext = _context.Usuarios.Include(u => u.CodGrupoNavigation).Include(u => u.CodPersonaNavigation);
         return View("Index",await dbvinDbContext.AsNoTracking().ToListAsync());
     }
 
@@ -76,9 +72,8 @@ namespace SistemaBase.Controllers
             // GET: Usuario/Create
             public IActionResult Create()
             {
-            ViewData["CodSucursal"] = new SelectList(_context.Sucursales, "CodSucursal", "CodSucursal");
-            ViewData["CodEmpresa"] = new SelectList(_context.Empresas, "CodEmpresa", "CodEmpresa");
             ViewData["CodGrupo"] = new SelectList(_context.GruposUsuarios, "CodGrupo", "CodGrupo");
+            ViewData["CodPersona"] = new SelectList(_context.Personas, "CodPersona", "CodPersona");
             return View();
             }
 
@@ -87,26 +82,15 @@ namespace SistemaBase.Controllers
             // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
             [HttpPost]
             [ValidateAntiForgeryToken]
-        //FILTRO QUE AUTORIZA AL USUARIO PARA ACCEDER AL CONTROLADOR CON EL PERMISO
-        [TypeFilter(typeof(AutorizarUsuarioFilter), Arguments = new object[] { "BSUSUARI", "Create", "Usuario" })]
-
         public async Task<IActionResult> Create( Usuario usuario)
-        {
-            var existingUsuario = _context.Usuarios.FirstOrDefault(u=>u.CodUsuario== usuario.CodUsuario);
-            if (existingUsuario != null)
-            {
-                return Json(new { success = false, message = "Codigo de Usuario ya existe" });
-            }
-            else
-            {
-                _context.Add(usuario);
-                await _context.SaveChangesAsync();
+                {
+            _context.Add(usuario);
+            await _context.SaveChangesAsync();
                 return RedirectToAction("ResultTable");
-            }
+
                 //return RedirectToAction(nameof(Index));
-                ViewData["CodSucursal"] = new SelectList(_context.Sucursales, "CodSucursal", "CodSucursal", usuario.CodSucursal);
-                ViewData["CodEmpresa"] = new SelectList(_context.Empresas, "CodEmpresa", "CodEmpresa", usuario.CodEmpresa);
                 ViewData["CodGrupo"] = new SelectList(_context.GruposUsuarios, "CodGrupo", "CodGrupo", usuario.CodGrupo);
+                ViewData["CodPersona"] = new SelectList(_context.Personas, "CodPersona", "CodPersona", usuario.CodPersona);
                 return RedirectToAction("ResultTable");
 
                 // return View(usuario);
@@ -121,9 +105,8 @@ namespace SistemaBase.Controllers
                     {
                     return NotFound();
                     }
-                    ViewData["CodSucursal"] = new SelectList(_context.Sucursales, "CodSucursal", "CodSucursal", usuario.CodSucursal);
-                    ViewData["CodEmpresa"] = new SelectList(_context.Empresas, "CodEmpresa", "CodEmpresa", usuario.CodEmpresa);
                     ViewData["CodGrupo"] = new SelectList(_context.GruposUsuarios, "CodGrupo", "CodGrupo", usuario.CodGrupo);
+                    ViewData["CodPersona"] = new SelectList(_context.Personas, "CodPersona", "CodPersona", usuario.CodPersona);
                     return View(usuario);
                     }
 
@@ -132,10 +115,7 @@ namespace SistemaBase.Controllers
                     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
                     [HttpPost]
                     [ValidateAntiForgeryToken]
-        //FILTRO QUE AUTORIZA AL USUARIO PARA ACCEDER AL CONTROLADOR CON EL PERMISO
-        [TypeFilter(typeof(AutorizarUsuarioFilter), Arguments = new object[] { "BSUSUARI", "Edit", "Usuario" })]
-
-        public async Task<IActionResult>
+                    public async Task<IActionResult>
                         Edit(string CodUsuario,  Usuario usuario)
                         {
 
@@ -158,9 +138,8 @@ namespace SistemaBase.Controllers
                         return RedirectToAction("ResultTable");
 
                         // return RedirectToAction(nameof(Index));
-                        ViewData["CodSucursal"] = new SelectList(_context.Sucursales, "CodSucursal", "CodEmpresa", usuario.CodSucursal);
-                        ViewData["CodEmpresa"] = new SelectList(_context.Empresas, "CodEmpresa", "CodEmpresa", usuario.CodEmpresa);
                         ViewData["CodGrupo"] = new SelectList(_context.GruposUsuarios, "CodGrupo", "CodGrupo", usuario.CodGrupo);
+                        ViewData["CodPersona"] = new SelectList(_context.Personas, "CodPersona", "CodPersona", usuario.CodPersona);
                         return RedirectToAction("ResultTable");
 
                         //return View(usuario);
@@ -184,10 +163,7 @@ namespace SistemaBase.Controllers
                             // POST: Usuario/Delete/5
                             [HttpPost, ActionName("Delete")]
                             [ValidateAntiForgeryToken]
-        //FILTRO QUE AUTORIZA AL USUARIO PARA ACCEDER AL CONTROLADOR CON EL PERMISO
-        [TypeFilter(typeof(AutorizarUsuarioFilter), Arguments = new object[] { "BSUSUARI", "Delete", "Usuario" })]
-
-        public async Task<IActionResult>
+                            public async Task<IActionResult>
                                 DeleteConfirmed(string CodUsuario)
                                 {
                                 if (_context.Usuarios == null)

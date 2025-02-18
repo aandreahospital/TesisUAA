@@ -1,16 +1,17 @@
-@model IEnumerable<SistemaBase.Models.Datoslaborale>
+@model IEnumerable<SistemaBase.Models.DatosLaborale>
 
      @{
       List<string> columns =  new List<string>();
-                                        columns.Add("\""+Html.DisplayNameFor(model => model.Iddatoslaborales)+"\""); 
+                                        columns.Add("\""+Html.DisplayNameFor(model => model.IdDatosLaborales)+"\""); 
                                         columns.Add("\""+Html.DisplayNameFor(model => model.CodUsuario)+"\""); 
-                                        columns.Add("\""+Html.DisplayNameFor(model => model.Lugartrabajo)+"\""); 
-                                        columns.Add("\""+Html.DisplayNameFor(model => model.Universidadtrabajo)+"\""); 
-                                        columns.Add("\""+Html.DisplayNameFor(model => model.CargoIdcargo)+"\""); 
-                                        columns.Add("\""+Html.DisplayNameFor(model => model.Direccionlaboral)+"\""); 
+                                        columns.Add("\""+Html.DisplayNameFor(model => model.LugarTrabajo)+"\""); 
+                                        columns.Add("\""+Html.DisplayNameFor(model => model.Cargo)+"\""); 
                                         columns.Add("\""+Html.DisplayNameFor(model => model.Antiguedad)+"\""); 
-                                        columns.Add("\""+Html.DisplayNameFor(model => model.Rowid)+"\""); 
-                                      columns.Add("\""+Html.DisplayNameFor(model => model.CodUsuarioNavigation)+"\""); 
+                                        columns.Add("\""+Html.DisplayNameFor(model => model.Herramientas)+"\""); 
+                                        columns.Add("\""+Html.DisplayNameFor(model => model.Sector)+"\""); 
+                                        columns.Add("\""+Html.DisplayNameFor(model => model.UniversidadTrabajo)+"\""); 
+                                        columns.Add("\""+Html.DisplayNameFor(model => model.Estado)+"\""); 
+                                        columns.Add("\""+Html.DisplayNameFor(model => model.MateriaTrabajo)+"\""); 
      if (ViewData["Show"] != null)
      {
          Layout = "";
@@ -29,7 +30,7 @@
                          <div data-list='{"valueNames":[@string.Join(",", columns) ],"page":16}'>
                  <div class="row align-items-end justify-content-between pb-5 g-3">
                      <div class="col-auto">
-                         <h3> Datoslaborale</h3>
+                         <h3> DatosLaborale</h3>
                           <button class="btnAbm  mt-3" onclick="modalcreate()">
                             <span class="btn-label"><i class="fa fa-plus"></i></span> Nuevo
                         </button>
@@ -53,36 +54,37 @@
                         <thead>
                             <tr>
                                 <th class="white-space-nowrap fs--1 ps-0 align-middle text-center col-1 pt-2 pb-2 pl-2"></th>
-                                    <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0"  data-sort="@Html.DisplayNameFor(model => model.Iddatoslaborales))"> @Html.DisplayNameFor(model => model.Iddatoslaborales)</th>
-                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0" data-sort="@Html.DisplayNameFor(model => model.Lugartrabajo)"> @Html.DisplayNameFor(model => model.Lugartrabajo)</th>
-                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0" data-sort="@Html.DisplayNameFor(model => model.Universidadtrabajo)"> @Html.DisplayNameFor(model => model.Universidadtrabajo)</th>
-                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0" data-sort="@Html.DisplayNameFor(model => model.CargoIdcargo)"> @Html.DisplayNameFor(model => model.CargoIdcargo)</th>
-                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0" data-sort="@Html.DisplayNameFor(model => model.Direccionlaboral)"> @Html.DisplayNameFor(model => model.Direccionlaboral)</th>
+                                    <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0"  data-sort="@Html.DisplayNameFor(model => model.IdDatosLaborales))"> @Html.DisplayNameFor(model => model.IdDatosLaborales)</th>
+                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0" data-sort="@Html.DisplayNameFor(model => model.CodUsuario)"> @Html.DisplayNameFor(model => model.CodUsuario)</th>
+                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0" data-sort="@Html.DisplayNameFor(model => model.LugarTrabajo)"> @Html.DisplayNameFor(model => model.LugarTrabajo)</th>
+                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0" data-sort="@Html.DisplayNameFor(model => model.Cargo)"> @Html.DisplayNameFor(model => model.Cargo)</th>
                                         <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0" data-sort="@Html.DisplayNameFor(model => model.Antiguedad)"> @Html.DisplayNameFor(model => model.Antiguedad)</th>
-                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0" data-sort="@Html.DisplayNameFor(model => model.Rowid)"> @Html.DisplayNameFor(model => model.Rowid)</th>
-                                       <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0"  data-sort="@Html.DisplayNameFor(model => model.CodUsuarioNavigation))"> @Html.DisplayNameFor(model => model.CodUsuarioNavigation)</th>
+                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0" data-sort="@Html.DisplayNameFor(model => model.Herramientas)"> @Html.DisplayNameFor(model => model.Herramientas)</th>
+                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0" data-sort="@Html.DisplayNameFor(model => model.Sector)"> @Html.DisplayNameFor(model => model.Sector)</th>
+                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0" data-sort="@Html.DisplayNameFor(model => model.UniversidadTrabajo)"> @Html.DisplayNameFor(model => model.UniversidadTrabajo)</th>
+                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0" data-sort="@Html.DisplayNameFor(model => model.Estado)"> @Html.DisplayNameFor(model => model.Estado)</th>
+                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0" data-sort="@Html.DisplayNameFor(model => model.MateriaTrabajo)"> @Html.DisplayNameFor(model => model.MateriaTrabajo)</th>
                             </tr>
                         </thead>
                         <tbody class="list">
-                            @if (Model != null)
-                            {
-                                @foreach (var item in Model) {
+                            @foreach (var item in Model) {
                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                                     <td class="fs--1 align-middle ps-0 text-center col-1 pt-2 pb-2 pl-2">
-                                        <button class="btnAbm" onclick="modaledit('@item.Iddatoslaborales')"><i class="fa fa-pencil"></i></button>
-                                        <button class="btnAbm" onclick="modaldelete('@item.Iddatoslaborales')"><i class="fa fa-trash"></i></button>
+                                        <button class="btnAbm" onclick="modaledit('@item.IdDatosLaborales')"><i class="fa fa-pencil"></i></button>
+                                        <button class="btnAbm" onclick="modaldelete('@item.IdDatosLaborales')"><i class="fa fa-trash"></i></button>
                                     </td>
-                                       <td class="@Html.DisplayNameFor(modelItem => item.Iddatoslaborales) fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.Iddatoslaborales)</td>
-                                        <td class="@Html.DisplayNameFor(modelItem => item.Lugartrabajo)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.Lugartrabajo)</td>
-                                        <td class="@Html.DisplayNameFor(modelItem => item.Universidadtrabajo)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.Universidadtrabajo)</td>
-                                        <td class="@Html.DisplayNameFor(modelItem => item.CargoIdcargo)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.CargoIdcargo)</td>
-                                        <td class="@Html.DisplayNameFor(modelItem => item.Direccionlaboral)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.Direccionlaboral)</td>
+                                       <td class="@Html.DisplayNameFor(modelItem => item.IdDatosLaborales) fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.IdDatosLaborales)</td>
+                                        <td class="@Html.DisplayNameFor(modelItem => item.CodUsuario)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.CodUsuario)</td>
+                                        <td class="@Html.DisplayNameFor(modelItem => item.LugarTrabajo)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.LugarTrabajo)</td>
+                                        <td class="@Html.DisplayNameFor(modelItem => item.Cargo)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.Cargo)</td>
                                         <td class="@Html.DisplayNameFor(modelItem => item.Antiguedad)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.Antiguedad)</td>
-                                        <td class="@Html.DisplayNameFor(modelItem => item.Rowid)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.Rowid)</td>
-                                        <td class="@Html.DisplayNameFor(modelItem => item.CodUsuarioNavigation) fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.CodUsuarioNavigation.CodUsuario)</td>
+                                        <td class="@Html.DisplayNameFor(modelItem => item.Herramientas)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.Herramientas)</td>
+                                        <td class="@Html.DisplayNameFor(modelItem => item.Sector)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.Sector)</td>
+                                        <td class="@Html.DisplayNameFor(modelItem => item.UniversidadTrabajo)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.UniversidadTrabajo)</td>
+                                        <td class="@Html.DisplayNameFor(modelItem => item.Estado)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.Estado)</td>
+                                        <td class="@Html.DisplayNameFor(modelItem => item.MateriaTrabajo)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.MateriaTrabajo)</td>
                             </tr>
                                                                         }
-       }
                         </tbody>
                     </table>
                  </div>
@@ -101,13 +103,13 @@
         </div>
         <div id="details"></div>
         <script>
-    const editsubmit = (Iddatoslaborales) => {
+    const editsubmit = (IdDatosLaborales) => {
     e.preventDefault();
-    const form = document.getElementById( "Datoslaborale" + "FormEdit" );
+    const form = document.getElementById( "DatosLaborale" + "FormEdit" );
     const formData = new FormData(form);
     axios({
     method: "post",
-    url: "Datoslaborale"+"" + `/Edit`,
+    url: "DatosLaborale"+"" + `/Edit`,
     data: formData,
     headers: {
     "Content-Type": "multipart/form-data",
@@ -124,7 +126,7 @@
     };
     const modalcreate = () => {
     axios({
-    baseURL: "Datoslaborale"+"" + "/Create" ,
+    baseURL: "DatosLaborale"+"" + "/Create" ,
     method: 'Get',
     headers: {
     'Accept': 'application/json',
@@ -136,9 +138,9 @@
     document.getElementById("detailsview").click();
     });
     };
-    const modaledit = (Iddatoslaborales) => {
+    const modaledit = (IdDatosLaborales) => {
     axios({
-    baseURL: "Datoslaborale"+"" + "/Edit?" +`Iddatoslaborales=${Iddatoslaborales}`,
+    baseURL: "DatosLaborale"+"" + "/Edit?" +`IdDatosLaborales=${IdDatosLaborales}`,
     method: 'Get',
     headers: {
     'Accept': 'application/json',
@@ -150,9 +152,9 @@
     document.getElementById("detailsview").click();
     });
     };
-    const modaldetails = (Iddatoslaborales) => {
+    const modaldetails = (IdDatosLaborales) => {
     axios({
-    baseURL: "Datoslaborale"+"" + "/Details?" +`Iddatoslaborales=${Iddatoslaborales}`,
+    baseURL: "DatosLaborale"+"" + "/Details?" +`IdDatosLaborales=${IdDatosLaborales}`,
     method: 'Get',
     headers: {
     'Accept': 'application/json',
@@ -164,9 +166,9 @@
     document.getElementById("detailsview").click();
     });
     };
-    const modaldelete = (Iddatoslaborales) => {
+    const modaldelete = (IdDatosLaborales) => {
     axios({
-    baseURL: "Datoslaborale"+"" + "/Delete?" +`Iddatoslaborales=${Iddatoslaborales}`,
+    baseURL: "DatosLaborale"+"" + "/Delete?" +`IdDatosLaborales=${IdDatosLaborales}`,
     method: 'Get',
     headers: {
     'Accept': 'application/json',
@@ -185,7 +187,7 @@
         const formData = new FormData(form);
         axios({
         method: "post",
-        url:  "Datoslaborale"+"/" + `${url}`,
+        url:  "DatosLaborale"+"/" + `${url}`,
         data: formData,
         headers: {
         "Content-Type": "multipart/form-data",
@@ -236,32 +238,36 @@ refreshjs.forEach((item) =>
                         <thead>
                             <tr>
                                 <th class="white-space-nowrap fs--1 ps-0 align-middle"></th>
-                                    <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle"  data-sort="@Html.DisplayNameFor(model => model.Iddatoslaborales))"> @Html.DisplayNameFor(model => model.Iddatoslaborales)</th>
-                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle" data-sort="@Html.DisplayNameFor(model => model.Lugartrabajo)"> @Html.DisplayNameFor(model => model.Lugartrabajo)</th>
-                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle" data-sort="@Html.DisplayNameFor(model => model.Universidadtrabajo)"> @Html.DisplayNameFor(model => model.Universidadtrabajo)</th>
-                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle" data-sort="@Html.DisplayNameFor(model => model.CargoIdcargo)"> @Html.DisplayNameFor(model => model.CargoIdcargo)</th>
-                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle" data-sort="@Html.DisplayNameFor(model => model.Direccionlaboral)"> @Html.DisplayNameFor(model => model.Direccionlaboral)</th>
+                                    <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle"  data-sort="@Html.DisplayNameFor(model => model.IdDatosLaborales))"> @Html.DisplayNameFor(model => model.IdDatosLaborales)</th>
+                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle" data-sort="@Html.DisplayNameFor(model => model.CodUsuario)"> @Html.DisplayNameFor(model => model.CodUsuario)</th>
+                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle" data-sort="@Html.DisplayNameFor(model => model.LugarTrabajo)"> @Html.DisplayNameFor(model => model.LugarTrabajo)</th>
+                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle" data-sort="@Html.DisplayNameFor(model => model.Cargo)"> @Html.DisplayNameFor(model => model.Cargo)</th>
                                         <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle" data-sort="@Html.DisplayNameFor(model => model.Antiguedad)"> @Html.DisplayNameFor(model => model.Antiguedad)</th>
-                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle" data-sort="@Html.DisplayNameFor(model => model.Rowid)"> @Html.DisplayNameFor(model => model.Rowid)</th>
-                                       <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle"  data-sort="@Html.DisplayNameFor(model => model.CodUsuarioNavigation))"> @Html.DisplayNameFor(model => model.CodUsuarioNavigation)</th>
+                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle" data-sort="@Html.DisplayNameFor(model => model.Herramientas)"> @Html.DisplayNameFor(model => model.Herramientas)</th>
+                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle" data-sort="@Html.DisplayNameFor(model => model.Sector)"> @Html.DisplayNameFor(model => model.Sector)</th>
+                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle" data-sort="@Html.DisplayNameFor(model => model.UniversidadTrabajo)"> @Html.DisplayNameFor(model => model.UniversidadTrabajo)</th>
+                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle" data-sort="@Html.DisplayNameFor(model => model.Estado)"> @Html.DisplayNameFor(model => model.Estado)</th>
+                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle" data-sort="@Html.DisplayNameFor(model => model.MateriaTrabajo)"> @Html.DisplayNameFor(model => model.MateriaTrabajo)</th>
                             </tr>
                         </thead>
                         <tbody class="list">
                             @foreach (var item in Model) {
                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                                     <td class="fs--1 align-middle ps-0">
-                                        <button class="btnAbm" onclick="modaledit('@item.Iddatoslaborales')"><i class="fa fa-pencil"></i></button>
-                                        <button class="btnAbm" onclick="modaldelete('@item.Iddatoslaborales')"><i class="fa fa-trash"></i></button>
-                                        <button class="btnAbm" onclick="modaldetails('@item.Iddatoslaborales')"><i class="fa fa-arrow-right"></i></button>
+                                        <button class="btnAbm" onclick="modaledit('@item.IdDatosLaborales')"><i class="fa fa-pencil"></i></button>
+                                        <button class="btnAbm" onclick="modaldelete('@item.IdDatosLaborales')"><i class="fa fa-trash"></i></button>
+                                        <button class="btnAbm" onclick="modaldetails('@item.IdDatosLaborales')"><i class="fa fa-arrow-right"></i></button>
                                     </td>
-                                       <td class="@Html.DisplayNameFor(modelItem => item.Iddatoslaborales) fs--1 align-middle ps-0"> @Html.DisplayFor(modelItem => item.Iddatoslaborales)</td>
-                                        <td class="@Html.DisplayNameFor(modelItem => item.Lugartrabajo)  fs--1 align-middle ps-0 "> @Html.DisplayFor(modelItem => item.Lugartrabajo)</td>
-                                        <td class="@Html.DisplayNameFor(modelItem => item.Universidadtrabajo)  fs--1 align-middle ps-0 "> @Html.DisplayFor(modelItem => item.Universidadtrabajo)</td>
-                                        <td class="@Html.DisplayNameFor(modelItem => item.CargoIdcargo)  fs--1 align-middle ps-0 "> @Html.DisplayFor(modelItem => item.CargoIdcargo)</td>
-                                        <td class="@Html.DisplayNameFor(modelItem => item.Direccionlaboral)  fs--1 align-middle ps-0 "> @Html.DisplayFor(modelItem => item.Direccionlaboral)</td>
+                                       <td class="@Html.DisplayNameFor(modelItem => item.IdDatosLaborales) fs--1 align-middle ps-0"> @Html.DisplayFor(modelItem => item.IdDatosLaborales)</td>
+                                        <td class="@Html.DisplayNameFor(modelItem => item.CodUsuario)  fs--1 align-middle ps-0 "> @Html.DisplayFor(modelItem => item.CodUsuario)</td>
+                                        <td class="@Html.DisplayNameFor(modelItem => item.LugarTrabajo)  fs--1 align-middle ps-0 "> @Html.DisplayFor(modelItem => item.LugarTrabajo)</td>
+                                        <td class="@Html.DisplayNameFor(modelItem => item.Cargo)  fs--1 align-middle ps-0 "> @Html.DisplayFor(modelItem => item.Cargo)</td>
                                         <td class="@Html.DisplayNameFor(modelItem => item.Antiguedad)  fs--1 align-middle ps-0 "> @Html.DisplayFor(modelItem => item.Antiguedad)</td>
-                                        <td class="@Html.DisplayNameFor(modelItem => item.Rowid)  fs--1 align-middle ps-0 "> @Html.DisplayFor(modelItem => item.Rowid)</td>
-                                        <td class="@Html.DisplayNameFor(modelItem => item.CodUsuarioNavigation) fs--1 align-middle ps-0 "> @Html.DisplayFor(modelItem => item.CodUsuarioNavigation.CodUsuario)</td>
+                                        <td class="@Html.DisplayNameFor(modelItem => item.Herramientas)  fs--1 align-middle ps-0 "> @Html.DisplayFor(modelItem => item.Herramientas)</td>
+                                        <td class="@Html.DisplayNameFor(modelItem => item.Sector)  fs--1 align-middle ps-0 "> @Html.DisplayFor(modelItem => item.Sector)</td>
+                                        <td class="@Html.DisplayNameFor(modelItem => item.UniversidadTrabajo)  fs--1 align-middle ps-0 "> @Html.DisplayFor(modelItem => item.UniversidadTrabajo)</td>
+                                        <td class="@Html.DisplayNameFor(modelItem => item.Estado)  fs--1 align-middle ps-0 "> @Html.DisplayFor(modelItem => item.Estado)</td>
+                                        <td class="@Html.DisplayNameFor(modelItem => item.MateriaTrabajo)  fs--1 align-middle ps-0 "> @Html.DisplayFor(modelItem => item.MateriaTrabajo)</td>
                             </tr>
                             }
                         </tbody>

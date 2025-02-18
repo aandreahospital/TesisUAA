@@ -51,7 +51,7 @@ public class AutorizarUsuarioFilter : IAuthorizationFilter
 
         if (userId != null)
         {
-            var usu = _dbContext.Usuarios.FirstOrDefault(e => e.CodUsuario == userId && e.Estado == "A");
+            var usu = _dbContext.Usuarios.FirstOrDefault(e => e.CodUsuario == userId );
 
             if (usu != null && UsuarioTienePermiso(usu.CodGrupo))
             {

@@ -3,26 +3,12 @@
      @{
       List<string> columns =  new List<string>();
                                         columns.Add("\""+Html.DisplayNameFor(model => model.CodUsuario)+"\""); 
-                                        columns.Add("\""+Html.DisplayNameFor(model => model.CodPersona)+"\""); 
                                         columns.Add("\""+Html.DisplayNameFor(model => model.Clave)+"\""); 
+                                        columns.Add("\""+Html.DisplayNameFor(model => model.FecCreacion)+"\""); 
                                         columns.Add("\""+Html.DisplayNameFor(model => model.CodGrupo)+"\""); 
-                                        columns.Add("\""+Html.DisplayNameFor(model => model.CodEmpresa)+"\""); 
-                                        columns.Add("\""+Html.DisplayNameFor(model => model.CodSucursal)+"\""); 
-                                        columns.Add("\""+Html.DisplayNameFor(model => model.Estado)+"\""); 
-                                        columns.Add("\""+Html.DisplayNameFor(model => model.CodArea)+"\""); 
-                                        columns.Add("\""+Html.DisplayNameFor(model => model.CodCustodio)+"\""); 
-                                        columns.Add("\""+Html.DisplayNameFor(model => model.CodColorRegistro)+"\""); 
-                                        columns.Add("\""+Html.DisplayNameFor(model => model.AutorizaStock)+"\""); 
-                                        columns.Add("\""+Html.DisplayNameFor(model => model.AutorizaCtacte)+"\""); 
-                                        columns.Add("\""+Html.DisplayNameFor(model => model.EMail)+"\""); 
-                                        columns.Add("\""+Html.DisplayNameFor(model => model.FechaAlta)+"\""); 
-                                        columns.Add("\""+Html.DisplayNameFor(model => model.FechaBaja)+"\""); 
-                                        columns.Add("\""+Html.DisplayNameFor(model => model.IdTipoUsuario)+"\""); 
-                                        columns.Add("\""+Html.DisplayNameFor(model => model.CodOficina)+"\""); 
-                                        columns.Add("\""+Html.DisplayNameFor(model => model.Rowid)+"\""); 
-                                      columns.Add("\""+Html.DisplayNameFor(model => model.Cod)+"\""); 
-                                      columns.Add("\""+Html.DisplayNameFor(model => model.CodEmpresaNavigation)+"\""); 
+                                        columns.Add("\""+Html.DisplayNameFor(model => model.CodPersona)+"\""); 
                                       columns.Add("\""+Html.DisplayNameFor(model => model.CodGrupoNavigation)+"\""); 
+                                      columns.Add("\""+Html.DisplayNameFor(model => model.CodPersonaNavigation)+"\""); 
      if (ViewData["Show"] != null)
      {
          Layout = "";
@@ -31,16 +17,9 @@
         @{
         ViewData["Title"] = "Index";
         }
-@section styles {
-    <link rel="stylesheet" type="text/css" href="./css/cdn.datatables.net_1.13.6_css_jquery.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="./css/cdn.jsdelivr.net_npm_sweetalert2@7.12.15_dist_sweetalert2.min.css">
-
-}
+        
         
        @if (ViewData["Show"] == null) {
-    <script src="~/js/cdnjs.cloudflare.com_ajax_libs_moment.js_2.29.4_moment.min.js"></script>
-    <script src="~/js/cdnjs.cloudflare.com_ajax_libs_sweetalert_2.1.2_sweetalert.min.js"></script>
-    <script src="~/js/jquery-3.6.0.min.js"></script>
         <p>
             <a class="d-none" id="detailsview" type="button" data-bs-toggle="modal" data-bs-target="#detailsModal"></a>
         </p>                             
@@ -72,16 +51,11 @@
                         <thead>
                             <tr>
                                 <th class="white-space-nowrap fs--1 ps-0 align-middle text-center col-1 pt-2 pb-2 pl-2"></th>
-                                    <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0"  data-sort="@Html.DisplayNameFor(model => model.CodUsuario))"> Usuario</th>
-                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0" data-sort="@Html.DisplayNameFor(model => model.CodPersona)"> Nro Documento</th>
-                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0" data-sort="@Html.DisplayNameFor(model => model.Clave)"> Clave</th>
-                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0" data-sort="@Html.DisplayNameFor(model => model.Estado)"> Estado</th>
-                                 @*       <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0" data-sort="@Html.DisplayNameFor(model => model.CodCustodio)"> @Html.DisplayNameFor(model => model.CodCustodio)</th>
-                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0" data-sort="@Html.DisplayNameFor(model => model.AutorizaStock)"> @Html.DisplayNameFor(model => model.AutorizaStock)</th>
-                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0" data-sort="@Html.DisplayNameFor(model => model.AutorizaCtacte)"> @Html.DisplayNameFor(model => model.AutorizaCtacte)</th>
-                                       <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0"  data-sort="@Html.DisplayNameFor(model => model.Cod))"> @Html.DisplayNameFor(model => model.Cod)</th>
-                                       <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0"  data-sort="@Html.DisplayNameFor(model => model.CodEmpresaNavigation))"> @Html.DisplayNameFor(model => model.CodEmpresaNavigation)</th>*@
-                                       <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0"  data-sort="@Html.DisplayNameFor(model => model.CodGrupoNavigation))"> Codigo Grupo</th>
+                                    <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0"  data-sort="@Html.DisplayNameFor(model => model.CodUsuario))"> @Html.DisplayNameFor(model => model.CodUsuario)</th>
+                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0" data-sort="@Html.DisplayNameFor(model => model.Clave)"> @Html.DisplayNameFor(model => model.Clave)</th>
+                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0" data-sort="@Html.DisplayNameFor(model => model.FecCreacion)"> @Html.DisplayNameFor(model => model.FecCreacion)</th>
+                                       <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0"  data-sort="@Html.DisplayNameFor(model => model.CodGrupoNavigation))"> @Html.DisplayNameFor(model => model.CodGrupoNavigation)</th>
+                                       <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0"  data-sort="@Html.DisplayNameFor(model => model.CodPersonaNavigation))"> @Html.DisplayNameFor(model => model.CodPersonaNavigation)</th>
                             </tr>
                         </thead>
                         <tbody class="list">
@@ -92,15 +66,10 @@
                                         <button class="btnAbm" onclick="modaldelete('@item.CodUsuario')"><i class="fa fa-trash"></i></button>
                                     </td>
                                        <td class="@Html.DisplayNameFor(modelItem => item.CodUsuario) fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.CodUsuario)</td>
-                                        <td class="@Html.DisplayNameFor(modelItem => item.CodPersona)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.CodPersona)</td>
                                         <td class="@Html.DisplayNameFor(modelItem => item.Clave)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.Clave)</td>
-                                        <td class="@Html.DisplayNameFor(modelItem => item.Estado)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.Estado)</td>
-                        @*                <td class="@Html.DisplayNameFor(modelItem => item.CodCustodio)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.CodCustodio)</td>
-                                        <td class="@Html.DisplayNameFor(modelItem => item.AutorizaStock)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.AutorizaStock)</td>
-                                        <td class="@Html.DisplayNameFor(modelItem => item.AutorizaCtacte)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.AutorizaCtacte)</td>
-                                        <td class="@Html.DisplayNameFor(modelItem => item.Cod) fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.Cod.CodEmpresa)</td>
-                                        <td class="@Html.DisplayNameFor(modelItem => item.CodEmpresaNavigation) fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.CodEmpresaNavigation.CodEmpresa)</td>*@
+                                        <td class="@Html.DisplayNameFor(modelItem => item.FecCreacion)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.FecCreacion)</td>
                                         <td class="@Html.DisplayNameFor(modelItem => item.CodGrupoNavigation) fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.CodGrupoNavigation.CodGrupo)</td>
+                                        <td class="@Html.DisplayNameFor(modelItem => item.CodPersonaNavigation) fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.CodPersonaNavigation.CodPersona)</td>
                             </tr>
                                                                         }
                         </tbody>
@@ -154,8 +123,6 @@
     }).then(response => {
     document.getElementById("details").innerHTML = response.data;
     document.getElementById("detailsview").click();
-                $('#modalcreate').modal('hide');
-
     });
     };
     const modaledit = (CodUsuario) => {
@@ -170,8 +137,6 @@
     }).then(response => {
     document.getElementById("details").innerHTML = response.data;
     document.getElementById("detailsview").click();
-                $('#modaledit').modal('hide');
-
     });
     };
     const modaldetails = (CodUsuario) => {
@@ -186,8 +151,6 @@
     }).then(response => {
     document.getElementById("details").innerHTML = response.data;
     document.getElementById("detailsview").click();
-                $('#modaldetails').modal('hide');
-
     });
     };
     const modaldelete = (CodUsuario) => {
@@ -202,8 +165,6 @@
     }).then(response => {
     document.getElementById("details").innerHTML = response.data;
     document.getElementById("detailsview").click();
-                $('#modaldelete').modal('hide');
-
     });
     };
     const submitforms = (e, url, id) => {
@@ -221,23 +182,9 @@
         }
         })
         .then(function (response) {
-                    if (response.data.success == false) {
-                        swal({
-                            icon: 'error',
-                            title: 'Error...',
-                            text: response.data.message
-                        });
-                        //loader.style.display = 'none';
-                    } else {
         document.getElementById("listbody").innerHTML = response.data;
         document.getElementById("editmodal").click();
         document.getElementsByClassName("modal-backdrop fade show")[0].className = "";
-                        swal({
-                            icon: 'success',
-                            title: 'Listo',
-                            text: 'La operación se realizó correctamente.'
-                        });
-                    }
         })
         .catch(function (response) {
         console.log(response);
@@ -250,9 +197,9 @@ const verifyCheckbox = (id) => {
 var checkBox = document.getElementById(id+"_2");
 var text = document.getElementById(id);
 if (checkBox.checked == true){
-text.value = "A";
+text.value = "S";
 } else {
-text.value = "I";
+text.value = "N";
 }
 }
    const refrestjsfunction = () => {
@@ -279,15 +226,10 @@ refreshjs.forEach((item) =>
                             <tr>
                                 <th class="white-space-nowrap fs--1 ps-0 align-middle"></th>
                                     <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle"  data-sort="@Html.DisplayNameFor(model => model.CodUsuario))"> @Html.DisplayNameFor(model => model.CodUsuario)</th>
-                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle" data-sort="@Html.DisplayNameFor(model => model.CodPersona)"> @Html.DisplayNameFor(model => model.CodPersona)</th>
                                         <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle" data-sort="@Html.DisplayNameFor(model => model.Clave)"> @Html.DisplayNameFor(model => model.Clave)</th>
-                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle" data-sort="@Html.DisplayNameFor(model => model.Estado)"> @Html.DisplayNameFor(model => model.Estado)</th>
-                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle" data-sort="@Html.DisplayNameFor(model => model.CodCustodio)"> @Html.DisplayNameFor(model => model.CodCustodio)</th>
-                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle" data-sort="@Html.DisplayNameFor(model => model.AutorizaStock)"> @Html.DisplayNameFor(model => model.AutorizaStock)</th>
-                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle" data-sort="@Html.DisplayNameFor(model => model.AutorizaCtacte)"> @Html.DisplayNameFor(model => model.AutorizaCtacte)</th>
-                                       <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle"  data-sort="@Html.DisplayNameFor(model => model.Cod))"> @Html.DisplayNameFor(model => model.Cod)</th>
-                                       <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle"  data-sort="@Html.DisplayNameFor(model => model.CodEmpresaNavigation))"> @Html.DisplayNameFor(model => model.CodEmpresaNavigation)</th>
+                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle" data-sort="@Html.DisplayNameFor(model => model.FecCreacion)"> @Html.DisplayNameFor(model => model.FecCreacion)</th>
                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle"  data-sort="@Html.DisplayNameFor(model => model.CodGrupoNavigation))"> @Html.DisplayNameFor(model => model.CodGrupoNavigation)</th>
+                                       <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle"  data-sort="@Html.DisplayNameFor(model => model.CodPersonaNavigation))"> @Html.DisplayNameFor(model => model.CodPersonaNavigation)</th>
                             </tr>
                         </thead>
                         <tbody class="list">
@@ -299,15 +241,10 @@ refreshjs.forEach((item) =>
                                         <button class="btnAbm" onclick="modaldetails('@item.CodUsuario')"><i class="fa fa-arrow-right"></i></button>
                                     </td>
                                        <td class="@Html.DisplayNameFor(modelItem => item.CodUsuario) fs--1 align-middle ps-0"> @Html.DisplayFor(modelItem => item.CodUsuario)</td>
-                                        <td class="@Html.DisplayNameFor(modelItem => item.CodPersona)  fs--1 align-middle ps-0 "> @Html.DisplayFor(modelItem => item.CodPersona)</td>
                                         <td class="@Html.DisplayNameFor(modelItem => item.Clave)  fs--1 align-middle ps-0 "> @Html.DisplayFor(modelItem => item.Clave)</td>
-                                        <td class="@Html.DisplayNameFor(modelItem => item.Estado)  fs--1 align-middle ps-0 "> @Html.DisplayFor(modelItem => item.Estado)</td>
-                                        <td class="@Html.DisplayNameFor(modelItem => item.CodCustodio)  fs--1 align-middle ps-0 "> @Html.DisplayFor(modelItem => item.CodCustodio)</td>
-                                        <td class="@Html.DisplayNameFor(modelItem => item.AutorizaStock)  fs--1 align-middle ps-0 "> @Html.DisplayFor(modelItem => item.AutorizaStock)</td>
-                                        <td class="@Html.DisplayNameFor(modelItem => item.AutorizaCtacte)  fs--1 align-middle ps-0 "> @Html.DisplayFor(modelItem => item.AutorizaCtacte)</td>
-                                        <td class="@Html.DisplayNameFor(modelItem => item.Cod) fs--1 align-middle ps-0 "> @Html.DisplayFor(modelItem => item.Cod.CodEmpresa)</td>
-                                        <td class="@Html.DisplayNameFor(modelItem => item.CodEmpresaNavigation) fs--1 align-middle ps-0 "> @Html.DisplayFor(modelItem => item.CodEmpresaNavigation.CodEmpresa)</td>
+                                        <td class="@Html.DisplayNameFor(modelItem => item.FecCreacion)  fs--1 align-middle ps-0 "> @Html.DisplayFor(modelItem => item.FecCreacion)</td>
                                         <td class="@Html.DisplayNameFor(modelItem => item.CodGrupoNavigation) fs--1 align-middle ps-0 "> @Html.DisplayFor(modelItem => item.CodGrupoNavigation.CodGrupo)</td>
+                                        <td class="@Html.DisplayNameFor(modelItem => item.CodPersonaNavigation) fs--1 align-middle ps-0 "> @Html.DisplayFor(modelItem => item.CodPersonaNavigation.CodPersona)</td>
                             </tr>
                             }
                         </tbody>

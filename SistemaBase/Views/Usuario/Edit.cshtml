@@ -5,7 +5,7 @@
         @{
         ViewData["Title"] = "Edit";
         Layout = "";
-         string nameCheck = "";
+         string namecheck = "";
         }
         
     <div class="modal fade " id="detailsModal" tabindex="-1" aria-labelledby="detailsModallLabel" style="display: none;" aria-modal="true" role="dialog">
@@ -33,22 +33,22 @@
                                         <div class="col-12">
                                             <div class="row">
                                                 <div class="col-4">
-                                                    <label class="form-control-label fs-0 subTitleModal text-900" asp-for="CodPersona"></label>
+                                                    <label class="form-control-label fs-0 subTitleModal text-900" asp-for="Clave"></label>
                                                 </div>
                                                 <div class="col-8">
-                                                        <input class="form-control" asp-for="CodPersona" />
-                                                    <span asp-validation-for="CodPersona" class="text-danger k-invalid-msg" data-for="CodPersona"></span>
+                                                        <input class="form-control" asp-for="Clave" />
+                                                    <span asp-validation-for="Clave" class="text-danger k-invalid-msg" data-for="Clave"></span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="row">
                                                 <div class="col-4">
-                                                    <label class="form-control-label fs-0 subTitleModal text-900" asp-for="Clave"></label>
+                                                    <label class="form-control-label fs-0 subTitleModal text-900" asp-for="FecCreacion"></label>
                                                 </div>
                                                 <div class="col-8">
-                                                        <input class="form-control" asp-for="Clave" />
-                                                    <span asp-validation-for="Clave" class="text-danger k-invalid-msg" data-for="Clave"></span>
+                                                        <input class="form-control" asp-for="FecCreacion" />
+                                                    <span asp-validation-for="FecCreacion" class="text-danger k-invalid-msg" data-for="FecCreacion"></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -66,90 +66,14 @@
                                         <div class="col-12">
                                             <div class="row">
                                                 <div class="col-4">
-                                                    <label asp-for="CodEmpresa" class="form-control-label fs-0 subTitleModal"></label>
+                                                    <label asp-for="CodPersona" class="form-control-label fs-0 subTitleModal"></label>
                                                 </div>
                                                 <div class="col-8">
-                                                    <select asp-for="CodEmpresa" class="form-control" asp-items="ViewBag.CodEmpresa"></select>
-                                                    <span asp-validation-for="CodEmpresa" class="text-danger"></span>
+                                                    <select asp-for="CodPersona" class="form-control" asp-items="ViewBag.CodPersona"></select>
+                                                    <span asp-validation-for="CodPersona" class="text-danger"></span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-12">
-                                            <div class="row">
-                                                <div class="col-4">
-                                                    <label asp-for="CodSucursal" class="form-control-label fs-0 subTitleModal"></label>
-                                                </div>
-                                                <div class="col-8">
-                                                    <select asp-for="CodSucursal" class="form-control" asp-items="ViewBag.CodSucursal"></select>
-                                                    <span asp-validation-for="CodSucursal" class="text-danger"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                        <div class="col-12">
-                            <div class="row">
-                                <div class="col-4">
-                                    <label class="form-control-label fs-0 subTitleModal text-900" asp-for="Estado"></label>
-                                </div>
-                                <div class="col-8">
-                                    <input class="form-control" hidden asp-for="Estado" id="Estado" />
-                                    <div class="form-check fromCheckSelect">
-                                        @{
-                                            nameCheck = "Estado" + "_2";
-                                        }
-                                        @if (@Model.Estado == "A")
-                                        {
-                                            <input class="form-check my_checkbox" type="checkbox" id="@nameCheck" onchange="verifyCheckbox('Estado')" checked="checked">
-                                        }
-                                        else
-                                        {
-                                            <input class="form-check my_checkbox" type="checkbox" id="@nameCheck" onchange="verifyCheckbox('Estado')" />
-                                        }
-                                    </div>
-                                    <span asp-validation-for="Estado" class="text-danger k-invalid-msg" data-for="EsFisica"></span>
-                                </div>
-                            </div>
-                        </div>
-                                    <input type="hidden" asp-for="CodArea" />
-                                        <div class="col-12">
-                                            <div class="row">
-                                                <div class="col-4">
-                                                    <label class="form-control-label fs-0 subTitleModal text-900" asp-for="CodCustodio"></label>
-                                                </div>
-                                                <div class="col-8">
-                                                        <input class="form-control" asp-for="CodCustodio" />
-                                                    <span asp-validation-for="CodCustodio" class="text-danger k-invalid-msg" data-for="CodCustodio"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    <input type="hidden" asp-for="CodColorRegistro" />
-                                        <div class="col-12">
-                                            <div class="row">
-                                                <div class="col-4">
-                                                    <label class="form-control-label fs-0 subTitleModal text-900" asp-for="AutorizaStock"></label>
-                                                </div>
-                                                <div class="col-8">
-                                                        <input class="form-control" asp-for="AutorizaStock" />
-                                                    <span asp-validation-for="AutorizaStock" class="text-danger k-invalid-msg" data-for="AutorizaStock"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="row">
-                                                <div class="col-4">
-                                                    <label class="form-control-label fs-0 subTitleModal text-900" asp-for="AutorizaCtacte"></label>
-                                                </div>
-                                                <div class="col-8">
-                                                        <input class="form-control" asp-for="AutorizaCtacte" />
-                                                    <span asp-validation-for="AutorizaCtacte" class="text-danger k-invalid-msg" data-for="AutorizaCtacte"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    <input type="hidden" asp-for="EMail" />
-                                    <input type="hidden" asp-for="FechaAlta" />
-                                    <input type="hidden" asp-for="FechaBaja" />
-                                    <input type="hidden" asp-for="IdTipoUsuario" />
-                                    <input type="hidden" asp-for="CodOficina" />
-                                    <input type="hidden" asp-for="Rowid" />
                             <div class="text-center" id="loader_inv" style="visibility: hidden;">
                                 <div class="spinner-border" role="status">
                                     <span class="sr-only"></span>

@@ -18,17 +18,11 @@
     <form asp-action="Create" id="FormModalCreate" onsubmit="submitforms(event,'Create', 'FormModalCreate')" class="mb-0">
     <div class="row g-0 mt-0 mb-0">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                <div class="col-12">
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <label class="form-control-label fs-0 subTitleModal " asp-for="Idcarrera"></label>
-                                        </div>
-                                        <div class="col-8">
-                                                <input class="form-control" asp-for="Idcarrera" type="number" />
-                                                <span asp-validation-for="Idcarrera" class="text-danger k-invalid-msg" data-for="Idcarrera"></span>
-                                        </div>
-                                    </div>
+ <div class="col-auto">
+                                <div class="">
+                                    <input type="hidden" asp-for="IdCarrera" />
                                 </div>
+                            </div>
                                 <div class="col-12">
                                     <div class="row">
                                         <div class="col-4">
@@ -40,11 +34,6 @@
                                         </div>
                                     </div>
                                 </div>
- <div class="col-auto">
-                                <div class="">
-                                    <input type="hidden" asp-for="Rowid" />
-                                </div>
-                            </div>
 
                  <div class="text-center" id="loader_inv" style="visibility: hidden;">
                             <div class="spinner-border" role="status">

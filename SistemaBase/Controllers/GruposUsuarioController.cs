@@ -19,9 +19,7 @@ namespace SistemaBase.Controllers
         }
 
         // GET: GruposUsuario
-        [TypeFilter(typeof(AutorizarUsuarioFilter), Arguments = new object[] { "BSGRUPOS", "Index", "GruposUsuario" })]
-
-        public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index()
     {
             return _context.GruposUsuarios != null ?
               View(await _context.GruposUsuarios.AsNoTracking().ToListAsync()) :

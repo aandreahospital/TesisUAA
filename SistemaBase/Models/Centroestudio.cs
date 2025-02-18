@@ -3,10 +3,16 @@ using System.Collections.Generic;
 
 namespace SistemaBase.Models
 {
-    public partial class Centroestudio
+    public partial class CentroEstudio
     {
-        public int Idcentroestudio { get; set; }
+        //public CentroEstudio()
+        //{
+        //    DatosAcademicos = new HashSet<DatosAcademico>();
+        //}
+
+        public int IdCentroEstudio { get; set; }
         public string? Descripcion { get; set; }
-        public Guid Rowid { get; set; }
+
+        //public virtual ICollection<DatosAcademico> DatosAcademicos { get; set; }
     }
 }

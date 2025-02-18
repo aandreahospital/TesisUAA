@@ -91,11 +91,14 @@ const AddLaboral = (e) => {
     var datosFormulario = document.getElementById('FormModalCreate');
     const formData = new FormData();
     formData.append('CodUsuario', document.getElementById('usuario').value)
-    formData.append('Lugartrabajo', document.getElementById('Lugartrabajo').value)
+    formData.append('LugarTrabajo', document.getElementById('LugarTrabajo').value)
     formData.append('Cargo', document.getElementById('Cargo').value)
-    formData.append('Direccionlaboral', document.getElementById('Direccionlaboral').value)
     formData.append('Antiguedad', document.getElementById('Antiguedad').value)
+    formData.append('Estado', document.getElementById('Estado').value)
     formData.append('Herramientas', document.getElementById('Herramientas').value)
+    formData.append('Sector', document.getElementById('Sector').value)
+    formData.append('UniversidadTrabajo', document.getElementById('UniversidadTrabajo').value)
+    formData.append('MateriaTrabajo', document.getElementById('MateriaTrabajo').value)
     axios({
         method: "post",
         url: "/DatosAlumno/GuardarLaboral",
@@ -147,6 +150,148 @@ const abrirLaboral = (e) => {
     });
 }
 
+const AbrirEditLab = (id) => {
+    const params = {
+        id: id,
+    }
+    axios({
+        baseURL: "/DatosAlumno/EditLaboral",
+        method: 'Get',
+        params: params,
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Response-View': 'Json'
+        }
+    }).then(response => {
+        //var nuevaVista = response.data;
+        //window.open(nuevaVista);
+        document.getElementById("details").innerHTML = response.data;
+        document.getElementById("detailsview").click();
+
+    });
+}
+
+
+
+const EditLaboral = (e) => {
+    e.preventDefault();// Evita la propagación del evento
+    document.getElementById('btnEditLaboral').disabled = true;
+    // Bloquear el formulario
+    var datosFormulario = document.getElementById('FormModalCreate');
+    const formData = new FormData();
+    formData.append('IdDatosLaborales', document.getElementById('IdDatosLaborales').value)
+    formData.append('CodUsuario', document.getElementById('usuario').value)
+    formData.append('LugarTrabajo', document.getElementById('LugarTrabajo').value)
+    formData.append('Cargo', document.getElementById('Cargo').value)
+    formData.append('Antiguedad', document.getElementById('Antiguedad').value)
+    formData.append('Estado', document.getElementById('Estado').value)
+    formData.append('Herramientas', document.getElementById('Herramientas').value)
+    formData.append('Sector', document.getElementById('Sector').value)
+    formData.append('UniversidadTrabajo', document.getElementById('UniversidadTrabajo').value)
+    formData.append('MateriaTrabajo', document.getElementById('MateriaTrabajo').value)
+    axios({
+        method: "post",
+        url: "/DatosAlumno/GuardarEditLaboral",
+        data: formData,
+        headers: {
+            "Content-Type": "multipart/form-data",
+            'X-Response-View': 'Json'
+        }
+    })
+        .then(function (response) {
+            console.log({ 'then ': response });
+            if (response.status == 200) {
+                swal({
+                    icon: 'success',
+                    title: 'Listo',
+                    text: 'La operación se realizó correctamente.'
+                }).then(() => {
+                    // Código para actualizar la pantalla después de cerrar el modal
+                    location.reload();
+                });
+            }
+
+        })
+        .catch(function (response) {
+
+            desbloquearFormulario(datosFormulario);
+            document.getElementById('btnAddLaboral').disabled = false
+            loader.style.display = 'none';
+        })
+
+}
+
+
+
+
+const AbrirEditAca = (id) => {
+    const params = {
+        id: id,
+    }
+    axios({
+        baseURL: "/DatosAlumno/EditAcademico",
+        method: 'Get',
+        params: params,
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Response-View': 'Json'
+        }
+    }).then(response => {
+        //var nuevaVista = response.data;
+        //window.open(nuevaVista);
+        document.getElementById("details").innerHTML = response.data;
+        document.getElementById("detailsview").click();
+
+    });
+}
+
+const EditAcademico = (e) => {
+    e.preventDefault();// Evita la propagación del evento
+    document.getElementById('btnEditAcademico').disabled = true;
+    // Bloquear el formulario
+    var datosFormulario = document.getElementById('FormModalCreate');
+    const formData = new FormData();
+    formData.append('IdDatosAcademicos', document.getElementById('IdDatosAcademicos').value)
+    formData.append('CodUsuario', document.getElementById('CodUsuario').value)
+    formData.append('Idcentroestudio', document.getElementById('Idcentroestudio').value)
+    formData.append('Idcarrera', document.getElementById('Idcarrera').value)
+    formData.append('AnhoInicio', document.getElementById('AnhoInicio').value)
+    formData.append('AnhoFin', document.getElementById('AnhoFin').value)
+    formData.append('Estado', document.getElementById('Estado').value)
+    axios({
+        method: "post",
+        url: "/DatosAlumno/GuardarEditEducacion",
+        data: formData,
+        headers: {
+            "Content-Type": "multipart/form-data",
+            'X-Response-View': 'Json'
+        }
+    })
+        .then(function (response) {
+            console.log({ 'then ': response });
+            if (response.status == 200) {
+                swal({
+                    icon: 'success',
+                    title: 'Listo',
+                    text: 'La operación se realizó correctamente.'
+                }).then(() => {
+                    // Código para actualizar la pantalla después de cerrar el modal
+                    location.reload();
+                });
+            }
+
+        })
+        .catch(function (response) {
+
+            desbloquearFormulario(datosFormulario);
+            document.getElementById('btnAddAcademico').disabled = false
+            loader.style.display = 'none';
+        })
+
+}
+
 const abrirAcademico = (e) => {
     e.preventDefault();
     axios({
@@ -176,8 +321,8 @@ const AddAcademico = (e) => {
     formData.append('CodUsuario', document.getElementById('CodUsuario').value)
     formData.append('Idcentroestudio', document.getElementById('Idcentroestudio').value)
     formData.append('Idcarrera', document.getElementById('Idcarrera').value)
-    formData.append('Fechainicio', document.getElementById('Fechainicio').value)
-    formData.append('Fechafin', document.getElementById('Fechafin').value)
+    formData.append('AnhoInicio', document.getElementById('AnhoInicio').value)
+    formData.append('AnhoFin', document.getElementById('AnhoFin').value)
     formData.append('Estado', document.getElementById('Estado').value)
     axios({
         method: "post",

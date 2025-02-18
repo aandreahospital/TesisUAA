@@ -2,9 +2,8 @@
 
      @{
       List<string> columns =  new List<string>();
-                                        columns.Add("\""+Html.DisplayNameFor(model => model.Idcarrera)+"\""); 
+                                        columns.Add("\""+Html.DisplayNameFor(model => model.IdCarrera)+"\""); 
                                         columns.Add("\""+Html.DisplayNameFor(model => model.Descripcion)+"\""); 
-                                        columns.Add("\""+Html.DisplayNameFor(model => model.Rowid)+"\""); 
      if (ViewData["Show"] != null)
      {
          Layout = "";
@@ -47,21 +46,19 @@
                         <thead>
                             <tr>
                                 <th class="white-space-nowrap fs--1 ps-0 align-middle text-center col-1 pt-2 pb-2 pl-2"></th>
-                                    <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0"  data-sort="@Html.DisplayNameFor(model => model.Idcarrera))"> @Html.DisplayNameFor(model => model.Idcarrera)</th>
+                                    <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0"  data-sort="@Html.DisplayNameFor(model => model.IdCarrera))"> @Html.DisplayNameFor(model => model.IdCarrera)</th>
                                         <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0" data-sort="@Html.DisplayNameFor(model => model.Descripcion)"> @Html.DisplayNameFor(model => model.Descripcion)</th>
-                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0" data-sort="@Html.DisplayNameFor(model => model.Rowid)"> @Html.DisplayNameFor(model => model.Rowid)</th>
                             </tr>
                         </thead>
                         <tbody class="list">
                             @foreach (var item in Model) {
                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                                     <td class="fs--1 align-middle ps-0 text-center col-1 pt-2 pb-2 pl-2">
-                                        <button class="btnAbm" onclick="modaledit('@item.Idcarrera')"><i class="fa fa-pencil"></i></button>
-                                        <button class="btnAbm" onclick="modaldelete('@item.Idcarrera')"><i class="fa fa-trash"></i></button>
+                                        <button class="btnAbm" onclick="modaledit('@item.IdCarrera')"><i class="fa fa-pencil"></i></button>
+                                        <button class="btnAbm" onclick="modaldelete('@item.IdCarrera')"><i class="fa fa-trash"></i></button>
                                     </td>
-                                       <td class="@Html.DisplayNameFor(modelItem => item.Idcarrera) fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.Idcarrera)</td>
+                                       <td class="@Html.DisplayNameFor(modelItem => item.IdCarrera) fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.IdCarrera)</td>
                                         <td class="@Html.DisplayNameFor(modelItem => item.Descripcion)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.Descripcion)</td>
-                                        <td class="@Html.DisplayNameFor(modelItem => item.Rowid)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.Rowid)</td>
                             </tr>
                                                                         }
                         </tbody>
@@ -82,7 +79,7 @@
         </div>
         <div id="details"></div>
         <script>
-    const editsubmit = (Idcarrera) => {
+    const editsubmit = (IdCarrera) => {
     e.preventDefault();
     const form = document.getElementById( "Carrera" + "FormEdit" );
     const formData = new FormData(form);
@@ -117,9 +114,9 @@
     document.getElementById("detailsview").click();
     });
     };
-    const modaledit = (Idcarrera) => {
+    const modaledit = (IdCarrera) => {
     axios({
-    baseURL: "Carrera"+"" + "/Edit?" +`Idcarrera=${Idcarrera}`,
+    baseURL: "Carrera"+"" + "/Edit?" +`IdCarrera=${IdCarrera}`,
     method: 'Get',
     headers: {
     'Accept': 'application/json',
@@ -131,9 +128,9 @@
     document.getElementById("detailsview").click();
     });
     };
-    const modaldetails = (Idcarrera) => {
+    const modaldetails = (IdCarrera) => {
     axios({
-    baseURL: "Carrera"+"" + "/Details?" +`Idcarrera=${Idcarrera}`,
+    baseURL: "Carrera"+"" + "/Details?" +`IdCarrera=${IdCarrera}`,
     method: 'Get',
     headers: {
     'Accept': 'application/json',
@@ -145,9 +142,9 @@
     document.getElementById("detailsview").click();
     });
     };
-    const modaldelete = (Idcarrera) => {
+    const modaldelete = (IdCarrera) => {
     axios({
-    baseURL: "Carrera"+"" + "/Delete?" +`Idcarrera=${Idcarrera}`,
+    baseURL: "Carrera"+"" + "/Delete?" +`IdCarrera=${IdCarrera}`,
     method: 'Get',
     headers: {
     'Accept': 'application/json',
@@ -217,22 +214,20 @@ refreshjs.forEach((item) =>
                         <thead>
                             <tr>
                                 <th class="white-space-nowrap fs--1 ps-0 align-middle"></th>
-                                    <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle"  data-sort="@Html.DisplayNameFor(model => model.Idcarrera))"> @Html.DisplayNameFor(model => model.Idcarrera)</th>
+                                    <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle"  data-sort="@Html.DisplayNameFor(model => model.IdCarrera))"> @Html.DisplayNameFor(model => model.IdCarrera)</th>
                                         <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle" data-sort="@Html.DisplayNameFor(model => model.Descripcion)"> @Html.DisplayNameFor(model => model.Descripcion)</th>
-                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle" data-sort="@Html.DisplayNameFor(model => model.Rowid)"> @Html.DisplayNameFor(model => model.Rowid)</th>
                             </tr>
                         </thead>
                         <tbody class="list">
                             @foreach (var item in Model) {
                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                                     <td class="fs--1 align-middle ps-0">
-                                        <button class="btnAbm" onclick="modaledit('@item.Idcarrera')"><i class="fa fa-pencil"></i></button>
-                                        <button class="btnAbm" onclick="modaldelete('@item.Idcarrera')"><i class="fa fa-trash"></i></button>
-                                        <button class="btnAbm" onclick="modaldetails('@item.Idcarrera')"><i class="fa fa-arrow-right"></i></button>
+                                        <button class="btnAbm" onclick="modaledit('@item.IdCarrera')"><i class="fa fa-pencil"></i></button>
+                                        <button class="btnAbm" onclick="modaldelete('@item.IdCarrera')"><i class="fa fa-trash"></i></button>
+                                        <button class="btnAbm" onclick="modaldetails('@item.IdCarrera')"><i class="fa fa-arrow-right"></i></button>
                                     </td>
-                                       <td class="@Html.DisplayNameFor(modelItem => item.Idcarrera) fs--1 align-middle ps-0"> @Html.DisplayFor(modelItem => item.Idcarrera)</td>
+                                       <td class="@Html.DisplayNameFor(modelItem => item.IdCarrera) fs--1 align-middle ps-0"> @Html.DisplayFor(modelItem => item.IdCarrera)</td>
                                         <td class="@Html.DisplayNameFor(modelItem => item.Descripcion)  fs--1 align-middle ps-0 "> @Html.DisplayFor(modelItem => item.Descripcion)</td>
-                                        <td class="@Html.DisplayNameFor(modelItem => item.Rowid)  fs--1 align-middle ps-0 "> @Html.DisplayFor(modelItem => item.Rowid)</td>
                             </tr>
                             }
                         </tbody>

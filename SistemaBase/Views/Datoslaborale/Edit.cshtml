@@ -1,4 +1,4 @@
-@model SistemaBase.Models.Datoslaborale
+@model SistemaBase.Models.DatosLaborale
 
 
 
@@ -12,7 +12,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="detailsModalLabel">Datoslaborale</h5>
+                    <h5 class="modal-title" id="detailsModalLabel">DatosLaborale</h5>
                     <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close" id="editmodal"><svg class="svg-inline--fa fa-xmark fs--1" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="xmark" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg=""><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"></path></svg><!-- <span class="fas fa-times fs--1"></span> Font Awesome fontawesome.com --></button>
                 </div>
                 <div class="modal-body">
@@ -22,66 +22,44 @@
                                         <div class="col-12">
                                             <div class="row">
                                                 <div class="col-4">
-                                                    <label class="form-control-label fs-0 subTitleModal text-900" asp-for="Iddatoslaborales"></label>
+                                                    <label class="form-control-label fs-0 subTitleModal text-900" asp-for="IdDatosLaborales"></label>
                                                 </div>
                                                 <div class="col-8">
-                                                        <input class="form-control" asp-for="Iddatoslaborales" />
-                                                    <span asp-validation-for="Iddatoslaborales" class="text-danger k-invalid-msg" data-for="Iddatoslaborales"></span>
+                                                        <input class="form-control" asp-for="IdDatosLaborales" />
+                                                    <span asp-validation-for="IdDatosLaborales" class="text-danger k-invalid-msg" data-for="IdDatosLaborales"></span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="row">
                                                 <div class="col-4">
-                                                    <label asp-for="CodUsuario" class="form-control-label fs-0 subTitleModal"></label>
+                                                    <label class="form-control-label fs-0 subTitleModal text-900" asp-for="CodUsuario"></label>
                                                 </div>
                                                 <div class="col-8">
-                                                    <select asp-for="CodUsuario" class="form-control" asp-items="ViewBag.CodUsuario"></select>
-                                                    <span asp-validation-for="CodUsuario" class="text-danger"></span>
+                                                        <input class="form-control" asp-for="CodUsuario" />
+                                                    <span asp-validation-for="CodUsuario" class="text-danger k-invalid-msg" data-for="CodUsuario"></span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="row">
                                                 <div class="col-4">
-                                                    <label class="form-control-label fs-0 subTitleModal text-900" asp-for="Lugartrabajo"></label>
+                                                    <label class="form-control-label fs-0 subTitleModal text-900" asp-for="LugarTrabajo"></label>
                                                 </div>
                                                 <div class="col-8">
-                                                        <input class="form-control" asp-for="Lugartrabajo" />
-                                                    <span asp-validation-for="Lugartrabajo" class="text-danger k-invalid-msg" data-for="Lugartrabajo"></span>
+                                                        <input class="form-control" asp-for="LugarTrabajo" />
+                                                    <span asp-validation-for="LugarTrabajo" class="text-danger k-invalid-msg" data-for="LugarTrabajo"></span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="row">
                                                 <div class="col-4">
-                                                    <label class="form-control-label fs-0 subTitleModal text-900" asp-for="Universidadtrabajo"></label>
+                                                    <label class="form-control-label fs-0 subTitleModal text-900" asp-for="Cargo"></label>
                                                 </div>
                                                 <div class="col-8">
-                                                        <input class="form-control" asp-for="Universidadtrabajo" />
-                                                    <span asp-validation-for="Universidadtrabajo" class="text-danger k-invalid-msg" data-for="Universidadtrabajo"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="row">
-                                                <div class="col-4">
-                                                    <label class="form-control-label fs-0 subTitleModal text-900" asp-for="CargoIdcargo"></label>
-                                                </div>
-                                                <div class="col-8">
-                                                        <input class="form-control" asp-for="CargoIdcargo" />
-                                                    <span asp-validation-for="CargoIdcargo" class="text-danger k-invalid-msg" data-for="CargoIdcargo"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="row">
-                                                <div class="col-4">
-                                                    <label class="form-control-label fs-0 subTitleModal text-900" asp-for="Direccionlaboral"></label>
-                                                </div>
-                                                <div class="col-8">
-                                                        <input class="form-control" asp-for="Direccionlaboral" />
-                                                    <span asp-validation-for="Direccionlaboral" class="text-danger k-invalid-msg" data-for="Direccionlaboral"></span>
+                                                        <input class="form-control" asp-for="Cargo" />
+                                                    <span asp-validation-for="Cargo" class="text-danger k-invalid-msg" data-for="Cargo"></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -99,11 +77,55 @@
                                         <div class="col-12">
                                             <div class="row">
                                                 <div class="col-4">
-                                                    <label class="form-control-label fs-0 subTitleModal text-900" asp-for="Rowid"></label>
+                                                    <label class="form-control-label fs-0 subTitleModal text-900" asp-for="Herramientas"></label>
                                                 </div>
                                                 <div class="col-8">
-                                                        <input class="form-control" asp-for="Rowid" />
-                                                    <span asp-validation-for="Rowid" class="text-danger k-invalid-msg" data-for="Rowid"></span>
+                                                        <input class="form-control" asp-for="Herramientas" />
+                                                    <span asp-validation-for="Herramientas" class="text-danger k-invalid-msg" data-for="Herramientas"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <label class="form-control-label fs-0 subTitleModal text-900" asp-for="Sector"></label>
+                                                </div>
+                                                <div class="col-8">
+                                                        <input class="form-control" asp-for="Sector" />
+                                                    <span asp-validation-for="Sector" class="text-danger k-invalid-msg" data-for="Sector"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <label class="form-control-label fs-0 subTitleModal text-900" asp-for="UniversidadTrabajo"></label>
+                                                </div>
+                                                <div class="col-8">
+                                                        <input class="form-control" asp-for="UniversidadTrabajo" />
+                                                    <span asp-validation-for="UniversidadTrabajo" class="text-danger k-invalid-msg" data-for="UniversidadTrabajo"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <label class="form-control-label fs-0 subTitleModal text-900" asp-for="Estado"></label>
+                                                </div>
+                                                <div class="col-8">
+                                                        <input class="form-control" asp-for="Estado" />
+                                                    <span asp-validation-for="Estado" class="text-danger k-invalid-msg" data-for="Estado"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <label class="form-control-label fs-0 subTitleModal text-900" asp-for="MateriaTrabajo"></label>
+                                                </div>
+                                                <div class="col-8">
+                                                        <input class="form-control" asp-for="MateriaTrabajo" />
+                                                    <span asp-validation-for="MateriaTrabajo" class="text-danger k-invalid-msg" data-for="MateriaTrabajo"></span>
                                                 </div>
                                             </div>
                                         </div>

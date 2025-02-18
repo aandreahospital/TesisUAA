@@ -8,6 +8,32 @@
     <link rel="stylesheet" type="text/css" href="./css/cdn.jsdelivr.net_npm_sweetalert2@7.12.15_dist_sweetalert2.min.css">
 }
 
+@{
+    var sectores = new Dictionary<string, string>
+    {
+        { "E", "Educativo" },
+        { "EF", "Económica y Finanzas" },
+        { "T", "Tecnología" },
+        { "I", "Industrial" },
+        { "S", "Salud" },
+        { "O", "Otros" }
+    };
+
+    var estados = new Dictionary<string, string>
+    {
+        { "S", "Si" },
+        { "N", "No" }
+    };
+
+
+    var estadosAca = new Dictionary<string, string>
+    {
+        { "A", "Cursando" },
+        { "I", "Culminado" },
+        { "T", "En proceso de Trabajo de Grado" }
+    };
+
+}
 
 <script src="~/js/jquery-3.7.0.js"></script>
 <script src="~/js/jquery-3.6.0.min.js"></script>
@@ -122,23 +148,46 @@
         <thead>
             <tr>
                 <th>Lugar de Trabajo</th>
+                <th>Sector</th>
+                <th>Entidad Educativa</th>
+                <th>Materia Educativa</th>
                 <th>Cargo</th>
-                <th>Dirección Laboral</th>
+                <th>Actualmente tengo este cargo</th>
                 <th>Antigüedad</th>
+                <th>Herramientas</th>
+                <th>Opciones</th>
             </tr>
         </thead>
         <tbody>
-             @if (Model != null)
+            @if (Model?.ExperienciaLaboral != null && Model.ExperienciaLaboral.Any())
                             {
                 @foreach (var exp in Model.ExperienciaLaboral)
                 {
                     <tr>
-                        <td>@exp.Lugartrabajo</td>
-                        <td>@exp.CargoIdcargo</td>
-                        <td>@exp.Direccionlaboral</td>
+                        <td>@exp.LugarTrabajo</td>
+                        <td>@(sectores.ContainsKey(exp.Sector) ? sectores[exp.Sector] : "No especificado")</td>
+                        <td>@exp.UniversidadTrabajo</td>
+                        <td>@exp.MateriaTrabajo</td>
+                        <td>@exp.Cargo</td>
+                        <td>@(estados.ContainsKey(exp.Estado) ? estados[exp.Estado] : "No especificado")</td>
                         <td>@exp.Antiguedad</td>
+                        <td>@exp.Herramientas</td>
+                        <td>
+                            <a  onclick="AbrirEditLab(@exp.IdDatosLaborales)" class="btn btn-warning btn-sm">
+                                <span class="btn-label"><i class="fa fa-pencil"></i></span>
+                            </a>
+                            <a asp-action="DeleteLaboral" asp-route-id="@exp.IdDatosLaborales" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar este registro?');">
+                                <span class="btn-label"><i class="fa fa-trash"></i></span>
+                                </a>
+                        </td>
                     </tr>
                 }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="9" class="text-center">No hay registros de experiencia laboral</td>
+                </tr>
             }
         </tbody>
     </table>
@@ -154,24 +203,39 @@
             <tr>
                 <th>Centro de Estudio</th>
                 <th>Carrera</th>
-                <th>Fecha de Inicio</th>
-                <th>Fecha de Fin</th>
+                <th>Año Inicio</th>
+                <th>Año Fin</th>
                 <th>Estado</th>
+                <th>Opciones</th>
             </tr>
         </thead>
         <tbody>
-            @if (Model != null)
+            @if (Model?.Educacion != null && Model.Educacion.Any())
             {
                 @foreach (var edu in Model.Educacion)
                 {
                     <tr>
-                        <td>@edu.CentroEducativo</td>
+                        <td>@edu.CentroEstudio</td>
                         <td>@edu.Carrera</td>
-                        <td>@edu.Fechainicio?.ToString("yyyy-MM-dd")</td>
-                        <td>@edu.Fechafin?.ToString("yyyy-MM-dd")</td>
-                        <td>@edu.Estado</td>
+                        <td>@edu.AnhoInicio</td>
+                        <td>@edu.AnhoFin</td>
+                        <td>@(estadosAca.ContainsKey(edu.Estado) ? estadosAca[edu.Estado] : "No especificado")</td>
+                        <td>
+                            <a onclick="AbrirEditAca(@edu.IdDatosAcademicos)"  class="btn btn-warning btn-sm">
+                                <span class="btn-label"><i class="fa fa-pencil"></i></span>
+                            </a>
+                            <a asp-action="DeleteAcademico" asp-route-id="@edu.IdDatosAcademicos" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar este registro?');">
+                                <span class="btn-label"><i class="fa fa-trash"></i></span>
+                            </a>
+                        </td>
                     </tr>
                 }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="9" class="text-center">No hay registros de experiencia academica</td>
+                </tr>
             }
         </tbody>
     </table>

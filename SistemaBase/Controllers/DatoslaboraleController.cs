@@ -9,23 +9,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SistemaBase.Controllers
 {
-    public class DatoslaboraleController : Controller
+    public class DatosLaboraleController : Controller
     {
         private readonly DbvinDbContext _context;
 
-        public DatoslaboraleController(DbvinDbContext context)
+        public DatosLaboraleController(DbvinDbContext context)
         {
             _context = context;
         }
 
-        // GET: Datoslaborale
-        [TypeFilter(typeof(AutorizarUsuarioFilter), Arguments = new object[] { "BSDALAB", "Index", "Datoslaborale" })]
-
-        public async Task<IActionResult> Index()
+        // GET: DatosLaborale
+    public async Task<IActionResult> Index()
     {
-        ViewData["CodUsuario"] = new SelectList(_context.Usuarios, "CodUsuario", "CodUsuario");
-        var dbvinDbContext = _context.Datoslaborales.Include(d => d.CodUsuarioNavigation);
-        return View(await dbvinDbContext.AsNoTracking().ToListAsync());
+            return _context.DatosLaborales != null ?
+              View(await _context.DatosLaborales.AsNoTracking().ToListAsync()) :
+              Problem("Entity set 'DbvinDbContext.DatosLaborales'  is null.");
     }
 
 
@@ -39,10 +37,10 @@ namespace SistemaBase.Controllers
     public async Task<IActionResult>
     ResultTable()
     {
-        ViewData["CodUsuario"] = new SelectList(_context.Usuarios, "CodUsuario", "CodUsuario");
     ViewData["Show"] = true;
-        var dbvinDbContext = _context.Datoslaborales.Include(d => d.CodUsuarioNavigation);
-        return View("Index",await dbvinDbContext.AsNoTracking().ToListAsync());
+            return _context.DatosLaborales != null ?
+              View("Index", await _context.DatosLaborales.AsNoTracking().ToListAsync()) :
+              Problem("Entity set 'DbvinDbContext.DatosLaborales'  is null.");
     }
 
 
@@ -56,74 +54,71 @@ namespace SistemaBase.Controllers
 
 
 
-        // GET: Datoslaborale/Details/5
-        public async Task<IActionResult> Details(int Iddatoslaborales)
+        // GET: DatosLaborale/Details/5
+        public async Task<IActionResult> Details(int IdDatosLaborales)
             {
-            var datoslaborale = await _context.Datoslaborales
-            .FindAsync(Iddatoslaborales);
-            if (datoslaborale == null)
+            var datosLaborale = await _context.DatosLaborales
+            .FindAsync(IdDatosLaborales);
+            if (datosLaborale == null)
             {
             return NotFound();
             }
 
-            return View(datoslaborale);
+            return View(datosLaborale);
             }
 
-            // GET: Datoslaborale/Create
+            // GET: DatosLaborale/Create
             public IActionResult Create()
             {
-            ViewData["CodUsuario"] = new SelectList(_context.Usuarios, "CodUsuario", "CodUsuario");
             return View();
             }
 
-            // POST: Datoslaborale/Create
+            // POST: DatosLaborale/Create
             // To protect from overposting attacks, enable the specific properties you want to bind to.
             // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
             [HttpPost]
             [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create( Datoslaborale datoslaborale)
+        public async Task<IActionResult> Create( DatosLaborale datosLaborale)
                 {
-            _context.Add(datoslaborale);
+            _context.Add(datosLaborale);
             await _context.SaveChangesAsync();
                 return RedirectToAction("ResultTable");
 
                 //return RedirectToAction(nameof(Index));
-                ViewData["CodUsuario"] = new SelectList(_context.Usuarios, "CodUsuario", "CodUsuario", datoslaborale.CodUsuario);
                 return RedirectToAction("ResultTable");
 
-                // return View(datoslaborale);
+                // return View(datosLaborale);
                 }
 
-                // GET: Datoslaborale/Edit/5
-        public async Task<IActionResult> Edit(int Iddatoslaborales)
+                // GET: DatosLaborale/Edit/5
+        public async Task<IActionResult> Edit(int IdDatosLaborales)
                     {
 
-                    var datoslaborale = await _context.Datoslaborales.FindAsync(Iddatoslaborales);
-                    if (datoslaborale == null)
+                    var datosLaborale = await _context.DatosLaborales.FindAsync(IdDatosLaborales);
+                    if (datosLaborale == null)
                     {
                     return NotFound();
                     }
-                    ViewData["CodUsuario"] = new SelectList(_context.Usuarios, "CodUsuario", "CodUsuario", datoslaborale.CodUsuario);
-                    return View(datoslaborale);
+                    return View(datosLaborale);
                     }
 
-                    // POST: Datoslaborale/Edit/5
+                    // POST: DatosLaborale/Edit/5
                     // To protect from overposting attacks, enable the specific properties you want to bind to.
                     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
                     [HttpPost]
                     [ValidateAntiForgeryToken]
                     public async Task<IActionResult>
-                        Edit(int Iddatoslaborales,  Datoslaborale datoslaborale)
+                        Edit(int IdDatosLaborales,  DatosLaborale datosLaborale)
                         {
 
                         try
                         {
-                        _context.Update(datoslaborale);
+                        _context.Update(datosLaborale);
                         await _context.SaveChangesAsync();
                         }
                         catch (DbUpdateConcurrencyException)
                         {
-                        if (!DatoslaboraleExists(datoslaborale.Iddatoslaborales))
+                        if (!DatosLaboraleExists(datosLaborale.IdDatosLaborales))
                         {
                         return NotFound();
                         }
@@ -135,41 +130,40 @@ namespace SistemaBase.Controllers
                         return RedirectToAction("ResultTable");
 
                         // return RedirectToAction(nameof(Index));
-                        ViewData["CodUsuario"] = new SelectList(_context.Usuarios, "CodUsuario", "CodUsuario", datoslaborale.CodUsuario);
                         return RedirectToAction("ResultTable");
 
-                        //return View(datoslaborale);
+                        //return View(datosLaborale);
                         }
 
-                        // GET: Datoslaborale/Delete/5
+                        // GET: DatosLaborale/Delete/5
                         public async Task<IActionResult>
-                            Delete(int Iddatoslaborales)
+                            Delete(int IdDatosLaborales)
                             {
 
-                            var datoslaborale = await _context.Datoslaborales
-                            .FindAsync(Iddatoslaborales);
-                            if (datoslaborale == null)
+                            var datosLaborale = await _context.DatosLaborales
+                            .FindAsync(IdDatosLaborales);
+                            if (datosLaborale == null)
                             {
                             return NotFound();
                             }
 
-                            return View(datoslaborale);
+                            return View(datosLaborale);
                             }
 
-                            // POST: Datoslaborale/Delete/5
+                            // POST: DatosLaborale/Delete/5
                             [HttpPost, ActionName("Delete")]
                             [ValidateAntiForgeryToken]
                             public async Task<IActionResult>
-                                DeleteConfirmed(int Iddatoslaborales)
+                                DeleteConfirmed(int IdDatosLaborales)
                                 {
-                                if (_context.Datoslaborales == null)
+                                if (_context.DatosLaborales == null)
                                 {
-                                return Problem("Entity set 'DbvinDbContext.Datoslaborales'  is null.");
+                                return Problem("Entity set 'DbvinDbContext.DatosLaborales'  is null.");
                                 }
-                                var datoslaborale = await _context.Datoslaborales.FindAsync(Iddatoslaborales);
-                                if (datoslaborale != null)
+                                var datosLaborale = await _context.DatosLaborales.FindAsync(IdDatosLaborales);
+                                if (datosLaborale != null)
                                 {
-                                _context.Datoslaborales.Remove(datoslaborale);
+                                _context.DatosLaborales.Remove(datosLaborale);
                                 }
 
                                 await _context.SaveChangesAsync();
@@ -179,9 +173,9 @@ namespace SistemaBase.Controllers
                                 //return RedirectToAction(nameof(Index));
                                 }
 
-                                private bool DatoslaboraleExists(int id)
+                                private bool DatosLaboraleExists(int id)
                                 {
-                                return (_context.Datoslaborales?.Any(e => e.Iddatoslaborales == id)).GetValueOrDefault();
+                                return (_context.DatosLaborales?.Any(e => e.IdDatosLaborales == id)).GetValueOrDefault();
                                 }
                                 }
                                 }

@@ -1,11 +1,11 @@
 @model SistemaBase.Models.AccesosGrupo
 
-@{
-    Layout = "";
-    ViewData["Title"] = "Details";
-}
-
-
+        @{
+        Layout = "";
+        ViewData["Title"] = "Details";
+        }
+        
+        
 <div class="modal fade " id="detailsModal" tabindex="-1" aria-labelledby="detailsModallLabel" style="display: none;" aria-modal="true" role="dialog">
 
     <div class="modal-dialog modal-dialog-centered">
@@ -20,72 +20,30 @@
 
                         <hr />
                         <dl class="row">
-                            <dt class="col-sm-5">
-                                @Html.DisplayNameFor(model => model.CodGrupo)
-                            </dt>
-                            <dd class="col-sm-7">
-                                @Html.DisplayFor(model => model.CodGrupo)
-                            </dd>
-                            <dt class="col-sm-5">
-                                @Html.DisplayNameFor(model => model.CodModulo)
-                            </dt>
-                            <dd class="col-sm-7">
-                                @Html.DisplayFor(model => model.CodModulo)
-                            </dd>
-                            <dt class="col-sm-5">
-                                @Html.DisplayNameFor(model => model.NomForma)
-                            </dt>
-                            <dd class="col-sm-7">
-                                @Html.DisplayFor(model => model.NomForma)
-                            </dd>
-                            <dt class="col-sm-5">
-                                @Html.DisplayNameFor(model => model.PuedeInsertar)
-                            </dt>
-                            <dd class="col-sm-7">
-                                @Html.DisplayFor(model => model.PuedeInsertar)
-                            </dd>
-                            <dt class="col-sm-5">
-                                @Html.DisplayNameFor(model => model.PuedeBorrar)
-                            </dt>
-                            <dd class="col-sm-7">
-                                @Html.DisplayFor(model => model.PuedeBorrar)
-                            </dd>
-                            <dt class="col-sm-5">
-                                @Html.DisplayNameFor(model => model.PuedeActualizar)
-                            </dt>
-                            <dd class="col-sm-7">
-                                @Html.DisplayFor(model => model.PuedeActualizar)
-                            </dd>
-                            <dt class="col-sm-5">
-                                @Html.DisplayNameFor(model => model.PuedeConsultar)
-                            </dt>
-                            <dd class="col-sm-7">
-                                @Html.DisplayFor(model => model.PuedeConsultar)
-                            </dd>
-                            <dt class="col-sm-5">
-                                @Html.DisplayNameFor(model => model.ItemMenu)
-                            </dt>
-                            <dd class="col-sm-7">
-                                @Html.DisplayFor(model => model.ItemMenu)
-                            </dd>
-                            <dt class="col-sm-5">
-                                @Html.DisplayNameFor(model => model.Rowid)
-                            </dt>
-                            <dd class="col-sm-7">
-                                @Html.DisplayFor(model => model.Rowid)
-                            </dd>
-                            <dt class="col-sm-5">
-                                @Html.DisplayNameFor(model => model.CodGrupoNavigation)
-                            </dt>
-                            <dd class="col-sm-7">
-                                @Html.DisplayFor(model => model.CodGrupoNavigation.CodGrupo)
-                            </dd>
-                            <dt class="col-sm-5">
-                                @Html.DisplayNameFor(model => model.CodModuloNavigation)
-                            </dt>
-                            <dd class="col-sm-7">
-                                @Html.DisplayFor(model => model.CodModuloNavigation.CodModulo)
-                            </dd>
+                                        <dt class="col-sm-5">
+                                            @Html.DisplayNameFor(model => model.CodGrupo)
+                                        </dt>
+                                        <dd class="col-sm-7">
+                                            @Html.DisplayFor(model => model.CodGrupo)
+                                        </dd>
+                                        <dt class="col-sm-5">
+                                            @Html.DisplayNameFor(model => model.CodModulo)
+                                        </dt>
+                                        <dd class="col-sm-7">
+                                            @Html.DisplayFor(model => model.CodModulo)
+                                        </dd>
+                                        <dt class="col-sm-5">
+                                            @Html.DisplayNameFor(model => model.NomForma)
+                                        </dt>
+                                        <dd class="col-sm-7">
+                                            @Html.DisplayFor(model => model.NomForma)
+                                        </dd>
+                                        <dt class="col-sm-5">
+                                            @Html.DisplayNameFor(model => model.Forma)
+                                        </dt>
+                                        <dd class="col-sm-7">
+                                            @Html.DisplayFor(model => model.Forma.CodModulo)
+                                        </dd>
                         </dl>
 
                     </div>

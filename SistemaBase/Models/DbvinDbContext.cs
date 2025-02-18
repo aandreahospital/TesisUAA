@@ -20,21 +20,17 @@ namespace SistemaBase.Models
         public virtual DbSet<Cargo> Cargos { get; set; } = null!;
         public virtual DbSet<Carrera> Carreras { get; set; } = null!;
         public virtual DbSet<CarreraUsuario> CarreraUsuarios { get; set; } = null!;
-        public virtual DbSet<Centroestudio> Centroestudios { get; set; } = null!;
+        public virtual DbSet<CentroEstudio> CentroEstudios { get; set; } = null!;
         public virtual DbSet<Comentario> Comentarios { get; set; } = null!;
-        public virtual DbSet<Datosacademico> Datosacademicos { get; set; } = null!;
-        public virtual DbSet<Datoslaborale> Datoslaborales { get; set; } = null!;
-        public virtual DbSet<Empresa> Empresas { get; set; } = null!;
+        public virtual DbSet<DatosAcademico> DatosAcademicos { get; set; } = null!;
+        public virtual DbSet<DatosLaborale> DatosLaborales { get; set; } = null!;
         public virtual DbSet<Forma> Formas { get; set; } = null!;
-        public virtual DbSet<Forodebate> Forodebates { get; set; } = null!;
+        public virtual DbSet<ForoDebate> ForoDebates { get; set; } = null!;
         public virtual DbSet<GruposUsuario> GruposUsuarios { get; set; } = null!;
         public virtual DbSet<Modulo> Modulos { get; set; } = null!;
-        public virtual DbSet<Ofertaacademica> Ofertaacademicas { get; set; } = null!;
-        public virtual DbSet<Ofertalaboral> Ofertalaborals { get; set; } = null!;
-        public virtual DbSet<PermisosOpcione> PermisosOpciones { get; set; } = null!;
+        public virtual DbSet<OfertaAcademica> OfertaAcademicas { get; set; } = null!;
+        public virtual DbSet<OfertaLaboral> OfertaLaborals { get; set; } = null!;
         public virtual DbSet<Persona> Personas { get; set; } = null!;
-        public virtual DbSet<RmUsuario> RmUsuarios { get; set; } = null!;
-        public virtual DbSet<Sucursale> Sucursales { get; set; } = null!;
         public virtual DbSet<Usuario> Usuarios { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -42,7 +38,7 @@ namespace SistemaBase.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=DESKTOP-KP48E0B\\SQLEXPRESS; Integrated Security=SSPI; Initial Catalog=UAAconecta;");
+                optionsBuilder.UseSqlServer("Data Source=DESKTOP-KP48E0B\\SQLEXPRESS; Integrated Security=SSPI; Initial Catalog=UAAConecta;");
             }
         }
 
@@ -52,10 +48,7 @@ namespace SistemaBase.Models
             {
                 entity.HasKey(e => new { e.CodGrupo, e.CodModulo, e.NomForma });
 
-                entity.ToTable("ACCESOS_GRUPOS", "INV");
-
-                entity.HasIndex(e => e.Rowid, "ROWID$INDEX")
-                    .IsUnique();
+                entity.ToTable("ACCESOS_GRUPOS");
 
                 entity.Property(e => e.CodGrupo)
                     .HasMaxLength(6)
@@ -68,110 +61,65 @@ namespace SistemaBase.Models
                     .HasColumnName("COD_MODULO");
 
                 entity.Property(e => e.NomForma)
-                    .HasMaxLength(9)
+                    .HasMaxLength(10)
                     .IsUnicode(false)
                     .HasColumnName("NOM_FORMA");
 
-                entity.Property(e => e.ItemMenu)
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .HasColumnName("ITEM_MENU");
-
-                entity.Property(e => e.PuedeActualizar)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("PUEDE_ACTUALIZAR");
-
-                entity.Property(e => e.PuedeBorrar)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("PUEDE_BORRAR");
-
-                entity.Property(e => e.PuedeConsultar)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("PUEDE_CONSULTAR");
-
-                entity.Property(e => e.PuedeInsertar)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("PUEDE_INSERTAR");
-
-                entity.Property(e => e.Rowid)
-                    .HasColumnName("ROWID")
-                    .HasDefaultValueSql("(newid())");
-
-                entity.HasOne(d => d.CodGrupoNavigation)
-                    .WithMany(p => p.AccesosGrupos)
-                    .HasForeignKey(d => d.CodGrupo)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ACC_GRUPOS_GRP");
-
-                //entity.HasOne(d => d.CodModuloNavigation)
+                //entity.HasOne(d => d.Forma)
                 //    .WithMany(p => p.AccesosGrupos)
-                //    .HasForeignKey(d => d.CodModulo)
+                //    .HasForeignKey(d => new { d.CodModulo, d.NomForma })
                 //    .OnDelete(DeleteBehavior.ClientSetNull)
-                //    .HasConstraintName("FK_ACC_GRU_MOD");
+                //    .HasConstraintName("FK_AG_FORMAS");
             });
 
             modelBuilder.Entity<Cargo>(entity =>
             {
-                entity.HasKey(e => e.Idcargo);
+                entity.HasKey(e => e.IdCargo);
 
-                entity.ToTable("CARGO", "INV");
+                entity.ToTable("CARGO");
 
-                entity.Property(e => e.Idcargo)
-                    .ValueGeneratedNever()
-                    .HasColumnName("IDCARGO");
+                entity.Property(e => e.IdCargo).HasColumnName("ID_CARGO");
 
                 entity.Property(e => e.CodUsuario)
                     .HasMaxLength(15)
                     .IsUnicode(false)
                     .HasColumnName("COD_USUARIO");
 
-                entity.Property(e => e.Lugartrabajo)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("LUGARTRABAJO");
-
-                entity.Property(e => e.Rowid)
-                    .HasColumnName("ROWID")
-                    .HasDefaultValueSql("(newid())");
-
-                entity.HasOne(d => d.CodUsuarioNavigation)
-                    .WithMany(p => p.Cargos)
-                    .HasForeignKey(d => d.CodUsuario)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_CARGO_USUARIO");
-            });
-
-            modelBuilder.Entity<Carrera>(entity =>
-            {
-                entity.HasKey(e => e.Idcarrera);
-
-                entity.ToTable("CARRERA", "INV");
-
-                entity.Property(e => e.Idcarrera)
-                    .ValueGeneratedNever()
-                    .HasColumnName("IDCARRERA");
-
                 entity.Property(e => e.Descripcion)
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("DESCRIPCION");
 
-                entity.Property(e => e.Rowid)
-                    .HasColumnName("ROWID")
-                    .HasDefaultValueSql("(newid())");
+                //entity.HasOne(d => d.CodUsuarioNavigation)
+                //    .WithMany(p => p.Cargos)
+                //    .HasForeignKey(d => d.CodUsuario)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_CARGO_USUARIO");
+            });
+
+            modelBuilder.Entity<Carrera>(entity =>
+            {
+                entity.HasKey(e => e.IdCarrera);
+
+                entity.ToTable("CARRERA");
+
+                entity.Property(e => e.IdCarrera).HasColumnName("ID_CARRERA");
+
+                entity.Property(e => e.Descripcion)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("DESCRIPCION");
             });
 
             modelBuilder.Entity<CarreraUsuario>(entity =>
             {
-                entity.HasKey(e => new { e.Idcarrera, e.CodUsuario });
+                entity.HasKey(e => new { e.IdCarrera, e.CodUsuario });
 
-                entity.ToTable("CARRERA_USUARIO", "INV");
+                entity.ToTable("CARRERA_USUARIO");
 
-                entity.Property(e => e.Idcarrera).HasColumnName("IDCARRERA");
+                entity.Property(e => e.IdCarrera)
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("ID_CARRERA");
 
                 entity.Property(e => e.CodUsuario)
                     .HasMaxLength(15)
@@ -183,46 +131,34 @@ namespace SistemaBase.Models
                     .IsUnicode(false)
                     .HasColumnName("PROMO");
 
-                entity.Property(e => e.Rowid)
-                    .HasColumnName("ROWID")
-                    .HasDefaultValueSql("(newid())");
-
-                entity.HasOne(d => d.CodUsuarioNavigation)
-                    .WithMany(p => p.CarreraUsuarios)
-                    .HasForeignKey(d => d.CodUsuario)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_CARRERA_USUARIO_USUARIO");
+                //entity.HasOne(d => d.CodUsuarioNavigation)
+                //    .WithMany(p => p.CarreraUsuarios)
+                //    .HasForeignKey(d => d.CodUsuario)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_CU_USUARIOS");
             });
 
-            modelBuilder.Entity<Centroestudio>(entity =>
+            modelBuilder.Entity<CentroEstudio>(entity =>
             {
-                entity.HasKey(e => e.Idcentroestudio);
+                entity.HasKey(e => e.IdCentroEstudio);
 
-                entity.ToTable("CENTROESTUDIO", "INV");
+                entity.ToTable("CENTRO_ESTUDIO");
 
-                entity.Property(e => e.Idcentroestudio)
-                    .ValueGeneratedNever()
-                    .HasColumnName("IDCENTROESTUDIO");
+                entity.Property(e => e.IdCentroEstudio).HasColumnName("ID_CENTRO_ESTUDIO");
 
                 entity.Property(e => e.Descripcion)
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("DESCRIPCION");
-
-                entity.Property(e => e.Rowid)
-                    .HasColumnName("ROWID")
-                    .HasDefaultValueSql("(newid())");
             });
 
             modelBuilder.Entity<Comentario>(entity =>
             {
-                entity.HasKey(e => e.Idcomentario);
+                entity.HasKey(e => e.IdComentario);
 
-                entity.ToTable("COMENTARIO", "INV");
+                entity.ToTable("COMENTARIO");
 
-                entity.Property(e => e.Idcomentario)
-                    .ValueGeneratedNever()
-                    .HasColumnName("IDCOMENTARIO");
+                entity.Property(e => e.IdComentario).HasColumnName("ID_COMENTARIO");
 
                 entity.Property(e => e.CodUsuario)
                     .HasMaxLength(15)
@@ -230,231 +166,124 @@ namespace SistemaBase.Models
                     .HasColumnName("COD_USUARIO");
 
                 entity.Property(e => e.Descripcion)
-                    .HasColumnType("text")
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
                     .HasColumnName("DESCRIPCION");
 
-                entity.Property(e => e.Fechacomentario)
+                entity.Property(e => e.FechaComentario)
                     .HasColumnType("date")
-                    .HasColumnName("FECHACOMENTARIO");
+                    .HasColumnName("FECHA_COMENTARIO");
 
-                entity.Property(e => e.ForodebateIdforodebate).HasColumnName("FORODEBATE_IDFORODEBATE");
+                entity.Property(e => e.IdForoDebate).HasColumnName("ID_FORO_DEBATE");
 
-                entity.Property(e => e.Rowid)
-                    .HasColumnName("ROWID")
-                    .HasDefaultValueSql("(newid())");
+                //entity.HasOne(d => d.CodUsuarioNavigation)
+                //    .WithMany(p => p.Comentarios)
+                //    .HasForeignKey(d => d.CodUsuario)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_COMENTARIO_USUARIO");
 
-                entity.HasOne(d => d.CodUsuarioNavigation)
+                entity.HasOne(d => d.IdForoDebateNavigation)
                     .WithMany(p => p.Comentarios)
-                    .HasForeignKey(d => d.CodUsuario)
+                    .HasForeignKey(d => d.IdForoDebate)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_COMENTARIO_USUARIO");
-
-                entity.HasOne(d => d.ForodebateIdforodebateNavigation)
-                    .WithMany(p => p.Comentarios)
-                    .HasForeignKey(d => d.ForodebateIdforodebate)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_COMENTARIO_FORODEBATE");
+                    .HasConstraintName("FK_COMENTARIO_FORO");
             });
 
-            modelBuilder.Entity<Datosacademico>(entity =>
+            modelBuilder.Entity<DatosAcademico>(entity =>
             {
-                entity.HasKey(e => e.Iddatosacademicos);
+                entity.HasKey(e => e.IdDatosAcademicos);
 
-                entity.ToTable("DATOSACADEMICOS", "INV");
+                entity.ToTable("DATOS_ACADEMICOS");
 
-                entity.Property(e => e.Iddatosacademicos)
-                    .ValueGeneratedNever()
-                    .HasColumnName("IDDATOSACADEMICOS");
+                entity.Property(e => e.IdDatosAcademicos).HasColumnName("ID_DATOS_ACADEMICOS");
+
+                entity.Property(e => e.AnhoFin)
+                    .HasMaxLength(15)
+                    .IsUnicode(false)
+                    .HasColumnName("ANHO_FIN");
+
+                entity.Property(e => e.AnhoInicio)
+                    .HasMaxLength(15)
+                    .IsUnicode(false)
+                    .HasColumnName("ANHO_INICIO");
 
                 entity.Property(e => e.CodUsuario)
                     .HasMaxLength(15)
                     .IsUnicode(false)
                     .HasColumnName("COD_USUARIO");
-
-                entity.Property(e => e.Estado)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("ESTADO")
-                    .IsFixedLength();
-
-                entity.Property(e => e.Fechafin)
-                    .HasColumnType("date")
-                    .HasColumnName("FECHAFIN");
-
-                entity.Property(e => e.Fechainicio)
-                    .HasColumnType("date")
-                    .HasColumnName("FECHAINICIO");
-
-                entity.Property(e => e.Idcarrera).HasColumnName("IDCARRERA");
-
-                entity.Property(e => e.Idcentroestudio).HasColumnName("IDCENTROESTUDIO");
-
-                entity.Property(e => e.Rowid)
-                    .HasColumnName("ROWID")
-                    .HasDefaultValueSql("(newid())");
-
-                entity.HasOne(d => d.CodUsuarioNavigation)
-                    .WithMany(p => p.Datosacademicos)
-                    .HasForeignKey(d => d.CodUsuario)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_DATOSACADEMICOS_USUARIO");
-            });
-
-            modelBuilder.Entity<Datoslaborale>(entity =>
-            {
-                entity.HasKey(e => e.Iddatoslaborales);
-
-                entity.ToTable("DATOSLABORALES", "INV");
-
-                entity.Property(e => e.Iddatoslaborales)
-                    .ValueGeneratedNever()
-                    .HasColumnName("IDDATOSLABORALES");
-
-                entity.Property(e => e.Antiguedad)
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .HasColumnName("ANTIGUEDAD");
-
-                entity.Property(e => e.Cargo)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("CARGO");
-
-                entity.Property(e => e.CargoIdcargo).HasColumnName("CARGO_IDCARGO");
-
-                entity.Property(e => e.CodUsuario)
-                    .HasMaxLength(15)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_USUARIO");
-
-                entity.Property(e => e.Direccionlaboral)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("DIRECCIONLABORAL");
 
                 entity.Property(e => e.Estado)
                     .HasMaxLength(1)
                     .IsUnicode(false)
                     .HasColumnName("ESTADO");
 
-                entity.Property(e => e.Herramientas)
-                    .HasMaxLength(500)
-                    .IsUnicode(false)
-                    .HasColumnName("HERRAMIENTAS");
+                entity.Property(e => e.IdCarrera).HasColumnName("ID_CARRERA");
 
-                entity.Property(e => e.Lugartrabajo)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("LUGARTRABAJO");
+                entity.Property(e => e.IdCentroEstudio).HasColumnName("ID_CENTRO_ESTUDIO");
 
-                entity.Property(e => e.Materia)
-                    .HasMaxLength(500)
-                    .IsUnicode(false)
-                    .HasColumnName("MATERIA");
+                //entity.HasOne(d => d.CodUsuarioNavigation)
+                //    .WithMany(p => p.DatosAcademicos)
+                //    .HasForeignKey(d => d.CodUsuario)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_DA_USUARIOS");
 
-                entity.Property(e => e.Rowid)
-                    .HasColumnName("ROWID")
-                    .HasDefaultValueSql("(newid())");
+                //entity.HasOne(d => d.IdCarreraNavigation)
+                //    .WithMany(p => p.DatosAcademicos)
+                //    .HasForeignKey(d => d.IdCarrera)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_DA_CARRERA");
 
-                entity.Property(e => e.Sector)
-                    .HasMaxLength(500)
-                    .IsUnicode(false)
-                    .HasColumnName("SECTOR");
-
-                entity.Property(e => e.Universidadtrabajo)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("UNIVERSIDADTRABAJO");
-
-                entity.HasOne(d => d.CodUsuarioNavigation)
-                    .WithMany(p => p.Datoslaborales)
-                    .HasForeignKey(d => d.CodUsuario)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_DATOSLABORALES_USUARIO");
+                //entity.HasOne(d => d.IdCentroEstudioNavigation)
+                //    .WithMany(p => p.DatosAcademicos)
+                //    .HasForeignKey(d => d.IdCentroEstudio)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_DA_CENTRO_ESTUDIOS");
             });
 
-            modelBuilder.Entity<Empresa>(entity =>
+            modelBuilder.Entity<DatosLaborale>(entity =>
             {
-                entity.HasKey(e => e.CodEmpresa);
+                entity.HasKey(e => e.IdDatosLaborales);
 
-                entity.ToTable("EMPRESAS", "INV");
+                entity.ToTable("DATOS_LABORALES");
 
-                entity.HasIndex(e => e.Rowid, "ROWID$INDEX")
-                    .IsUnique();
+                entity.Property(e => e.IdDatosLaborales).HasColumnName("ID_DATOS_LABORALES");
 
-                entity.Property(e => e.CodEmpresa)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_EMPRESA");
+                entity.Property(e => e.Antiguedad).HasColumnName("ANTIGUEDAD");
 
-                entity.Property(e => e.Actividad)
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .HasColumnName("ACTIVIDAD");
+                entity.Property(e => e.Cargo).HasColumnName("CARGO");
 
-                entity.Property(e => e.CodMonedaOrigen)
-                    .HasMaxLength(4)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_MONEDA_ORIGEN");
+                entity.Property(e => e.Herramientas).HasColumnName("HERRAMIENTAS");
 
-                entity.Property(e => e.CodPerJuridica)
+                entity.Property(e => e.Sector).HasColumnName("SECTOR");
+
+                entity.Property(e => e.UniversidadTrabajo).HasColumnName("UNIVERSIDAD_TRABAJO");
+
+                entity.Property(e => e.Estado).HasColumnName("ESTADO");
+
+                entity.Property(e => e.MateriaTrabajo).HasColumnName("MATERIA_TRABAJO");
+
+                entity.Property(e => e.CodUsuario)
                     .HasMaxLength(15)
                     .IsUnicode(false)
-                    .HasColumnName("COD_PER_JURIDICA");
+                    .HasColumnName("COD_USUARIO");
 
-                entity.Property(e => e.Departamento)
-                    .HasMaxLength(300)
+                entity.Property(e => e.LugarTrabajo)
+                    .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("DEPARTAMENTO");
+                    .HasColumnName("LUGAR_TRABAJO");
 
-                entity.Property(e => e.Descripcion)
-                    .HasMaxLength(80)
-                    .IsUnicode(false)
-                    .HasColumnName("DESCRIPCION");
-
-                entity.Property(e => e.Direccion)
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .HasColumnName("DIRECCION");
-
-                entity.Property(e => e.Localidad)
-                    .HasMaxLength(300)
-                    .IsUnicode(false)
-                    .HasColumnName("LOCALIDAD");
-
-                entity.Property(e => e.NroPatronal)
-                    .HasMaxLength(10)
-                    .IsUnicode(false)
-                    .HasColumnName("NRO_PATRONAL");
-
-                entity.Property(e => e.Rowid)
-                    .HasColumnName("ROWID")
-                    .HasDefaultValueSql("(newid())");
-
-                entity.Property(e => e.RucEmpresa)
-                    .HasMaxLength(30)
-                    .IsUnicode(false)
-                    .HasColumnName("RUC_EMPRESA");
-
-                entity.Property(e => e.TituloReportes)
-                    .HasMaxLength(80)
-                    .IsUnicode(false)
-                    .HasColumnName("TITULO_REPORTES");
-
-                entity.Property(e => e.UsaCalendario)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("USA_CALENDARIO");
+                //entity.HasOne(d => d.CodUsuarioNavigation)
+                //    .WithMany(p => p.DatosLaborales)
+                //    .HasForeignKey(d => d.CodUsuario)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_DL_USUARIOS");
             });
 
             modelBuilder.Entity<Forma>(entity =>
             {
                 entity.HasKey(e => new { e.CodModulo, e.NomForma });
 
-                entity.ToTable("FORMAS", "INV");
-
-                entity.HasIndex(e => e.Rowid, "ROWID$INDEX")
-                    .IsUnique();
+                entity.ToTable("FORMAS");
 
                 entity.Property(e => e.CodModulo)
                     .HasMaxLength(2)
@@ -462,7 +291,7 @@ namespace SistemaBase.Models
                     .HasColumnName("COD_MODULO");
 
                 entity.Property(e => e.NomForma)
-                    .HasMaxLength(8)
+                    .HasMaxLength(10)
                     .IsUnicode(false)
                     .HasColumnName("NOM_FORMA");
 
@@ -471,33 +300,25 @@ namespace SistemaBase.Models
                     .IsUnicode(false)
                     .HasColumnName("DESCRIPCION");
 
-                
-
-                entity.Property(e => e.Rowid)
-                    .HasColumnName("ROWID")
-                    .HasDefaultValueSql("(newid())");
-
-                entity.Property(e => e.Titulo)
-                    .HasMaxLength(100)
-                    .IsUnicode(false)
-                    .HasColumnName("TITULO");
-
-                //entity.HasOne(d => d.CodModuloNavigation)
-                //    .WithMany(p => p.Formas)
-                //    .HasForeignKey(d => d.CodModulo)
-                //    .OnDelete(DeleteBehavior.ClientSetNull)
-                //    .HasConstraintName("FK_FORMAS_MOD");
+                entity.HasOne(d => d.CodModuloNavigation)
+                    .WithMany(p => p.Formas)
+                    .HasForeignKey(d => d.CodModulo)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_FORMAS_MODULO");
             });
 
-            modelBuilder.Entity<Forodebate>(entity =>
+            modelBuilder.Entity<ForoDebate>(entity =>
             {
-                entity.HasKey(e => e.Idforodebate);
+                entity.HasKey(e => e.IdForoDebate);
 
-                entity.ToTable("FORODEBATE", "INV");
+                entity.ToTable("FORO_DEBATE");
 
-                entity.Property(e => e.Idforodebate)
-                    .ValueGeneratedNever()
-                    .HasColumnName("IDFORODEBATE");
+                entity.Property(e => e.IdForoDebate).HasColumnName("ID_FORO_DEBATE");
+
+                entity.Property(e => e.Adjunto)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("ADJUNTO");
 
                 entity.Property(e => e.CodUsuario)
                     .HasMaxLength(15)
@@ -505,7 +326,8 @@ namespace SistemaBase.Models
                     .HasColumnName("COD_USUARIO");
 
                 entity.Property(e => e.Descripcion)
-                    .HasColumnType("text")
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
                     .HasColumnName("DESCRIPCION");
 
                 entity.Property(e => e.Estado)
@@ -513,31 +335,23 @@ namespace SistemaBase.Models
                     .IsUnicode(false)
                     .HasColumnName("ESTADO");
 
-                entity.Property(e => e.Rowid)
-                    .HasColumnName("ROWID")
-                    .HasDefaultValueSql("(newid())");
-
                 entity.Property(e => e.Titulo)
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("TITULO");
 
-                entity.HasOne(d => d.CodUsuarioNavigation)
-                    .WithMany(p => p.Forodebates)
-                    .HasForeignKey(d => d.CodUsuario)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_FORODEBATE_USUARIO");
+                //entity.HasOne(d => d.CodUsuarioNavigation)
+                //    .WithMany(p => p.ForoDebates)
+                //    .HasForeignKey(d => d.CodUsuario)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_FD_USUARIO");
             });
 
             modelBuilder.Entity<GruposUsuario>(entity =>
             {
-                entity.HasKey(e => e.CodGrupo)
-                    .HasName("PK_GRUPOS_USUAROS");
+                entity.HasKey(e => e.CodGrupo);
 
-                entity.ToTable("GRUPOS_USUARIOS", "INV");
-
-                entity.HasIndex(e => e.Rowid, "ROWID$INDEX")
-                    .IsUnique();
+                entity.ToTable("GRUPOS_USUARIOS");
 
                 entity.Property(e => e.CodGrupo)
                     .HasMaxLength(6)
@@ -548,26 +362,13 @@ namespace SistemaBase.Models
                     .HasMaxLength(40)
                     .IsUnicode(false)
                     .HasColumnName("DESCRIPCION");
-
-                entity.Property(e => e.OpFueraHo)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("OP_FUERA_HO");
-
-                entity.Property(e => e.Rowid)
-                    .HasColumnName("ROWID")
-                    .HasDefaultValueSql("(newid())");
             });
 
             modelBuilder.Entity<Modulo>(entity =>
             {
-                entity.HasKey(e => e.CodModulo)
-                    .HasName("PKM_MODULOS");
+                entity.HasKey(e => e.CodModulo);
 
-                entity.ToTable("MODULOS", "INV");
-
-                entity.HasIndex(e => e.Rowid, "ROWID$INDEX")
-                    .IsUnique();
+                entity.ToTable("MODULOS");
 
                 entity.Property(e => e.CodModulo)
                     .HasMaxLength(2)
@@ -578,31 +379,15 @@ namespace SistemaBase.Models
                     .HasMaxLength(80)
                     .IsUnicode(false)
                     .HasColumnName("DESCRIPCION");
-
-                entity.Property(e => e.ManejaCalendario)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("MANEJA_CALENDARIO");
-
-                entity.Property(e => e.ManejaCierre)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("MANEJA_CIERRE");
-
-                entity.Property(e => e.Rowid)
-                    .HasColumnName("ROWID")
-                    .HasDefaultValueSql("(newid())");
             });
 
-            modelBuilder.Entity<Ofertaacademica>(entity =>
+            modelBuilder.Entity<OfertaAcademica>(entity =>
             {
-                entity.HasKey(e => e.Idofertaacademica);
+                entity.HasKey(e => e.IdOfertaAcademica);
 
-                entity.ToTable("OFERTAACADEMICA", "INV");
+                entity.ToTable("OFERTA_ACADEMICA");
 
-                entity.Property(e => e.Idofertaacademica)
-                    .ValueGeneratedNever()
-                    .HasColumnName("IDOFERTAACADEMICA");
+                entity.Property(e => e.IdOfertaAcademica).HasColumnName("ID_OFERTA_ACADEMICA");
 
                 entity.Property(e => e.CodUsuario)
                     .HasMaxLength(15)
@@ -618,39 +403,33 @@ namespace SistemaBase.Models
                     .IsUnicode(false)
                     .HasColumnName("ESTADO");
 
-                entity.Property(e => e.Fechacierre)
+                entity.Property(e => e.FechaCierre)
                     .HasColumnType("date")
-                    .HasColumnName("FECHACIERRE");
+                    .HasColumnName("FECHA_CIERRE");
 
-                entity.Property(e => e.Fechacreacion)
+                entity.Property(e => e.FechaCreacion)
                     .HasColumnType("date")
-                    .HasColumnName("FECHACREACION");
-
-                entity.Property(e => e.Rowid)
-                    .HasColumnName("ROWID")
-                    .HasDefaultValueSql("(newid())");
+                    .HasColumnName("FECHA_CREACION");
 
                 entity.Property(e => e.Titulo)
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("TITULO");
 
-                entity.HasOne(d => d.CodUsuarioNavigation)
-                    .WithMany(p => p.Ofertaacademicas)
-                    .HasForeignKey(d => d.CodUsuario)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_OFERTAACADEMICA_USUARIO");
+                //entity.HasOne(d => d.CodUsuarioNavigation)
+                //    .WithMany(p => p.OfertaAcademicas)
+                //    .HasForeignKey(d => d.CodUsuario)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_OA_USUARIOS");
             });
 
-            modelBuilder.Entity<Ofertalaboral>(entity =>
+            modelBuilder.Entity<OfertaLaboral>(entity =>
             {
-                entity.HasKey(e => e.Idofertalaboral);
+                entity.HasKey(e => e.IdOfertaLaboral);
 
-                entity.ToTable("OFERTALABORAL", "INV");
+                entity.ToTable("OFERTA_LABORAL");
 
-                entity.Property(e => e.Idofertalaboral)
-                    .ValueGeneratedNever()
-                    .HasColumnName("IDOFERTALABORAL");
+                entity.Property(e => e.IdOfertaLaboral).HasColumnName("ID_OFERTA_LABORAL");
 
                 entity.Property(e => e.CodUsuario)
                     .HasMaxLength(15)
@@ -671,110 +450,46 @@ namespace SistemaBase.Models
                     .IsUnicode(false)
                     .HasColumnName("ESTADO");
 
-                entity.Property(e => e.Fechacierre)
+                entity.Property(e => e.FechaCierre)
                     .HasColumnType("date")
-                    .HasColumnName("FECHACIERRE");
+                    .HasColumnName("FECHA_CIERRE");
 
-                entity.Property(e => e.Fechacreacion)
+                entity.Property(e => e.FechaCreacion)
                     .HasColumnType("date")
-                    .HasColumnName("FECHACREACION");
+                    .HasColumnName("FECHA_CREACION");
 
-                entity.Property(e => e.Rowid)
-                    .HasColumnName("ROWID")
-                    .HasDefaultValueSql("(newid())");
-
-                entity.HasOne(d => d.CodUsuarioNavigation)
-                    .WithMany(p => p.Ofertalaborals)
-                    .HasForeignKey(d => d.CodUsuario)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_OFERTALABORAL_USUARIO");
-            });
-
-            modelBuilder.Entity<PermisosOpcione>(entity =>
-            {
-                entity.HasKey(e => new { e.CodEmpresa, e.CodUsuario, e.CodModulo, e.Parametro, e.NomForma });
-
-                entity.ToTable("PERMISOS_OPCIONES", "INV");
-
-                entity.HasIndex(e => e.Rowid, "ROWID_INDEX")
-                    .IsUnique();
-
-                entity.Property(e => e.CodEmpresa)
-                    .HasMaxLength(5)
-                    .HasColumnName("COD_EMPRESA");
-
-                entity.Property(e => e.CodUsuario)
-                    .HasMaxLength(20)
-                    .HasColumnName("COD_USUARIO");
-
-                entity.Property(e => e.CodModulo)
-                    .HasMaxLength(5)
-                    .HasColumnName("COD_MODULO");
-
-                entity.Property(e => e.Parametro)
-                    .HasMaxLength(50)
-                    .HasColumnName("PARAMETRO");
-
-                entity.Property(e => e.NomForma)
-                    .HasMaxLength(10)
-                    .HasColumnName("NOM_FORMA");
-
-                entity.Property(e => e.Permiso)
-                    .HasMaxLength(1)
-                    .HasColumnName("PERMISO");
-
-                entity.Property(e => e.Rowid)
-                    .HasColumnName("ROWID")
-                    .HasDefaultValueSql("(newid())");
+                //entity.HasOne(d => d.CodUsuarioNavigation)
+                //    .WithMany(p => p.OfertaLaborals)
+                //    .HasForeignKey(d => d.CodUsuario)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_OL_USUARIOS");
             });
 
             modelBuilder.Entity<Persona>(entity =>
             {
                 entity.HasKey(e => e.CodPersona);
 
-                entity.ToTable("PERSONAS", "INV");
-
-                entity.HasIndex(e => new { e.CodSector, e.CodPersona }, "IND_SECTOR")
-                    .IsUnique()
-                    .HasFilter("([COD_SECTOR] IS NOT NULL)");
-
-                entity.HasIndex(e => e.Rowid, "ROWID$INDEX")
-                    .IsUnique();
+                entity.ToTable("PERSONAS");
 
                 entity.Property(e => e.CodPersona)
                     .HasMaxLength(30)
                     .IsUnicode(false)
                     .HasColumnName("COD_PERSONA");
 
-                entity.Property(e => e.ActualizadoPor)
-                    .HasMaxLength(10)
-                    .IsUnicode(false)
-                    .HasColumnName("ACTUALIZADO_POR");
-
-                entity.Property(e => e.AltaPor)
-                    .HasMaxLength(10)
-                    .IsUnicode(false)
-                    .HasColumnName("ALTA_POR");
-
-                entity.Property(e => e.CodEstadoCivil)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_ESTADO_CIVIL");
-
-                entity.Property(e => e.CodSector)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_SECTOR");
-
-                entity.Property(e => e.Direccionparticular)
+                entity.Property(e => e.DireccionParticular)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("DIRECCIONPARTICULAR");
+                    .HasColumnName("DIRECCION_PARTICULAR");
 
                 entity.Property(e => e.Email)
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("EMAIL");
+
+                entity.Property(e => e.EstadoCivil)
+                    .HasMaxLength(5)
+                    .IsUnicode(false)
+                    .HasColumnName("ESTADO_CIVIL");
 
                 entity.Property(e => e.FecActualizacion)
                     .HasPrecision(0)
@@ -788,277 +503,61 @@ namespace SistemaBase.Models
                     .HasPrecision(0)
                     .HasColumnName("FEC_NACIMIENTO");
 
-                entity.Property(e => e.NivelEstudios)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("NIVEL_ESTUDIOS");
-
-                entity.Property(e => e.NombFantasia)
-                    .HasMaxLength(200)
-                    .IsUnicode(false)
-                    .HasColumnName("NOMB_FANTASIA");
-
                 entity.Property(e => e.Nombre)
                     .HasMaxLength(200)
                     .IsUnicode(false)
                     .HasColumnName("NOMBRE");
-
-                entity.Property(e => e.Rowid)
-                    .HasColumnName("ROWID")
-                    .HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.Sexo)
                     .HasMaxLength(1)
                     .IsUnicode(false)
                     .HasColumnName("SEXO");
 
-                entity.Property(e => e.Sitioweb)
+                entity.Property(e => e.SitioWeb)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("SITIOWEB");
-            });
-
-            modelBuilder.Entity<RmUsuario>(entity =>
-            {
-                entity.HasKey(e => e.IdUsuario);
-
-                entity.ToTable("RM_USUARIOS", "INV");
-
-                entity.HasIndex(e => e.Rowid, "ROWID$INDEX")
-                    .IsUnique();
-
-                entity.Property(e => e.IdUsuario)
-                    .HasColumnType("numeric(10, 0)")
-                    .HasColumnName("ID_USUARIO");
-
-                entity.Property(e => e.CodigoOficina)
-                    .HasColumnType("numeric(5, 0)")
-                    .HasColumnName("CODIGO_OFICINA");
-
-                entity.Property(e => e.Email)
-                    .HasMaxLength(100)
-                    .IsUnicode(false)
-                    .HasColumnName("EMAIL");
-
-                entity.Property(e => e.FechaAlta)
-                    .HasPrecision(0)
-                    .HasColumnName("FECHA_ALTA");
-
-                entity.Property(e => e.FechaBaja)
-                    .HasPrecision(0)
-                    .HasColumnName("FECHA_BAJA");
-
-                entity.Property(e => e.IdEstado)
-                    .HasColumnType("numeric(1, 0)")
-                    .HasColumnName("ID_ESTADO");
-
-                entity.Property(e => e.IdTipoUsuario)
-                    .HasColumnType("numeric(5, 0)")
-                    .HasColumnName("ID_TIPO_USUARIO");
-
-                entity.Property(e => e.NombreUsuario)
-                    .HasMaxLength(60)
-                    .IsUnicode(false)
-                    .HasColumnName("NOMBRE_USUARIO");
-
-                entity.Property(e => e.PasswordBaseDatos)
-                    .HasMaxLength(15)
-                    .IsUnicode(false)
-                    .HasColumnName("PASSWORD_BASE_DATOS");
-
-                entity.Property(e => e.PasswordUsuario)
-                    .HasMaxLength(15)
-                    .IsUnicode(false)
-                    .HasColumnName("PASSWORD_USUARIO");
-
-                entity.Property(e => e.Rowid)
-                    .HasColumnName("ROWID")
-                    .HasDefaultValueSql("(newid())");
-
-                entity.Property(e => e.Username)
-                    .HasMaxLength(15)
-                    .IsUnicode(false)
-                    .HasColumnName("USERNAME");
-
-                entity.Property(e => e.UsuarioBaseDatos)
-                    .HasMaxLength(15)
-                    .IsUnicode(false)
-                    .HasColumnName("USUARIO_BASE_DATOS");
-            });
-
-            modelBuilder.Entity<Sucursale>(entity =>
-            {
-                entity.HasKey(e => new { e.CodEmpresa, e.CodSucursal });
-
-                entity.ToTable("SUCURSALES", "INV");
-
-                entity.HasIndex(e => e.Rowid, "ROWID$INDEX")
-                    .IsUnique();
-
-                entity.Property(e => e.CodEmpresa)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_EMPRESA");
-
-                entity.Property(e => e.CodSucursal)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_SUCURSAL");
-
-                entity.Property(e => e.CasillaCorreo)
-                    .HasMaxLength(15)
-                    .IsUnicode(false)
-                    .HasColumnName("CASILLA_CORREO");
-
-                entity.Property(e => e.CodigoPostal)
-                    .HasMaxLength(10)
-                    .IsUnicode(false)
-                    .HasColumnName("CODIGO_POSTAL");
-
-                entity.Property(e => e.Descripcion)
-                    .HasMaxLength(80)
-                    .IsUnicode(false)
-                    .HasColumnName("DESCRIPCION");
-
-                entity.Property(e => e.DetalleDir)
-                    .HasMaxLength(160)
-                    .IsUnicode(false)
-                    .HasColumnName("DETALLE_DIR");
-
-                entity.Property(e => e.Estado)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("ESTADO");
-
-                entity.Property(e => e.NroPatronal)
-                    .HasMaxLength(10)
-                    .IsUnicode(false)
-                    .HasColumnName("NRO_PATRONAL");
-
-                entity.Property(e => e.PlazoEnvio)
-                    .HasColumnType("numeric(2, 0)")
-                    .HasColumnName("PLAZO_ENVIO");
-
-                entity.Property(e => e.Rowid)
-                    .HasColumnName("ROWID")
-                    .HasDefaultValueSql("(newid())");
-
-                entity.HasOne(d => d.CodEmpresaNavigation)
-                    .WithMany(p => p.Sucursales)
-                    .HasForeignKey(d => d.CodEmpresa)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_SUCUR_EMP");
+                    .HasColumnName("SITIO_WEB");
             });
 
             modelBuilder.Entity<Usuario>(entity =>
             {
                 entity.HasKey(e => e.CodUsuario);
 
-                entity.ToTable("USUARIOS", "INV");
-
-                entity.HasIndex(e => e.Rowid, "ROWID$INDEX")
-                    .IsUnique();
+                entity.ToTable("USUARIOS");
 
                 entity.Property(e => e.CodUsuario)
                     .HasMaxLength(15)
                     .IsUnicode(false)
                     .HasColumnName("COD_USUARIO");
 
-                entity.Property(e => e.AutorizaCtacte)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("AUTORIZA_CTACTE");
-
-                entity.Property(e => e.AutorizaStock)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("AUTORIZA_STOCK");
-
                 entity.Property(e => e.Clave)
                     .HasMaxLength(15)
                     .IsUnicode(false)
                     .HasColumnName("CLAVE");
-
-                entity.Property(e => e.CodArea)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_AREA");
-
-                entity.Property(e => e.CodColorRegistro)
-                    .HasMaxLength(10)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_COLOR_REGISTRO");
-
-                entity.Property(e => e.CodCustodio)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_CUSTODIO")
-                    .HasDefaultValueSql("(' 01')");
-
-                entity.Property(e => e.CodEmpresa)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_EMPRESA");
 
                 entity.Property(e => e.CodGrupo)
                     .HasMaxLength(6)
                     .IsUnicode(false)
                     .HasColumnName("COD_GRUPO");
 
-                entity.Property(e => e.CodOficina)
-                    .HasColumnType("numeric(10, 0)")
-                    .HasColumnName("COD_OFICINA");
-
                 entity.Property(e => e.CodPersona)
-                    .HasMaxLength(15)
+                    .HasMaxLength(30)
                     .IsUnicode(false)
                     .HasColumnName("COD_PERSONA");
 
-                entity.Property(e => e.CodSucursal)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_SUCURSAL");
-
-                entity.Property(e => e.EMail)
-                    .HasMaxLength(100)
-                    .IsUnicode(false)
-                    .HasColumnName("E_MAIL");
-
-                entity.Property(e => e.Estado)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("ESTADO");
-
-                entity.Property(e => e.FechaAlta)
-                    .HasPrecision(0)
-                    .HasColumnName("FECHA_ALTA");
-
-                entity.Property(e => e.FechaBaja)
-                    .HasPrecision(0)
-                    .HasColumnName("FECHA_BAJA");
-
-                entity.Property(e => e.IdTipoUsuario)
-                    .HasColumnType("numeric(30, 0)")
-                    .HasColumnName("ID_TIPO_USUARIO");
-
-                entity.Property(e => e.Rowid)
-                    .HasColumnName("ROWID")
-                    .HasDefaultValueSql("(newid())");
-
-                entity.HasOne(d => d.CodEmpresaNavigation)
-                    .WithMany(p => p.Usuarios)
-                    .HasForeignKey(d => d.CodEmpresa)
-                    .HasConstraintName("FK_USUARIOS_EMP");
+                entity.Property(e => e.FecCreacion)
+                    .HasColumnType("date")
+                    .HasColumnName("FEC_CREACION");
 
                 entity.HasOne(d => d.CodGrupoNavigation)
                     .WithMany(p => p.Usuarios)
                     .HasForeignKey(d => d.CodGrupo)
-                    .HasConstraintName("FK_USUARIOS_GRU");
+                    .HasConstraintName("FK_USUARIOS_GRUPO");
 
-                entity.HasOne(d => d.Cod)
+                entity.HasOne(d => d.CodPersonaNavigation)
                     .WithMany(p => p.Usuarios)
-                    .HasForeignKey(d => new { d.CodEmpresa, d.CodSucursal })
-                    .HasConstraintName("FK_USUARIOS_SUC");
+                    .HasForeignKey(d => d.CodPersona)
+                    .HasConstraintName("FK_US_PERSONAS");
             });
 
             OnModelCreatingPartial(modelBuilder);

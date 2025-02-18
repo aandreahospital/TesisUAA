@@ -19,9 +19,7 @@ namespace SistemaBase.Controllers
         }
 
         // GET: Carrera
-        [TypeFilter(typeof(AutorizarUsuarioFilter), Arguments = new object[] { "BSCARRE", "Index", "Carrera" })]
-
-        public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index()
     {
             return _context.Carreras != null ?
               View(await _context.Carreras.AsNoTracking().ToListAsync()) :
@@ -57,10 +55,10 @@ namespace SistemaBase.Controllers
 
 
         // GET: Carrera/Details/5
-        public async Task<IActionResult> Details(int Idcarrera)
+        public async Task<IActionResult> Details(int IdCarrera)
             {
             var carrera = await _context.Carreras
-            .FindAsync(Idcarrera);
+            .FindAsync(IdCarrera);
             if (carrera == null)
             {
             return NotFound();
@@ -93,10 +91,10 @@ namespace SistemaBase.Controllers
                 }
 
                 // GET: Carrera/Edit/5
-        public async Task<IActionResult> Edit(int Idcarrera)
+        public async Task<IActionResult> Edit(int IdCarrera)
                     {
 
-                    var carrera = await _context.Carreras.FindAsync(Idcarrera);
+                    var carrera = await _context.Carreras.FindAsync(IdCarrera);
                     if (carrera == null)
                     {
                     return NotFound();
@@ -110,7 +108,7 @@ namespace SistemaBase.Controllers
                     [HttpPost]
                     [ValidateAntiForgeryToken]
                     public async Task<IActionResult>
-                        Edit(int Idcarrera,  Carrera carrera)
+                        Edit(int IdCarrera,  Carrera carrera)
                         {
 
                         try
@@ -120,7 +118,7 @@ namespace SistemaBase.Controllers
                         }
                         catch (DbUpdateConcurrencyException)
                         {
-                        if (!CarreraExists(carrera.Idcarrera))
+                        if (!CarreraExists(carrera.IdCarrera))
                         {
                         return NotFound();
                         }
@@ -139,11 +137,11 @@ namespace SistemaBase.Controllers
 
                         // GET: Carrera/Delete/5
                         public async Task<IActionResult>
-                            Delete(int Idcarrera)
+                            Delete(int IdCarrera)
                             {
 
                             var carrera = await _context.Carreras
-                            .FindAsync(Idcarrera);
+                            .FindAsync(IdCarrera);
                             if (carrera == null)
                             {
                             return NotFound();
@@ -156,13 +154,13 @@ namespace SistemaBase.Controllers
                             [HttpPost, ActionName("Delete")]
                             [ValidateAntiForgeryToken]
                             public async Task<IActionResult>
-                                DeleteConfirmed(int Idcarrera)
+                                DeleteConfirmed(int IdCarrera)
                                 {
                                 if (_context.Carreras == null)
                                 {
                                 return Problem("Entity set 'DbvinDbContext.Carreras'  is null.");
                                 }
-                                var carrera = await _context.Carreras.FindAsync(Idcarrera);
+                                var carrera = await _context.Carreras.FindAsync(IdCarrera);
                                 if (carrera != null)
                                 {
                                 _context.Carreras.Remove(carrera);
@@ -177,7 +175,7 @@ namespace SistemaBase.Controllers
 
                                 private bool CarreraExists(int id)
                                 {
-                                return (_context.Carreras?.Any(e => e.Idcarrera == id)).GetValueOrDefault();
+                                return (_context.Carreras?.Any(e => e.IdCarrera == id)).GetValueOrDefault();
                                 }
                                 }
                                 }

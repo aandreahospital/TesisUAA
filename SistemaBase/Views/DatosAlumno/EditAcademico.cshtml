@@ -1,95 +1,88 @@
-﻿
-@model SistemaBase.Models.PermisosOpcione
+﻿@model SistemaBase.ModelsCustom.DatosAcademicoCustom
 
 @{
     ViewData["Title"] = "Create";
     Layout = "";
-    string namecheck = "";
+    string nameCheck = "";
 }
 
 <div class="modal fade " id="detailsModal" tabindex="-1" aria-labelledby="detailsModallLabel" style="display: none;" aria-modal="true" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="detailsModalLabel">PermisosOpcione</h5>
+                <h5 class="modal-title" id="detailsModalLabel"> Agregar Historial Academico</h5>
                 <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close" id="editmodal"><svg class="svg-inline--fa fa-xmark fs--1" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="xmark" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg=""><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"></path></svg><!-- <span class="fas fa-times fs--1"></span> Font Awesome fontawesome.com --></button>
             </div>
             <div class="modal-body">
-                <form asp-action="Create" id="FormModalCreate" onsubmit="submitforms(event,'Create', 'FormModalCreate')" class="mb-0">
+                <form asp-action="Create" id="FormModalCreate" class="mb-0">
                     <div class="row g-0 mt-0 mb-0">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input id="IdDatosAcademicos" type="hidden" class="form-control" asp-for="IdDatosAcademicos" />
+
+                        <input id="CodUsuario" type="hidden" class="form-control" asp-for="CodUsuario" value="@Context.User.Identity.Name" />
+
                         <div class="col-12">
                             <div class="row">
                                 <div class="col-4">
-                                    <label class="form-control-label fs-0 subTitleModal " asp-for="CodEmpresa"></label>
+                                    <label class="form-control-label fs-0 subTitleModal ">Centro de Estudio</label>
                                 </div>
                                 <div class="col-8">
-                                    <input class="form-control" asp-for="CodEmpresa" />
-                                    <span asp-validation-for="CodEmpresa" class="text-danger k-invalid-msg" data-for="CodEmpresa"></span>
+                                    <div class="dropup">
+                                        <select id="Idcentroestudio" class="form-select" data-choices="data-choices" single="single" data-options='{"removeItemButton":true,"placeholder":true}' asp-items="ViewBag.CentoEstudio" asp-for="IdCentroEstudio" required>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="row">
                                 <div class="col-4">
-                                    <label class="form-control-label fs-0 subTitleModal " asp-for="CodUsuario"></label>
+                                    <label class="form-control-label fs-0 subTitleModal ">Carrera</label>
                                 </div>
                                 <div class="col-8">
-                                    <input class="form-control" asp-for="CodUsuario" />
-                                    <span asp-validation-for="CodUsuario" class="text-danger k-invalid-msg" data-for="CodUsuario"></span>
+                                    <div class="dropup">
+                                        <select id="Idcarrera" class="form-select" data-choices="data-choices" single="single" data-options='{"removeItemButton":true,"placeholder":true}' asp-items="ViewBag.Carrera" asp-for="IdCarrera" required>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="row">
-                                <div class="col-4">
-                                    <label class="form-control-label fs-0 subTitleModal " asp-for="CodModulo"></label>
-                                </div>
-                                <div class="col-8">
-                                    <input class="form-control" asp-for="CodModulo" />
-                                    <span asp-validation-for="CodModulo" class="text-danger k-invalid-msg" data-for="CodModulo"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="row">
-                                <div class="col-4">
-                                    <label class="form-control-label fs-0 subTitleModal " asp-for="Parametro"></label>
-                                </div>
-                                <div class="col-8">
-                                    <input class="form-control" asp-for="Parametro" />
-                                    <span asp-validation-for="Parametro" class="text-danger k-invalid-msg" data-for="Parametro"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="row">
-                                <div class="col-4">
-                                    <label class="form-control-label fs-0 subTitleModal " asp-for="Permiso"></label>
-                                </div>
-                                <div class="col-8">
-                                    <input class="form-control" asp-for="Permiso" />
-                                    <span asp-validation-for="Permiso" class="text-danger k-invalid-msg" data-for="Permiso"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="row">
-                                <div class="col-4">
-                                    <label class="form-control-label fs-0 subTitleModal " asp-for="NomForma"></label>
-                                </div>
-                                <div class="col-8">
-                                    <input class="form-control" asp-for="NomForma" />
-                                    <span asp-validation-for="NomForma" class="text-danger k-invalid-msg" data-for="NomForma"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <div class="">
-                                <input type="hidden" asp-for="Rowid" />
                             </div>
                         </div>
 
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-4">
+                                    <label class="form-control-label fs-0 subTitleModal ">Año Inicio</label>
+                                </div>
+                                <div class="col-8">
+                                    <input id="AnhoInicio" class="form-control" asp-for="AnhoInicio" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-4">
+                                    <label class="form-control-label fs-0 subTitleModal ">Año Fin</label>
+                                </div>
+                                <div class="col-8">
+                                    <input id="AnhoFin" class="form-control" asp-for="AnhoFin" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="col-4">
+                                    <label class="form-control-label fs-0 subTitleModal text-900">Estado</label>
+                                </div>
+                                <div class="col-sm">
+                                    <select asp-for="Estado" class="form-select ps-4" id="Estado" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+                                        <option value="A">Cursando</option>
+                                        <option value="I">Culminado</option>
+                                        <option value="T">En proceso de Trabajo de Grado</option>
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                         <div class="text-center" id="loader_inv" style="visibility: hidden;">
                             <div class="spinner-border" role="status">
                                 <span class="sr-only"></span>
@@ -97,32 +90,20 @@
                         </div>
 
                     </div>
-
-
-
-
-
                     <div class="modal-footer">
-                        <button class="btnAbm" type="submit">
-                            <span class="btn-label"><i class="fa fa-save"></i></span> Guardar
+                        <button class="btnAbm" type="button" id="btnEditAcademico" onclick="EditAcademico(event)" data-bs-dismiss="modal">
+                            <span class="btn-label"><i class="fa fa-save"></i></span> Aceptar
                         </button>
 
                         <button class="btnAbmCancelar" type="button" data-bs-dismiss="modal">
                             <span class="btn-label"><i class="fa fa-remove"></i></span> Cancelar
                         </button>
                     </div>
-
-
-
                 </form>
-
-
-
-
-
-
             </div>
         </div>
     </div>
 </div>
+
+
 

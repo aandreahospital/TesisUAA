@@ -4,10 +4,7 @@
       List<string> columns =  new List<string>();
                                         columns.Add("\""+Html.DisplayNameFor(model => model.CodModulo)+"\""); 
                                         columns.Add("\""+Html.DisplayNameFor(model => model.NomForma)+"\""); 
-                                        columns.Add("\""+Html.DisplayNameFor(model => model.Titulo)+"\""); 
                                         columns.Add("\""+Html.DisplayNameFor(model => model.Descripcion)+"\""); 
-                                        columns.Add("\""+Html.DisplayNameFor(model => model.Rowid)+"\""); 
-                                      columns.Add("\""+Html.DisplayNameFor(model => model.CodModuloNavigation)+"\""); 
      if (ViewData["Show"] != null)
      {
          Layout = "";
@@ -16,16 +13,9 @@
         @{
         ViewData["Title"] = "Index";
         }
-@section styles {
-    <link rel="stylesheet" type="text/css" href="./css/cdn.datatables.net_1.13.6_css_jquery.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="./css/cdn.jsdelivr.net_npm_sweetalert2@7.12.15_dist_sweetalert2.min.css">
-
-}
+        
         
        @if (ViewData["Show"] == null) {
-    <script src="~/js/cdnjs.cloudflare.com_ajax_libs_moment.js_2.29.4_moment.min.js"></script>
-    <script src="~/js/cdnjs.cloudflare.com_ajax_libs_sweetalert_2.1.2_sweetalert.min.js"></script>
-    <script src="~/js/jquery-3.6.0.min.js"></script>
         <p>
             <a class="d-none" id="detailsview" type="button" data-bs-toggle="modal" data-bs-target="#detailsModal"></a>
         </p>                             
@@ -58,9 +48,7 @@
                             <tr>
                                 <th class="white-space-nowrap fs--1 ps-0 align-middle text-center col-1 pt-2 pb-2 pl-2"></th>
                                     <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0"  data-sort="@Html.DisplayNameFor(model => model.NomForma))"> @Html.DisplayNameFor(model => model.NomForma)</th>
-                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0" data-sort="@Html.DisplayNameFor(model => model.Titulo)"> @Html.DisplayNameFor(model => model.Titulo)</th>
                                         <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0" data-sort="@Html.DisplayNameFor(model => model.Descripcion)"> @Html.DisplayNameFor(model => model.Descripcion)</th>
-                                       <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0"  data-sort="@Html.DisplayNameFor(model => model.CodModuloNavigation))"> @Html.DisplayNameFor(model => model.CodModuloNavigation)</th>
                             </tr>
                         </thead>
                         <tbody class="list">
@@ -71,9 +59,7 @@
                                         <button class="btnAbm" onclick="modaldelete('@item.CodModulo', '@item.NomForma')"><i class="fa fa-trash"></i></button>
                                     </td>
                                        <td class="@Html.DisplayNameFor(modelItem => item.NomForma) fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.NomForma)</td>
-                                        <td class="@Html.DisplayNameFor(modelItem => item.Titulo)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.Titulo)</td>
                                         <td class="@Html.DisplayNameFor(modelItem => item.Descripcion)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.Descripcion)</td>
-                                        <td class="@Html.DisplayNameFor(modelItem => item.CodModuloNavigation) fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.CodModuloNavigation.CodModulo)</td>
                             </tr>
                                                                         }
                         </tbody>
@@ -186,23 +172,9 @@
         }
         })
         .then(function (response) {
-                    if (response.data.success == false) {
-                        swal({
-                            icon: 'error',
-                            title: 'Error...',
-                            text: response.data.message
-                        });
-                        //loader.style.display = 'none';
-                    } else {
-                document.getElementById("listbody").innerHTML = response.data;
-                document.getElementById("editmodal").click();
-                document.getElementsByClassName("modal-backdrop fade show")[0].className = "";
-                        swal({
-                            icon: 'success',
-                            title: 'Listo',
-                            text: 'La operación se realizó correctamente.'
-                        });
-                    }
+        document.getElementById("listbody").innerHTML = response.data;
+        document.getElementById("editmodal").click();
+        document.getElementsByClassName("modal-backdrop fade show")[0].className = "";
         })
         .catch(function (response) {
         console.log(response);
@@ -244,9 +216,7 @@ refreshjs.forEach((item) =>
                             <tr>
                                 <th class="white-space-nowrap fs--1 ps-0 align-middle"></th>
                                     <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle"  data-sort="@Html.DisplayNameFor(model => model.NomForma))"> @Html.DisplayNameFor(model => model.NomForma)</th>
-                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle" data-sort="@Html.DisplayNameFor(model => model.Titulo)"> @Html.DisplayNameFor(model => model.Titulo)</th>
                                         <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle" data-sort="@Html.DisplayNameFor(model => model.Descripcion)"> @Html.DisplayNameFor(model => model.Descripcion)</th>
-                                       <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle"  data-sort="@Html.DisplayNameFor(model => model.CodModuloNavigation))"> @Html.DisplayNameFor(model => model.CodModuloNavigation)</th>
                             </tr>
                         </thead>
                         <tbody class="list">
@@ -258,9 +228,7 @@ refreshjs.forEach((item) =>
                                         <button class="btnAbm" onclick="modaldetails('@item.CodModulo', '@item.NomForma')"><i class="fa fa-arrow-right"></i></button>
                                     </td>
                                        <td class="@Html.DisplayNameFor(modelItem => item.NomForma) fs--1 align-middle ps-0"> @Html.DisplayFor(modelItem => item.NomForma)</td>
-                                        <td class="@Html.DisplayNameFor(modelItem => item.Titulo)  fs--1 align-middle ps-0 "> @Html.DisplayFor(modelItem => item.Titulo)</td>
                                         <td class="@Html.DisplayNameFor(modelItem => item.Descripcion)  fs--1 align-middle ps-0 "> @Html.DisplayFor(modelItem => item.Descripcion)</td>
-                                        <td class="@Html.DisplayNameFor(modelItem => item.CodModuloNavigation) fs--1 align-middle ps-0 "> @Html.DisplayFor(modelItem => item.CodModuloNavigation.CodModulo)</td>
                             </tr>
                             }
                         </tbody>

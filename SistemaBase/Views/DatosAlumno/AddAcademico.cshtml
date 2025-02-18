@@ -1,4 +1,4 @@
-﻿@model SistemaBase.Models.Datosacademico
+﻿@model SistemaBase.Models.DatosAcademico
 
 @{
     ViewData["Title"] = "Create";
@@ -27,7 +27,7 @@
                                 </div>
                                 <div class="col-8">
                                     <div class="dropup">
-                                        <select id="Idcentroestudio" class="form-select" data-choices="data-choices" single="single" data-options='{"removeItemButton":true,"placeholder":true}' asp-items="ViewBag.CentoEstudio" asp-for="Idcentroestudio" required>
+                                        <select id="Idcentroestudio" class="form-select" data-choices="data-choices" single="single" data-options='{"removeItemButton":true,"placeholder":true}' asp-items="ViewBag.CentoEstudio" asp-for="IdCentroEstudio" required>
                                         </select>
                                     </div>
                                 </div>
@@ -40,7 +40,7 @@
                                 </div>
                                 <div class="col-8">
                                     <div class="dropup">
-                                        <select id="Idcarrera" class="form-select" data-choices="data-choices" single="single" data-options='{"removeItemButton":true,"placeholder":true}' asp-items="ViewBag.Carrera" asp-for="Idcarrera" required>
+                                        <select id="Idcarrera" class="form-select" data-choices="data-choices" single="single" data-options='{"removeItemButton":true,"placeholder":true}' asp-items="ViewBag.Carrera" asp-for="IdCarrera" required>
                                         </select>
                                     </div>
                                 </div>
@@ -50,20 +50,20 @@
                         <div class="col-12">
                             <div class="row">
                                 <div class="col-4">
-                                    <label class="form-control-label fs-0 subTitleModal ">Fecha Inicio</label>
+                                    <label class="form-control-label fs-0 subTitleModal ">Año Inicio</label>
                                 </div>
                                 <div class="col-8">
-                                    <input class="form-control  datetimepicker" name="Fechainicio" id="Fechainicio" type="datetime" style="max-width: 350px;" placeholder="d/m/y" data-options='{"disableMobile":true}' />
+                                    <input id="AnhoInicio" class="form-control" asp-for="AnhoInicio" />
                                 </div>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="row">
                                 <div class="col-4">
-                                    <label class="form-control-label fs-0 subTitleModal ">Fecha Fin</label>
+                                    <label class="form-control-label fs-0 subTitleModal ">Año Fin</label>
                                 </div>
                                 <div class="col-8">
-                                    <input class="form-control  datetimepicker" name="Fechafin" id="Fechafin" type="datetime" style="max-width: 350px;" placeholder="d/m/y" data-options='{"disableMobile":true}' />
+                                    <input id="AnhoFin" class="form-control" asp-for="AnhoFin" />
                                 </div>
                             </div>
                         </div>

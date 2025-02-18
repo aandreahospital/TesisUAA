@@ -1,24 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SistemaBase.Models
 {
-    public partial class Datosacademico
+    public partial class DatosAcademico
     {
-        public int Iddatosacademicos { get; set; }
+        public int IdDatosAcademicos { get; set; }
         public string CodUsuario { get; set; } = null!;
-        public int Idcentroestudio { get; set; }
-        public int Idcarrera { get; set; }
-        public DateTime? Fechainicio { get; set; }
-        public DateTime? Fechafin { get; set; }
+        public int IdCentroEstudio { get; set; }
+        public int IdCarrera { get; set; }
+        public string? AnhoInicio { get; set; }
+        public string? AnhoFin { get; set; }
         public string? Estado { get; set; }
-        [NotMapped]
-        public string? CentroEducativo { get; set; }
-        [NotMapped]
-        public string? Carrera { get; set; }
-        public Guid Rowid { get; set; }
+        //public string? Carrera { get; set; }
+        //public string? CentroEstudio { get; set; }
 
-        public virtual Usuario CodUsuarioNavigation { get; set; } = null!;
+        //public virtual Usuario CodUsuarioNavigation { get; set; } = null!;
+        //public virtual Carrera IdCarreraNavigation { get; set; } = null!;
+        //public virtual CentroEstudio IdCentroEstudioNavigation { get; set; } = null!;
     }
 }

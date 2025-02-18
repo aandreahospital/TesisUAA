@@ -4,8 +4,6 @@
       List<string> columns =  new List<string>();
                                         columns.Add("\""+Html.DisplayNameFor(model => model.CodGrupo)+"\""); 
                                         columns.Add("\""+Html.DisplayNameFor(model => model.Descripcion)+"\""); 
-                                        columns.Add("\""+Html.DisplayNameFor(model => model.OpFueraHo)+"\""); 
-                                        columns.Add("\""+Html.DisplayNameFor(model => model.Rowid)+"\""); 
      if (ViewData["Show"] != null)
      {
          Layout = "";
@@ -50,8 +48,6 @@
                                 <th class="white-space-nowrap fs--1 ps-0 align-middle text-center col-1 pt-2 pb-2 pl-2"></th>
                                     <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0"  data-sort="@Html.DisplayNameFor(model => model.CodGrupo))"> @Html.DisplayNameFor(model => model.CodGrupo)</th>
                                         <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0" data-sort="@Html.DisplayNameFor(model => model.Descripcion)"> @Html.DisplayNameFor(model => model.Descripcion)</th>
-                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0" data-sort="@Html.DisplayNameFor(model => model.OpFueraHo)"> @Html.DisplayNameFor(model => model.OpFueraHo)</th>
-                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0" data-sort="@Html.DisplayNameFor(model => model.Rowid)"> @Html.DisplayNameFor(model => model.Rowid)</th>
                             </tr>
                         </thead>
                         <tbody class="list">
@@ -63,8 +59,6 @@
                                     </td>
                                        <td class="@Html.DisplayNameFor(modelItem => item.CodGrupo) fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.CodGrupo)</td>
                                         <td class="@Html.DisplayNameFor(modelItem => item.Descripcion)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.Descripcion)</td>
-                                        <td class="@Html.DisplayNameFor(modelItem => item.OpFueraHo)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.OpFueraHo)</td>
-                                        <td class="@Html.DisplayNameFor(modelItem => item.Rowid)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.Rowid)</td>
                             </tr>
                                                                         }
                         </tbody>
@@ -222,8 +216,6 @@ refreshjs.forEach((item) =>
                                 <th class="white-space-nowrap fs--1 ps-0 align-middle"></th>
                                     <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle"  data-sort="@Html.DisplayNameFor(model => model.CodGrupo))"> @Html.DisplayNameFor(model => model.CodGrupo)</th>
                                         <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle" data-sort="@Html.DisplayNameFor(model => model.Descripcion)"> @Html.DisplayNameFor(model => model.Descripcion)</th>
-                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle" data-sort="@Html.DisplayNameFor(model => model.OpFueraHo)"> @Html.DisplayNameFor(model => model.OpFueraHo)</th>
-                                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle" data-sort="@Html.DisplayNameFor(model => model.Rowid)"> @Html.DisplayNameFor(model => model.Rowid)</th>
                             </tr>
                         </thead>
                         <tbody class="list">
@@ -236,8 +228,6 @@ refreshjs.forEach((item) =>
                                     </td>
                                        <td class="@Html.DisplayNameFor(modelItem => item.CodGrupo) fs--1 align-middle ps-0"> @Html.DisplayFor(modelItem => item.CodGrupo)</td>
                                         <td class="@Html.DisplayNameFor(modelItem => item.Descripcion)  fs--1 align-middle ps-0 "> @Html.DisplayFor(modelItem => item.Descripcion)</td>
-                                        <td class="@Html.DisplayNameFor(modelItem => item.OpFueraHo)  fs--1 align-middle ps-0 "> @Html.DisplayFor(modelItem => item.OpFueraHo)</td>
-                                        <td class="@Html.DisplayNameFor(modelItem => item.Rowid)  fs--1 align-middle ps-0 "> @Html.DisplayFor(modelItem => item.Rowid)</td>
                             </tr>
                             }
                         </tbody>

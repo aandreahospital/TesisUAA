@@ -5,8 +5,14 @@ namespace SistemaBase.Models
 {
     public partial class Carrera
     {
-        public int Idcarrera { get; set; }
+        public Carrera()
+        {
+            DatosAcademicos = new HashSet<DatosAcademico>();
+        }
+
+        public int IdCarrera { get; set; }
         public string? Descripcion { get; set; }
-        public Guid Rowid { get; set; }
+
+        public virtual ICollection<DatosAcademico> DatosAcademicos { get; set; }
     }
 }

@@ -9,23 +9,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SistemaBase.Controllers
 {
-    public class ForoController : Controller
+    public class PersonaController : Controller
     {
         private readonly DbvinDbContext _context;
 
-        public ForoController(DbvinDbContext context)
+        public PersonaController(DbvinDbContext context)
         {
             _context = context;
         }
 
-        // GET: Foro
-        [TypeFilter(typeof(AutorizarUsuarioFilter), Arguments = new object[] { "SCFORO", "Index", "Foro" })]
-
-        public async Task<IActionResult> Index()
+        // GET: Persona
+    public async Task<IActionResult> Index()
     {
-        ViewData["CodUsuario"] = new SelectList(_context.Usuarios, "CodUsuario", "CodUsuario");
-        var dbvinDbContext = _context.Forodebates.Include(f => f.CodUsuarioNavigation);
-        return View(await dbvinDbContext.AsNoTracking().ToListAsync());
+            return _context.Personas != null ?
+              View(await _context.Personas.AsNoTracking().ToListAsync()) :
+              Problem("Entity set 'DbvinDbContext.Personas'  is null.");
     }
 
 
@@ -39,10 +37,10 @@ namespace SistemaBase.Controllers
     public async Task<IActionResult>
     ResultTable()
     {
-        ViewData["CodUsuario"] = new SelectList(_context.Usuarios, "CodUsuario", "CodUsuario");
     ViewData["Show"] = true;
-        var dbvinDbContext = _context.Forodebates.Include(f => f.CodUsuarioNavigation);
-        return View("Index",await dbvinDbContext.AsNoTracking().ToListAsync());
+            return _context.Personas != null ?
+              View("Index", await _context.Personas.AsNoTracking().ToListAsync()) :
+              Problem("Entity set 'DbvinDbContext.Personas'  is null.");
     }
 
 
@@ -56,74 +54,71 @@ namespace SistemaBase.Controllers
 
 
 
-        // GET: Foro/Details/5
-        public async Task<IActionResult> Details(int Idforodebate)
+        // GET: Persona/Details/5
+        public async Task<IActionResult> Details(string CodPersona)
             {
-            var forodebate = await _context.Forodebates
-            .FindAsync(Idforodebate);
-            if (forodebate == null)
+            var persona = await _context.Personas
+            .FindAsync(CodPersona);
+            if (persona == null)
             {
             return NotFound();
             }
 
-            return View(forodebate);
+            return View(persona);
             }
 
-            // GET: Foro/Create
+            // GET: Persona/Create
             public IActionResult Create()
             {
-            ViewData["CodUsuario"] = new SelectList(_context.Usuarios, "CodUsuario", "CodUsuario");
             return View();
             }
 
-            // POST: Foro/Create
+            // POST: Persona/Create
             // To protect from overposting attacks, enable the specific properties you want to bind to.
             // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
             [HttpPost]
             [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create( Forodebate forodebate)
+        public async Task<IActionResult> Create( Persona persona)
                 {
-            _context.Add(forodebate);
+            _context.Add(persona);
             await _context.SaveChangesAsync();
                 return RedirectToAction("ResultTable");
 
                 //return RedirectToAction(nameof(Index));
-                ViewData["CodUsuario"] = new SelectList(_context.Usuarios, "CodUsuario", "CodUsuario", forodebate.CodUsuario);
                 return RedirectToAction("ResultTable");
 
-                // return View(forodebate);
+                // return View(persona);
                 }
 
-                // GET: Foro/Edit/5
-        public async Task<IActionResult> Edit(int Idforodebate)
+                // GET: Persona/Edit/5
+        public async Task<IActionResult> Edit(string CodPersona)
                     {
 
-                    var forodebate = await _context.Forodebates.FindAsync(Idforodebate);
-                    if (forodebate == null)
+                    var persona = await _context.Personas.FindAsync(CodPersona);
+                    if (persona == null)
                     {
                     return NotFound();
                     }
-                    ViewData["CodUsuario"] = new SelectList(_context.Usuarios, "CodUsuario", "CodUsuario", forodebate.CodUsuario);
-                    return View(forodebate);
+                    return View(persona);
                     }
 
-                    // POST: Foro/Edit/5
+                    // POST: Persona/Edit/5
                     // To protect from overposting attacks, enable the specific properties you want to bind to.
                     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
                     [HttpPost]
                     [ValidateAntiForgeryToken]
                     public async Task<IActionResult>
-                        Edit(int Idforodebate,  Forodebate forodebate)
+                        Edit(string CodPersona,  Persona persona)
                         {
 
                         try
                         {
-                        _context.Update(forodebate);
+                        _context.Update(persona);
                         await _context.SaveChangesAsync();
                         }
                         catch (DbUpdateConcurrencyException)
                         {
-                        if (!ForodebateExists(forodebate.Idforodebate))
+                        if (!PersonaExists(persona.CodPersona))
                         {
                         return NotFound();
                         }
@@ -135,41 +130,40 @@ namespace SistemaBase.Controllers
                         return RedirectToAction("ResultTable");
 
                         // return RedirectToAction(nameof(Index));
-                        ViewData["CodUsuario"] = new SelectList(_context.Usuarios, "CodUsuario", "CodUsuario", forodebate.CodUsuario);
                         return RedirectToAction("ResultTable");
 
-                        //return View(forodebate);
+                        //return View(persona);
                         }
 
-                        // GET: Foro/Delete/5
+                        // GET: Persona/Delete/5
                         public async Task<IActionResult>
-                            Delete(int Idforodebate)
+                            Delete(string CodPersona)
                             {
 
-                            var forodebate = await _context.Forodebates
-                            .FindAsync(Idforodebate);
-                            if (forodebate == null)
+                            var persona = await _context.Personas
+                            .FindAsync(CodPersona);
+                            if (persona == null)
                             {
                             return NotFound();
                             }
 
-                            return View(forodebate);
+                            return View(persona);
                             }
 
-                            // POST: Foro/Delete/5
+                            // POST: Persona/Delete/5
                             [HttpPost, ActionName("Delete")]
                             [ValidateAntiForgeryToken]
                             public async Task<IActionResult>
-                                DeleteConfirmed(int Idforodebate)
+                                DeleteConfirmed(string CodPersona)
                                 {
-                                if (_context.Forodebates == null)
+                                if (_context.Personas == null)
                                 {
-                                return Problem("Entity set 'DbvinDbContext.Forodebates'  is null.");
+                                return Problem("Entity set 'DbvinDbContext.Personas'  is null.");
                                 }
-                                var forodebate = await _context.Forodebates.FindAsync(Idforodebate);
-                                if (forodebate != null)
+                                var persona = await _context.Personas.FindAsync(CodPersona);
+                                if (persona != null)
                                 {
-                                _context.Forodebates.Remove(forodebate);
+                                _context.Personas.Remove(persona);
                                 }
 
                                 await _context.SaveChangesAsync();
@@ -179,9 +173,9 @@ namespace SistemaBase.Controllers
                                 //return RedirectToAction(nameof(Index));
                                 }
 
-                                private bool ForodebateExists(int id)
+                                private bool PersonaExists(string id)
                                 {
-                                return (_context.Forodebates?.Any(e => e.Idforodebate == id)).GetValueOrDefault();
+                                return (_context.Personas?.Any(e => e.CodPersona == id)).GetValueOrDefault();
                                 }
                                 }
                                 }
