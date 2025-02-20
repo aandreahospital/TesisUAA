@@ -182,11 +182,11 @@ namespace SistemaBase.Models
                 //    .OnDelete(DeleteBehavior.ClientSetNull)
                 //    .HasConstraintName("FK_COMENTARIO_USUARIO");
 
-                entity.HasOne(d => d.IdForoDebateNavigation)
-                    .WithMany(p => p.Comentarios)
-                    .HasForeignKey(d => d.IdForoDebate)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_COMENTARIO_FORO");
+                //entity.HasOne(d => d.IdForoDebateNavigation)
+                //    .WithMany(p => p.Comentarios)
+                //    .HasForeignKey(d => d.IdForoDebate)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_COMENTARIO_FORO");
             });
 
             modelBuilder.Entity<DatosAcademico>(entity =>
