@@ -76,7 +76,7 @@ namespace SistemaBase.Controllers
 
         private List<DatosAcademicoCustom> ObtenerEducacion()
         {
-            var academico = _context.DatosAcademicos.OrderByDescending(x=>x.IdDatosAcademicos).Where(x => x.CodUsuario == User.Identity.Name).ToList();
+            var academico = _context.DatosAcademicos.OrderByDescending(X=>X.IdDatosAcademicos).Where(x => x.CodUsuario == User.Identity.Name).ToList();
             // Simulando datos; reemplaza con datos reales
             var ListaAcademico = academico.Select(academico => new DatosAcademicoCustom
             {

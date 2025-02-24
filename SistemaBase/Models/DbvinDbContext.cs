@@ -221,23 +221,23 @@ namespace SistemaBase.Models
 
                 entity.Property(e => e.IdCentroEstudio).HasColumnName("ID_CENTRO_ESTUDIO");
 
-                //entity.HasOne(d => d.CodUsuarioNavigation)
-                //    .WithMany(p => p.DatosAcademicos)
-                //    .HasForeignKey(d => d.CodUsuario)
-                //    .OnDelete(DeleteBehavior.ClientSetNull)
-                //    .HasConstraintName("FK_DA_USUARIOS");
+                entity.HasOne(d => d.CodUsuarioNavigation)
+                    .WithMany(p => p.DatosAcademicos)
+                    .HasForeignKey(d => d.CodUsuario)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DA_USUARIOS");
 
-                //entity.HasOne(d => d.IdCarreraNavigation)
-                //    .WithMany(p => p.DatosAcademicos)
-                //    .HasForeignKey(d => d.IdCarrera)
-                //    .OnDelete(DeleteBehavior.ClientSetNull)
-                //    .HasConstraintName("FK_DA_CARRERA");
+                entity.HasOne(d => d.IdCarreraNavigation)
+                    .WithMany(p => p.DatosAcademicos)
+                    .HasForeignKey(d => d.IdCarrera)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DA_CARRERA");
 
-                //entity.HasOne(d => d.IdCentroEstudioNavigation)
-                //    .WithMany(p => p.DatosAcademicos)
-                //    .HasForeignKey(d => d.IdCentroEstudio)
-                //    .OnDelete(DeleteBehavior.ClientSetNull)
-                //    .HasConstraintName("FK_DA_CENTRO_ESTUDIOS");
+                entity.HasOne(d => d.IdCentroEstudioNavigation)
+                    .WithMany(p => p.DatosAcademicos)
+                    .HasForeignKey(d => d.IdCentroEstudio)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DA_CENTRO_ESTUDIOS");
             });
 
             modelBuilder.Entity<DatosLaborale>(entity =>

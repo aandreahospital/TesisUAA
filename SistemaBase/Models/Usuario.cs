@@ -28,7 +28,7 @@ namespace SistemaBase.Models
         //public virtual ICollection<Cargo> Cargos { get; set; }
         //public virtual ICollection<CarreraUsuario> CarreraUsuarios { get; set; }
         //public virtual ICollection<Comentario> Comentarios { get; set; }
-        //public virtual ICollection<DatosAcademico> DatosAcademicos { get; set; }
+        public virtual ICollection<DatosAcademico> DatosAcademicos { get; set; }
         //public virtual ICollection<DatosLaborale> DatosLaborales { get; set; }
         //public virtual ICollection<ForoDebate> ForoDebates { get; set; }
         //public virtual ICollection<OfertaAcademica> OfertaAcademicas { get; set; }

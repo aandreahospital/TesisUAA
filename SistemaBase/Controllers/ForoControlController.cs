@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SistemaBase.Models;
+using System.Security.Claims;
 
 namespace SistemaBase.Controllers
 {
@@ -15,6 +16,12 @@ namespace SistemaBase.Controllers
         }
         public async Task<IActionResult> Index()
         {
+
+            var roleClaim = User.FindFirst(ClaimTypes.Role)?.Value;
+            string displayStyle = (roleClaim == "ADMIN") ? "" : "display:none;";
+
+            ViewBag.StyleAdmin = displayStyle;
+
             return _context.ForoDebates != null ?
                View(await _context.ForoDebates.AsNoTracking().ToListAsync()) :
                Problem("Entity set 'DbvinDbContext.Formas'  is null.");

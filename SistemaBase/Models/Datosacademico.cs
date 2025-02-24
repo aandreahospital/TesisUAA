@@ -15,8 +15,8 @@ namespace SistemaBase.Models
         //public string? Carrera { get; set; }
         //public string? CentroEstudio { get; set; }
 
-        //public virtual Usuario CodUsuarioNavigation { get; set; } = null!;
-        //public virtual Carrera IdCarreraNavigation { get; set; } = null!;
-        //public virtual CentroEstudio IdCentroEstudioNavigation { get; set; } = null!;
+        public virtual Usuario CodUsuarioNavigation { get; set; } = null!;
+        public virtual Carrera IdCarreraNavigation { get; set; } = null!;
+        public virtual CentroEstudio IdCentroEstudioNavigation { get; set; } = null!;
     }
 }
