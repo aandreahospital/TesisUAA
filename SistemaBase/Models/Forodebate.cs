@@ -5,10 +5,10 @@ namespace SistemaBase.Models
 {
     public partial class ForoDebate
     {
-    //    public ForoDebate()
-    //    {
-    //        Comentarios = new HashSet<Comentario>();
-    //    }
+        //public ForoDebate()
+        //{
+        //    Comentarios = new HashSet<Comentario>();
+        //}
 
         public int IdForoDebate { get; set; }
         public string CodUsuario { get; set; } = null!;

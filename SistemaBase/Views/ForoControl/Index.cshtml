@@ -18,7 +18,7 @@
     <link rel="stylesheet" type="text/css" href="./css/cdn.datatables.net_1.13.6_css_jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="./css/cdn.jsdelivr.net_npm_sweetalert2@7.12.15_dist_sweetalert2.min.css">
 }
-
+<script src="~/js/Foro.js"> </script>
 <script src="~/js/jquery-3.7.0.js"></script>
 <script src="~/js/jquery-3.6.0.min.js"></script>
 <script src="~/js/jquery.datatables.min.js"></script>
@@ -68,6 +68,7 @@
                                     <td class="fs--1 align-middle ps-0 text-center col-1 pt-2 pb-2 pl-2">
                                         <button class="btnAbm" onclick="abrirEditForo('@item.IdForoDebate')" style="@ViewBag.StyleAdmin" onclick="return confirm('¿Estás seguro de eliminar este registro?');"><i class="fa fa-pencil"></i></button>
                                         <button class="btnAbm" asp-action="DeleteForo" style="@ViewBag.StyleAdmin" asp-route-id="@item.IdForoDebate"><i class="fa fa-trash"></i></button>
+                                        <button class="btnAbm" onclick="verComentarios('@item.IdForoDebate')"><i class="fa fa-eye"></i></button>
                                     </td>
                                     <td class="@Html.DisplayNameFor(modelItem => item.Titulo) fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.Titulo)</td>
                                     <td class="@Html.DisplayNameFor(modelItem => item.Descripcion)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.Descripcion)</td>
@@ -114,7 +115,7 @@ else
                             <td class="fs--1 align-middle ps-0">
                                 <button class="btnAbm" style="@ViewBag.StyleAdmin" onclick="abrirEditForo('@item.IdForoDebate')"><i class="fa fa-pencil"></i></button>
                                 <button class="btnAbm" style="@ViewBag.StyleAdmin" onclick="DeleteForo('@item.IdForoDebate')"><i class="fa fa-trash"></i></button>
-                                <button class="btnAbm" style="@ViewBag.StyleAdmin" onclick="modalDetails('@item.IdForoDebate')"><i class="fa fa-arrow-right"></i></button>
+                                <button class="btnAbm" onclick="verComentarios('@item.IdForoDebate')"><i class="fa fa-eye"></i></button>
                             </td>
                             <td class="@Html.DisplayNameFor(modelItem => item.Titulo) fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.Titulo)</td>
                             <td class="@Html.DisplayNameFor(modelItem => item.Descripcion)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.Descripcion)</td>

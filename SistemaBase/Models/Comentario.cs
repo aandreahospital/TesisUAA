@@ -11,7 +11,7 @@ namespace SistemaBase.Models
         public string? Descripcion { get; set; }
         public DateTime? FechaComentario { get; set; }
 
-        public virtual Usuario CodUsuarioNavigation { get; set; } = null!;
-        public virtual ForoDebate IdForoDebateNavigation { get; set; } = null!;
+        //public virtual Usuario CodUsuarioNavigation { get; set; } = null!;
+       /// public virtual ForoDebate IdForoDebateNavigation { get; set; } = null!;
     }
 }

@@ -1,10 +1,17 @@
 ﻿
 document.addEventListener('DOMContentLoaded', () => {
 
+
+
+
     addEventListeners();
 });
 
 const addEventListeners = () => {
+
+    // Llamar a la función al cambiar el select
+    //sectorSelect.addEventListener("change", toggleFields);
+
 
     //var sexo = document.querySelector('select[name="Sexo"]');
     //sexo.setAttribute('disabled', 'disabled');
@@ -86,6 +93,7 @@ const GuardarDatos = (e) => {
 
 const AddLaboral = (e) => {
     e.preventDefault();// Evita la propagación del evento
+
     document.getElementById('btnAddLaboral').disabled = true;
     // Bloquear el formulario
     var datosFormulario = document.getElementById('FormModalCreate');
@@ -144,8 +152,37 @@ const abrirLaboral = (e) => {
     }).then(response => {
         //var nuevaVista = response.data;
         //window.open(nuevaVista);
+      
         document.getElementById("details").innerHTML = response.data;
         document.getElementById("detailsview").click();
+
+        setTimeout(() => {
+            var sectorSelect = document.getElementById("Sector");
+            var universidadInput = document.getElementById("UniversidadTrabajo");
+            var materiaInput = document.getElementById("MateriaTrabajo");
+
+            if (!sectorSelect || !universidadInput || !materiaInput) {
+                console.error("No se encontraron los elementos en el modal.");
+                return;
+            }
+
+            function toggleFields() {
+                if (sectorSelect.value === "E") {
+                    universidadInput.disabled = false;
+                    materiaInput.disabled = false;
+                } else {
+                    universidadInput.disabled = true;
+                    materiaInput.disabled = true;
+                }
+            }
+
+            sectorSelect.addEventListener("change", toggleFields);
+
+            toggleFields();
+        }, 300);
+       
+
+
         
     });
 }
