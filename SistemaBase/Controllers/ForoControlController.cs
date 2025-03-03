@@ -36,7 +36,7 @@ namespace SistemaBase.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddForo(ForoDebate foroDebate)
+        public async Task<IActionResult> AddForo(ForoDebate foroDebate, IFormFile ArchivoPDF)
         {
             try
             {
@@ -45,9 +45,34 @@ namespace SistemaBase.Controllers
                     CodUsuario = User.Identity.Name,
                     Titulo = foroDebate?.Titulo,
                     Descripcion = foroDebate?.Descripcion,
-                    Adjunto = foroDebate?.Adjunto,
                     Estado = "S"
                 };
+
+                const int maxFileSize = 1000 * 1024;
+                if (ArchivoPDF == null || ArchivoPDF.Length == 0)
+                {
+                    return Json(new { Success = false, ErrorMessage = "Por favor, selecciona una archivo en PDF" });
+                }
+                var allowedExtensions = new[] { ".pdf" };
+                if (ArchivoPDF != null && ArchivoPDF.Length > 0)
+                {
+                    var fileExtension = Path.GetExtension(ArchivoPDF.FileName).ToLower();
+                    if (!allowedExtensions.Contains(fileExtension))
+                    {
+                        return Json(new { Success = false, ErrorMessage = "Error, el archivo debe ser en PDF." });
+                    }
+                    if (ArchivoPDF.Length > maxFileSize)
+                    {
+                        return Json(new { Success = false, ErrorMessage = "El tamaño del archivo PDF no debe ser mayor de 1000 KB" });
+                    }
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await ArchivoPDF.CopyToAsync(memoryStream);
+
+                        addforoDebate.Adjunto = memoryStream.ToArray();
+                    }
+                }
+
                 _context.Add(addforoDebate);
                 _context.SaveChanges();
             }
@@ -74,7 +99,7 @@ namespace SistemaBase.Controllers
                     CodUsuario = experiencia?.CodUsuario ?? "",
                     Titulo = experiencia?.Titulo ?? "",
                     Descripcion = experiencia?.Descripcion ?? "",
-                    Adjunto = experiencia?.Adjunto ?? "",
+                    Adjunto = experiencia?.Adjunto,
                     Estado = experiencia?.Estado ?? ""
 
                 };

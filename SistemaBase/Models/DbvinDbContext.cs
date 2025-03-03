@@ -316,9 +316,8 @@ namespace SistemaBase.Models
                 entity.Property(e => e.IdForoDebate).HasColumnName("ID_FORO_DEBATE");
 
                 entity.Property(e => e.Adjunto)
-                    .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("ADJUNTO");
+                    .HasColumnName("ARCHIVO");
 
                 entity.Property(e => e.CodUsuario)
                     .HasMaxLength(15)

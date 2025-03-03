@@ -25,6 +25,13 @@
 <script src="~/js/cdnjs.cloudflare.com_ajax_libs_moment.js_2.29.4_moment.min.js"></script>
 <script src="~/js/cdnjs.cloudflare.com_ajax_libs_sweetalert_2.1.2_sweetalert.min.js"></script>
 
+<script>
+    function AbrirAdjunto(IdForoDebate) {
+        window.open('@Url.Action("AbrirAdjunto", "ComentarioForo")?IdForoDebate=' + IdForoDebate, '_blank');
+    }
+</script>
+
+
 @if (ViewData["Show"] == null) {
         <p>
             <a class="d-none" id="detailsview" type="button" data-bs-toggle="modal" data-bs-target="#detailsModal"></a>
@@ -59,23 +66,40 @@
                                 <th class="white-space-nowrap fs--1 ps-0 align-middle text-center col-1 pt-2 pb-2 pl-2"></th>
                                 <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0" data-sort="@Html.DisplayNameFor(model => model.Titulo))">@Html.DisplayNameFor(model => model.Titulo)</th>
                                 <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0" data-sort="@Html.DisplayNameFor(model => model.Descripcion)"> @Html.DisplayNameFor(model => model.Descripcion)</th>
+                                <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0" data-sort="@Html.DisplayNameFor(model => model.Adjunto)"> @Html.DisplayNameFor(model => model.Adjunto)</th>
                                 <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0" data-sort="@Html.DisplayNameFor(model => model.Estado)"> @Html.DisplayNameFor(model => model.Estado)</th>
                             </tr>
                         </thead>
                         <tbody class="list">
+                            @if (Model != null && Model.Any())
+                            {
                             @foreach (var item in Model) {
                                 <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                                     <td class="fs--1 align-middle ps-0 text-center col-1 pt-2 pb-2 pl-2">
-                                        <button class="btnAbm" onclick="abrirEditForo('@item.IdForoDebate')" style="@ViewBag.StyleAdmin" onclick="return confirm('¿Estás seguro de eliminar este registro?');"><i class="fa fa-pencil"></i></button>
-                                        <button class="btnAbm" asp-action="DeleteForo" style="@ViewBag.StyleAdmin" asp-route-id="@item.IdForoDebate"><i class="fa fa-trash"></i></button>
-                                        <button class="btnAbm" onclick="verComentarios('@item.IdForoDebate')"><i class="fa fa-eye"></i></button>
+                                        <button class="btnAbm" onclick="abrirEditForo('@item.IdForoDebate')" ><i class="fa fa-pencil"></i></button>
+                                            <a asp-action="DeleteForo" asp-route-id="@item.IdForoDebate" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar este registro?');">
+                                                <span class="btn-label"><i class="fa fa-trash"></i></span>
+                                            </a>
+@*                                             <button class="btnAbm" asp-action="DeleteForo" asp-route-id="@item.IdForoDebate" onclick="return confirm('¿Estás seguro de eliminar este registro?');"><i class="fa fa-trash"></i></button>
+ *@                                        <button class="btnAbm" onclick="verComentarios('@item.IdForoDebate')"><i class="fa fa-eye"></i></button>
                                     </td>
                                     <td class="@Html.DisplayNameFor(modelItem => item.Titulo) fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.Titulo)</td>
                                     <td class="@Html.DisplayNameFor(modelItem => item.Descripcion)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.Descripcion)</td>
+                                    <td class="@Html.DisplayNameFor(modelItem => item.Adjunto)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2">
+                                        @if (item.Adjunto != null)
+                                        {
+                                            <button type="button" onclick="AbrirAdjunto('@item.IdForoDebate')">Ver Adjunto</button>
+                                        }
+                                    </td>
                                     <td class="@Html.DisplayNameFor(modelItem => item.Estado)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.Estado)</td>
                                     
                                 </tr>
                              }
+                            }else{
+                                <tr>
+                                    <td colspan="5" class="text-center text-muted">No hay foros disponibles.</td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                  </div>
@@ -94,38 +118,7 @@
         </div>
         <div id="details"></div>
         <script src="~/js/Foro.js"> </script>
+   
 }
-else
-{
-    <div>
-        <div class="table-responsive mx-n1 px-1Latest">
-            <table class="table table-striped fs--1 mb-0 border-top border-200">
-                <thead>
-                    <tr>
-                        <th class="white-space-nowrap fs--1 ps-0 align-middle"></th>
-                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0" data-sort="@Html.DisplayNameFor(model => model.Titulo))">@Html.DisplayNameFor(model => model.Titulo)</th>
-                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0" data-sort="@Html.DisplayNameFor(model => model.Descripcion)"> @Html.DisplayNameFor(model => model.Descripcion)</th>
-                        <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0" data-sort="@Html.DisplayNameFor(model => model.Estado)"> @Html.DisplayNameFor(model => model.Estado)</th>
-                    </tr>
-                </thead>
-                <tbody class="list">
-                    @foreach (var item in Model)
-                    {
-                        <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                            <td class="fs--1 align-middle ps-0">
-                                <button class="btnAbm" style="@ViewBag.StyleAdmin" onclick="abrirEditForo('@item.IdForoDebate')"><i class="fa fa-pencil"></i></button>
-                                <button class="btnAbm" style="@ViewBag.StyleAdmin" onclick="DeleteForo('@item.IdForoDebate')"><i class="fa fa-trash"></i></button>
-                                <button class="btnAbm" onclick="verComentarios('@item.IdForoDebate')"><i class="fa fa-eye"></i></button>
-                            </td>
-                            <td class="@Html.DisplayNameFor(modelItem => item.Titulo) fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.Titulo)</td>
-                            <td class="@Html.DisplayNameFor(modelItem => item.Descripcion)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.Descripcion)</td>
-                            <td class="@Html.DisplayNameFor(modelItem => item.Estado)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.Estado)</td>
 
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
-}
 

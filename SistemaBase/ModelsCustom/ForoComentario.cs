@@ -10,7 +10,7 @@ namespace SistemaBase.ModelsCustom
         public string? DescripcionCom { get; set; }
         public DateTime? FechaComentario { get; set; }
         public string? Titulo { get; set; }
-        public string? Adjunto { get; set; }
+        public byte[]? Adjunto { get; set; }
         public string? DescripcionForo { get; set; }
         public string? Estado { get; set; }
 

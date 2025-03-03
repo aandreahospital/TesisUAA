@@ -25,10 +25,18 @@ const AddForo = (e) => {
     // Bloquear el formulario
     var datosFormulario = document.getElementById('FormModalCreate');
     const formData = new FormData();
+
+    // Para el campo 'AnexoPDF'
+    var anexoInput = $('#Adjunto')[0];
+
+    // Asegúrate de que se ha seleccionado un archivo
+    if (anexoInput.files.length > 0) {
+        formData.append('ArchivoPDF', anexoInput.files[0]);
+    }
     //formData.append('CodUsuario', document.getElementById('usuario').value)
     formData.append('Titulo', document.getElementById('Titulo').value)
     formData.append('Descripcion', document.getElementById('Descripcion').value)
-    formData.append('Adjunto', document.getElementById('Adjunto').value)
+   // formData.append('Adjunto', document.getElementById('Adjunto').value)
     axios({
         method: "post",
         url: "/ForoControl/AddForo",
