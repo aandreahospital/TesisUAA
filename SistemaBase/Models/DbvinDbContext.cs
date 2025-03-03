@@ -300,11 +300,11 @@ namespace SistemaBase.Models
                     .IsUnicode(false)
                     .HasColumnName("DESCRIPCION");
 
-                entity.HasOne(d => d.CodModuloNavigation)
-                    .WithMany(p => p.Formas)
-                    .HasForeignKey(d => d.CodModulo)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_FORMAS_MODULO");
+                //entity.HasOne(d => d.CodModuloNavigation)
+                //    .WithMany(p => p.Formas)
+                //    .HasForeignKey(d => d.CodModulo)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_FORMAS_MODULO");
             });
 
             modelBuilder.Entity<ForoDebate>(entity =>

@@ -41,7 +41,7 @@
                  <div class="row align-items-end justify-content-between pb-5 g-3">
                      <div class="col-auto">
                          <h3> Foros</h3>
-                        <button class="btnAbm  mt-3" onclick="abrirForo(event)">
+                    <button class="btnAbm  mt-3" onclick="abrirForo(event)" style="@ViewBag.StyleAdmin">
                             <span class="btn-label"><i class="fa fa-plus"></i></span> Nuevo
                         </button>
                      </div>
@@ -76,8 +76,8 @@
                             @foreach (var item in Model) {
                                 <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                                     <td class="fs--1 align-middle ps-0 text-center col-1 pt-2 pb-2 pl-2">
-                                        <button class="btnAbm" onclick="abrirEditForo('@item.IdForoDebate')" ><i class="fa fa-pencil"></i></button>
-                                            <a asp-action="DeleteForo" asp-route-id="@item.IdForoDebate" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar este registro?');">
+                                            <button class="btnAbm" onclick="abrirEditForo('@item.IdForoDebate')" style="@ViewBag.StyleAdmin"><i class="fa fa-pencil"></i></button>
+                                            <a asp-action="DeleteForo" asp-route-id="@item.IdForoDebate" style="@ViewBag.StyleAdmin" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar este registro?');">
                                                 <span class="btn-label"><i class="fa fa-trash"></i></span>
                                             </a>
 @*                                             <button class="btnAbm" asp-action="DeleteForo" asp-route-id="@item.IdForoDebate" onclick="return confirm('¿Estás seguro de eliminar este registro?');"><i class="fa fa-trash"></i></button>
