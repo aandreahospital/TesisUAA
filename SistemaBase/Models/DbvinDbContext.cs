@@ -171,7 +171,7 @@ namespace SistemaBase.Models
                     .HasColumnName("DESCRIPCION");
 
                 entity.Property(e => e.FechaComentario)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("FECHA_COMENTARIO");
 
                 entity.Property(e => e.IdForoDebate).HasColumnName("ID_FORO_DEBATE");

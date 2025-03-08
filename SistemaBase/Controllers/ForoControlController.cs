@@ -57,13 +57,13 @@ namespace SistemaBase.Controllers
                 if (ArchivoPDF != null && ArchivoPDF.Length > 0)
                 {
                     var fileExtension = Path.GetExtension(ArchivoPDF.FileName).ToLower();
-                    if (!allowedExtensions.Contains(fileExtension))
-                    {
-                        return Json(new { Success = false, ErrorMessage = "Error, el archivo debe ser en PDF." });
-                    }
+                    //if (!allowedExtensions.Contains(fileExtension))
+                    //{
+                    //    return Json(new { Success = false, ErrorMessage = "Error, el archivo debe ser en PDF." });
+                    //}
                     if (ArchivoPDF.Length > maxFileSize)
                     {
-                        return Json(new { Success = false, ErrorMessage = "El tamaño del archivo PDF no debe ser mayor de 1000 KB" });
+                        return Json(new { Success = false, ErrorMessage = "El tamaño del archivo no debe ser mayor de 1000 KB" });
                     }
                     using (var memoryStream = new MemoryStream())
                     {

@@ -85,35 +85,33 @@ const abrirEditForo = (id) => {
 }
 
 
-//const DeleteComentario = (id) => {
-//    const params = { id: id };
+const DeleteComentario = (id) => {
+    const params = { id: id };
 
-//    axios({
-//        baseURL: "/ComentarioForo/DeleteComentario",
-//        method: 'POST',
-//        params: params,
-//        headers: {
-//            'Accept': 'application/json',
-//            'Content-Type': 'application/json',
-//            'X-Response-View': 'Json'
-//        }
-//    })
-//        .then(function (response) {
-//            console.log({ 'then ': response });
-//            if (response.status == 200) {
-//                swal({
-//                    icon: 'success',
-//                    title: 'Listo',
-//                    text: 'La operación se realizó correctamente.'
-//                }).then(() => {
-//                    console.log({ 'reload ': response });
-//                    return;
-//                });
-//            }
-//        })
-//        .catch(function (response) {
-//            desbloquearFormulario(datosFormulario);
-//            document.getElementById('btnAddComen').disabled = false;
-//            loader.style.display = 'none';
-//        });
-//};
+    axios({
+        baseURL: "/ComentarioForo/DeleteComentario",
+        method: 'get',
+        params: params,
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Response-View': 'Json'
+        }
+    })
+        .then(function (response) {
+            console.log({ 'then ': response });
+            if (response.status == 200) {
+                swal({
+                    icon: 'success',
+                    title: 'Listo',
+                    text: 'La operación se realizó correctamente.'
+                }).then(() => {
+                    // Código para actualizar la pantalla después de cerrar el modal
+                    //console.log({ 'reload ': response });
+                    location.reload();
+                    return;
+                });
+            }
+
+        })
+};

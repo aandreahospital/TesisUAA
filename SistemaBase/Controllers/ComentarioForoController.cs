@@ -77,6 +77,45 @@ namespace SistemaBase.Controllers
                 return File(foroAdjunto.Adjunto, "application/pdf");
             }
 
+            //var foroAdjunto = _context.ForoDebates.SingleOrDefault(me => me.IdForoDebate == IdForoDebate);
+
+            //if (foroAdjunto != null && foroAdjunto.Adjunto != null && foroAdjunto.Adjunto.Length > 0)
+            //{
+            //    string contentType = "application/octet-stream"; // Tipo genérico por defecto
+            //    string defaultFileName = "archivo_desconocido";
+
+            //    // Leer los primeros bytes del archivo para intentar detectar su tipo
+            //    if (foroAdjunto.Adjunto.Length > 4)
+            //    {
+            //        byte[] headerBytes = foroAdjunto.Adjunto.Take(4).ToArray();
+            //        string headerHex = BitConverter.ToString(headerBytes).Replace("-", "").ToUpper();
+
+            //        contentType = headerHex switch
+            //        {
+            //            "25504446" => "application/pdf", // PDF (%PDF)
+            //            "D0CF11E0" => "application/vnd.ms-excel", // .xls (OLE format, igual a .doc y .ppt antiguos)
+            //            "504B0304" => "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // XLSX (ZIP format, igual a .docx y .pptx)
+            //            _ => "application/octet-stream"
+            //        };
+
+            //        // Asignar un nombre por defecto basado en el tipo de archivo
+            //        defaultFileName = contentType switch
+            //        {
+            //            "application/pdf" => "documento.pdf",
+            //            "application/msword" => "documento.doc",
+            //            "application/vnd.openxmlformats-officedocument.wordprocessingml.document" => "documento.docx",
+            //            "application/vnd.ms-powerpoint" => "presentacion.ppt",
+            //            "application/vnd.openxmlformats-officedocument.presentationml.presentation" => "presentacion.pptx",
+            //            "application/vnd.ms-excel" => "hoja_calculo.xls",
+            //            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" => "hoja_calculo.xlsx",
+            //            _ => "archivo_desconocido"
+            //        };
+            //    }
+
+            //    // Retorna el archivo con el tipo de contenido detectado
+            //    return File(foroAdjunto.Adjunto, contentType, defaultFileName);
+        ///}
+
             return NotFound();
         }
 

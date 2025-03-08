@@ -18,7 +18,7 @@
 <script src="~/js/jquery.datatables.min.js"></script>
 <script src="~/js/cdnjs.cloudflare.com_ajax_libs_moment.js_2.29.4_moment.min.js"></script>
 <script src="~/js/cdnjs.cloudflare.com_ajax_libs_sweetalert_2.1.2_sweetalert.min.js"></script>
-
+<script src="~/js/Comentarios.js"></script>
 
 <div>
     <div id="loader"></div>
@@ -68,8 +68,11 @@
                                 <td>@exp.Descripcion</td>
                                 <td>@exp.FechaComentario</td>
                                 <td>
-                                    <a onclick="AbrirEditLab(@exp.IdComentario)" class="btn btn-warning btn-sm">
+                                    @* <a onclick="AbrirEditLab(@exp.IdComentario)" class="btn btn-warning btn-sm">
                                         <i class="fa fa-pencil"></i>
+                                    </a> *@
+                                    <a onclick="DeleteComentario(@exp.IdComentario)" class="btn btn-warning btn-sm">
+                                        <i class="fa fa-trash"></i>
                                     </a>
                                 </td>
                             </tr>
