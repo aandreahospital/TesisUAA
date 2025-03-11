@@ -7,18 +7,19 @@
     <link rel="stylesheet" type="text/css" href="./css/cdn.datatables.net_1.13.6_css_jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="./css/cdn.jsdelivr.net_npm_sweetalert2@7.12.15_dist_sweetalert2.min.css">
 }
-<script>
-    function AbrirAdjunto(IdForoDebate) {
-        // Redirige a la acción del controlador para abrir el PDF en una nueva ventana o pestaña
-        window.open('@Url.Action("AbrirAdjunto", "ComentarioForo")?IdForoDebate=' + IdForoDebate, '_blank');
-    }
-</script>
-<script src="~/js/jquery-3.7.0.js"></script>
-<script src="~/js/jquery-3.6.0.min.js"></script>
+<script src="~/js/Comentarios.js"> </script>
+<script src="~/js/jquery-3.7.0.js"></script>@* 
+<script src="~/js/jquery-3.6.0.min.js"></script> *@
 <script src="~/js/jquery.datatables.min.js"></script>
 <script src="~/js/cdnjs.cloudflare.com_ajax_libs_moment.js_2.29.4_moment.min.js"></script>
 <script src="~/js/cdnjs.cloudflare.com_ajax_libs_sweetalert_2.1.2_sweetalert.min.js"></script>
-<script src="~/js/Comentarios.js"></script>
+ <script>
+    function AbrirAdjunto(IdForoDebate) {
+        window.open('@Url.Action("AbrirAdjunto", "ComentarioForo")?IdForoDebate=' + IdForoDebate, '_blank');
+    }
+</script> 
+
+
 
 <div>
     <div id="loader"></div>
@@ -33,8 +34,7 @@
 
             @if (Model.Adjunto != null)
             {
-                <button class="btn btn-outline-primary mt-2" onclick="AbrirAdjunto('@Model.IdForoDebate')">
-                    📎 Ver Adjunto
+                <button  class="btn btn-outline-primary mt-2" type="button" onclick="AbrirAdjunto('@Model.IdForoDebate')">Ver Adjunto
                 </button>
             }
         </div>
@@ -67,14 +67,19 @@
                                 <td><strong>@exp.CodUsuario</strong></td>
                                 <td>@exp.Descripcion</td>
                                 <td>@exp.FechaComentario</td>
-                                <td>
-                                    @* <a onclick="AbrirEditLab(@exp.IdComentario)" class="btn btn-warning btn-sm">
-                                        <i class="fa fa-pencil"></i>
-                                    </a> *@
-                                    <a onclick="DeleteComentario(@exp.IdComentario)" class="btn btn-warning btn-sm">
-                                        <i class="fa fa-trash"></i>
-                                    </a>
-                                </td>
+
+                                @if (User.Identity.Name == exp.CodUsuario)
+                                {
+                                    <td>
+                                        <a onclick="AbrirEditComen(@exp.IdComentario)" class="btn btn-warning btn-sm">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                        <a onclick="DeleteComentario(@exp.IdComentario)" class="btn btn-warning btn-sm">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
+                                }
+                                
                             </tr>
                         }
                     }
@@ -89,66 +94,7 @@
         </div>
     </div>
 
-   @*  <div class="container">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <div class="row">
-                <div class="col-sm">
-                    <h1 class="fw-bold text-primary">@Model.Titulo</h1>
-                    <p class="text-muted">@Model.DescripcionForo</p>
-                   
-                 </div>
-            </div>
-                <div class="row">
-                    <div class="col-sm">
-                    @if (Model.Adjunto != null){
-                        <button type="button" onclick="AbrirAdjunto('@Model.IdForoDebate')">Ver Adjunto</button>
-                    }
-                    </div>
-            </div>
-            <button class="btnAbm  mt-3" onclick="abrirComentario(event)">
-                <span class="btn-label"><i class="fa fa-plus"></i></span> Agregar Comentario
-            </button>
-         
-        </div>
-        <input id="IdForoDebate" type="hidden" class="form-control" asp-for="IdForoDebate" />
-
-        <table class="table table-bordered table-striped">
-            <thead >
-                <tr>
-                    <th>Usuario</th>
-                    <th>Comentario</th>
-                    <th>Fecha Comentario</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model?.Comentarios != null && Model.Comentarios.Any())
-                {
-                    @foreach (var exp in Model.Comentarios)
-                    {
-                        <tr>
-                            <td>@exp.CodUsuario</td>
-                            <td>@exp.Descripcion</td>
-                            <td>@exp.FechaComentario</td>
-                            <td>
-                                <a onclick="AbrirEditLab(@exp.IdComentario)" class="btn btn-warning btn-sm">
-                                    <i class="fa fa-pencil"></i>
-                                </a>
-                               
-                            </td>
-                        </tr>
-                    }
-                }
-                else
-                {
-                    <tr>
-                        <td colspan="4" class="text-center">No hay registros de comentarios</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div> *@
  </div>
 <div id="details"></div>
-<script src="~/js/Comentarios.js"></script>
+@* <script src="~/js/Comentarios.js"></script> *@
 

@@ -69,13 +69,13 @@ namespace SistemaBase.Controllers
 
         public IActionResult AbrirAdjunto(int IdForoDebate)
         {
-            var foroAdjunto = _context.ForoDebates.SingleOrDefault(me => me.IdForoDebate == IdForoDebate);
+            //var foroAdjunto = _context.ForoDebates.SingleOrDefault(me => me.IdForoDebate == IdForoDebate);
 
-            if (foroAdjunto != null && foroAdjunto.Adjunto != null && foroAdjunto.Adjunto.Length > 0)
-            {
-                // Retorna el archivo PDF como FileResult
-                return File(foroAdjunto.Adjunto, "application/pdf");
-            }
+            //if (foroAdjunto != null && foroAdjunto.Adjunto != null && foroAdjunto.Adjunto.Length > 0)
+            //{
+            //    // Retorna el archivo PDF como FileResult
+            //    return File(foroAdjunto.Adjunto, "application/pdf");
+            //}
 
             //var foroAdjunto = _context.ForoDebates.SingleOrDefault(me => me.IdForoDebate == IdForoDebate);
 
@@ -114,7 +114,60 @@ namespace SistemaBase.Controllers
 
             //    // Retorna el archivo con el tipo de contenido detectado
             //    return File(foroAdjunto.Adjunto, contentType, defaultFileName);
-        ///}
+            //}
+
+            var foroAdjunto = _context.ForoDebates.SingleOrDefault(me => me.IdForoDebate == IdForoDebate);
+
+            if (foroAdjunto != null && foroAdjunto.Adjunto != null && foroAdjunto.Adjunto.Length > 0)
+            {
+                string contentType = "application/octet-stream"; // Tipo genérico por defecto
+                string defaultFileName = "archivo_desconocido";
+                bool esVisualizable = false;
+
+                // Detectar el tipo de archivo por los primeros bytes
+                if (foroAdjunto.Adjunto.Length > 4)
+                {
+                    byte[] headerBytes = foroAdjunto.Adjunto.Take(4).ToArray();
+                    string headerHex = BitConverter.ToString(headerBytes).Replace("-", "").ToUpper();
+
+                    contentType = headerHex switch
+                    {
+                        "25504446" => "application/pdf", // PDF (%PDF)
+                        "FFD8FFDB" or "FFD8FFE0" => "image/jpeg", // JPG
+                        "89504E47" => "image/png", // PNG
+                        "47494638" => "image/gif", // GIF
+                        "D0CF11E0" => "application/vnd.ms-excel", // .xls (OLE format, igual a .doc y .ppt antiguos)
+                        "504B0304" => "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // XLSX (ZIP format, igual a .docx y .pptx)
+                        _ => "application/octet-stream"
+                    };
+
+                    // Archivos visualizables en el navegador
+                    esVisualizable = contentType is "application/pdf" or "image/jpeg" or "image/png" or "image/gif";
+
+                    // Nombre de archivo basado en el tipo
+                    defaultFileName = contentType switch
+                    {
+                        "application/pdf" => "documento.pdf",
+                        "image/jpeg" => "imagen.jpg",
+                        "image/png" => "imagen.png",
+                        "image/gif" => "imagen.gif",
+                        "application/vnd.ms-excel" => "hoja_calculo.xls",
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" => "hoja_calculo.xlsx",
+                        _ => "archivo_desconocido"
+                    };
+                }
+
+                if (esVisualizable)
+                {
+                    // Retorna el archivo para abrirlo en el navegador
+                    return File(foroAdjunto.Adjunto, contentType);
+                }
+                else
+                {
+                    // Retorna el archivo forzando la descarga
+                    return File(foroAdjunto.Adjunto, contentType, defaultFileName);
+                }
+            }
 
             return NotFound();
         }
@@ -163,15 +216,36 @@ namespace SistemaBase.Controllers
             {
                 Comentario comen = new()
                 {
-                    IdForoDebate = dbComen.IdForoDebate,
+                    IdComentario = dbComen.IdComentario,
                     CodUsuario = dbComen?.CodUsuario ?? "",
                     Descripcion = dbComen?.Descripcion ?? "",
                     FechaComentario = dbComen?.FechaComentario
 
                 };
 
-                return View("EditForo", comen);
+                return View("EditComentario", comen);
             }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditComentario(Comentario comentario)
+        {
+            try
+            {
+                var comentarios = _context.Comentarios.FirstOrDefault(m => m.IdComentario == comentario.IdComentario);
+                if (comentarios != null)
+                {
+                    //comentarios.CodUsuario = comentario.CodUsuario;
+                    comentarios.Descripcion = comentario?.Descripcion;
+                    _context.SaveChanges();
+                }
+
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return NotFound();
+            }
+            return Ok();
         }
 
         [HttpGet]
