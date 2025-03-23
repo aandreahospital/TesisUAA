@@ -1,0 +1,51 @@
+﻿@model SistemaBase.Models.Persona
+
+@{
+    ViewData["Title"] = "Index";
+}
+@section styles {
+    <link rel="stylesheet" type="text/css" href="./css/cdn.datatables.net_1.13.6_css_jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/cdn.jsdelivr.net_npm_sweetalert2@7.12.15_dist_sweetalert2.min.css">
+}
+<script src="~/js/Comentarios.js"> </script>
+<script src="~/js/jquery-3.7.0.js"></script>@*
+<script src="~/js/jquery-3.6.0.min.js"></script> *@
+<script src="~/js/jquery.datatables.min.js"></script>
+<script src="~/js/cdnjs.cloudflare.com_ajax_libs_moment.js_2.29.4_moment.min.js"></script>
+<script src="~/js/cdnjs.cloudflare.com_ajax_libs_sweetalert_2.1.2_sweetalert.min.js"></script>
+
+
+<h2>Cargar Excel para Insert Masivo</h2>
+
+<form asp-action="CargarExcel" asp-controller="AutoCarga" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label>Seleccione archivo Excel (.xlsx):</label>
+        <input type="file" name="archivoExcel" class="form-control" accept=".xlsx" required />
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Cargar y Procesar</button>
+</form>
+
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-success mt-3">
+        @TempData["Mensaje"]
+    </div>
+}
+@* <div>
+    <div id="loader"></div>
+    <p>
+        <a class="d-none" id="detailsview" type="button" data-bs-toggle="modal" data-bs-target="#detailsModal"></a>
+    </p>
+    <div class="container mt-4">
+        <!-- Título del Foro -->
+        <div class="card p-4 shadow-sm mb-4">
+            <h1 class="fw-bold text-primary">Auto Carga de Alumnos</h1>
+           
+        </div>
+
+    </div>
+
+</div>
+<div id="details"></div> *@
+

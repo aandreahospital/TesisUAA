@@ -220,11 +220,11 @@ namespace SistemaBase.Models
 
                 entity.Property(e => e.IdCentroEstudio).HasColumnName("ID_CENTRO_ESTUDIO");
 
-                entity.HasOne(d => d.CodUsuarioNavigation)
-                    .WithMany(p => p.DatosAcademicos)
-                    .HasForeignKey(d => d.CodUsuario)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_DA_USUARIOS");
+                //entity.HasOne(d => d.CodUsuarioNavigation)
+                //    .WithMany(p => p.DatosAcademicos)
+                //    .HasForeignKey(d => d.CodUsuario)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_DA_USUARIOS");
 
                 entity.HasOne(d => d.IdCarreraNavigation)
                     .WithMany(p => p.DatosAcademicos)
