@@ -24,7 +24,7 @@ namespace SistemaBase.Controllers
 
             return _context.ForoDebates != null ?
                View(await _context.ForoDebates.AsNoTracking().ToListAsync()) :
-               Problem("Entity set 'DbvinDbContext.Formas'  is null.");
+               Problem("Entity set 'DbvinDbContext.ForoDebates'  is null.");
         }
 
 
@@ -48,7 +48,7 @@ namespace SistemaBase.Controllers
                     Estado = "S"
                 };
 
-                const int maxFileSize = 1000 * 1024;
+                const int maxFileSize = 5 * 1024 * 1024; // 5 MB
                 if (ArchivoPDF == null || ArchivoPDF.Length == 0)
                 {
                     return Json(new { Success = false, ErrorMessage = "Por favor, selecciona una archivo en PDF" });
@@ -63,7 +63,7 @@ namespace SistemaBase.Controllers
                     //}
                     if (ArchivoPDF.Length > maxFileSize)
                     {
-                        return Json(new { Success = false, ErrorMessage = "El tamaño del archivo no debe ser mayor de 1000 KB" });
+                        return Json(new { Success = false, ErrorMessage = "El tamaño del archivo no debe ser mayor de 5MB" });
                     }
                     using (var memoryStream = new MemoryStream())
                     {
@@ -110,7 +110,7 @@ namespace SistemaBase.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> AddEditForo(ForoDebate foroDebate)
+        public async Task<IActionResult> AddEditForo(ForoDebate foroDebate, IFormFile ArchivoPDF)
         {
             try
             {
@@ -120,8 +120,33 @@ namespace SistemaBase.Controllers
                     foros.CodUsuario = foroDebate.CodUsuario;
                     foros.Titulo = foroDebate?.Titulo;
                     foros.Descripcion = foroDebate?.Descripcion;
-                    foros.Adjunto = foroDebate?.Adjunto;
+                   // foros.Adjunto = foroDebate?.Adjunto;
                     foros.Estado = foroDebate?.Estado;
+
+
+
+                    const int maxFileSize = 5 * 1024 * 1024; // 5 MB
+
+                    var allowedExtensions = new[] { ".pdf" };
+                    if (ArchivoPDF != null && ArchivoPDF.Length > 0)
+                    {
+                        var fileExtension = Path.GetExtension(ArchivoPDF.FileName).ToLower();
+                        //if (!allowedExtensions.Contains(fileExtension))
+                        //{
+                        //    return Json(new { Success = false, ErrorMessage = "Error, el archivo debe ser en PDF." });
+                        //}
+                        if (ArchivoPDF.Length > maxFileSize)
+                        {
+                            return Json(new { Success = false, ErrorMessage = "El tamaño del archivo no debe ser mayor de 5MB" });
+                        }
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            await ArchivoPDF.CopyToAsync(memoryStream);
+
+                            foros.Adjunto = memoryStream.ToArray();
+                        }
+                    }
+
                     _context.SaveChanges();
                 }
 

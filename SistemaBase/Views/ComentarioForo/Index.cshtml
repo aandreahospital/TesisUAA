@@ -13,13 +13,22 @@
 <script src="~/js/jquery.datatables.min.js"></script>
 <script src="~/js/cdnjs.cloudflare.com_ajax_libs_moment.js_2.29.4_moment.min.js"></script>
 <script src="~/js/cdnjs.cloudflare.com_ajax_libs_sweetalert_2.1.2_sweetalert.min.js"></script>
- <script>
+@*  <script>
     function AbrirAdjunto(IdForoDebate) {
         window.open('@Url.Action("AbrirAdjunto", "ComentarioForo")?IdForoDebate=' + IdForoDebate, '_blank');
     }
-</script> 
+</script>  *@
 
-
+<script>
+    function AbrirAdjunto(IdForoDebate) {
+        const link = document.createElement('a');
+        link.href = '@Url.Action("AbrirAdjunto", "ComentarioForo")?IdForoDebate=' + IdForoDebate;
+        link.download = ''; // Esto fuerza el comportamiento de descarga
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+</script>
 
 <div>
     <div id="loader"></div>
@@ -43,7 +52,7 @@
         <div class="card p-4 shadow-sm">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h4 class="fw-bold text-secondary">Comentarios</h4>
-                <button class="btn btn-success" onclick="abrirComentario(event)">
+                <button class="btn btn-success" style="@ViewBag.StyleAbierto" onclick="abrirComentario(event)">
                     <i class="fa fa-plus"></i> Agregar Comentario
                 </button>
             </div>

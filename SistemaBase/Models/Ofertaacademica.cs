@@ -12,7 +12,8 @@ namespace SistemaBase.Models
         public DateTime? FechaCreacion { get; set; }
         public DateTime? FechaCierre { get; set; }
         public string? Estado { get; set; }
+        public byte[]? Adjunto { get; set; }
 
-        public virtual Usuario CodUsuarioNavigation { get; set; } = null!;
+        //public virtual Usuario CodUsuarioNavigation { get; set; } = null!;
     }
 }

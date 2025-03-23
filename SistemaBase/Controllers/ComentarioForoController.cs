@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SistemaBase.Models;
 using SistemaBase.ModelsCustom;
+using System.Security.Claims;
 
 namespace SistemaBase.Controllers
 {
@@ -37,6 +38,7 @@ namespace SistemaBase.Controllers
                         Titulo = dbForo.Titulo,
                         IdForoDebate = idForo,
                         DescripcionForo = dbForo.Descripcion,
+                        Estado = dbForo.Estado,
                         Adjunto = dbForo.Adjunto,
                         Comentarios = dbComentarios.Select(c => new Comentario
                         {
@@ -47,6 +49,12 @@ namespace SistemaBase.Controllers
                         }).ToList()
 
                     };
+
+                    var roleClaim = dbForo.Estado;
+                    string displayStyle = (roleClaim == "S") ? "" : "display:none;";
+
+                    ViewBag.StyleAbierto = displayStyle;
+
                     return View("Index", comentarios);
 
                 }
@@ -69,53 +77,7 @@ namespace SistemaBase.Controllers
 
         public IActionResult AbrirAdjunto(int IdForoDebate)
         {
-            //var foroAdjunto = _context.ForoDebates.SingleOrDefault(me => me.IdForoDebate == IdForoDebate);
-
-            //if (foroAdjunto != null && foroAdjunto.Adjunto != null && foroAdjunto.Adjunto.Length > 0)
-            //{
-            //    // Retorna el archivo PDF como FileResult
-            //    return File(foroAdjunto.Adjunto, "application/pdf");
-            //}
-
-            //var foroAdjunto = _context.ForoDebates.SingleOrDefault(me => me.IdForoDebate == IdForoDebate);
-
-            //if (foroAdjunto != null && foroAdjunto.Adjunto != null && foroAdjunto.Adjunto.Length > 0)
-            //{
-            //    string contentType = "application/octet-stream"; // Tipo genérico por defecto
-            //    string defaultFileName = "archivo_desconocido";
-
-            //    // Leer los primeros bytes del archivo para intentar detectar su tipo
-            //    if (foroAdjunto.Adjunto.Length > 4)
-            //    {
-            //        byte[] headerBytes = foroAdjunto.Adjunto.Take(4).ToArray();
-            //        string headerHex = BitConverter.ToString(headerBytes).Replace("-", "").ToUpper();
-
-            //        contentType = headerHex switch
-            //        {
-            //            "25504446" => "application/pdf", // PDF (%PDF)
-            //            "D0CF11E0" => "application/vnd.ms-excel", // .xls (OLE format, igual a .doc y .ppt antiguos)
-            //            "504B0304" => "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // XLSX (ZIP format, igual a .docx y .pptx)
-            //            _ => "application/octet-stream"
-            //        };
-
-            //        // Asignar un nombre por defecto basado en el tipo de archivo
-            //        defaultFileName = contentType switch
-            //        {
-            //            "application/pdf" => "documento.pdf",
-            //            "application/msword" => "documento.doc",
-            //            "application/vnd.openxmlformats-officedocument.wordprocessingml.document" => "documento.docx",
-            //            "application/vnd.ms-powerpoint" => "presentacion.ppt",
-            //            "application/vnd.openxmlformats-officedocument.presentationml.presentation" => "presentacion.pptx",
-            //            "application/vnd.ms-excel" => "hoja_calculo.xls",
-            //            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" => "hoja_calculo.xlsx",
-            //            _ => "archivo_desconocido"
-            //        };
-            //    }
-
-            //    // Retorna el archivo con el tipo de contenido detectado
-            //    return File(foroAdjunto.Adjunto, contentType, defaultFileName);
-            //}
-
+            
             var foroAdjunto = _context.ForoDebates.SingleOrDefault(me => me.IdForoDebate == IdForoDebate);
 
             if (foroAdjunto != null && foroAdjunto.Adjunto != null && foroAdjunto.Adjunto.Length > 0)
@@ -124,7 +86,6 @@ namespace SistemaBase.Controllers
                 string defaultFileName = "archivo_desconocido";
                 bool esVisualizable = false;
 
-                // Detectar el tipo de archivo por los primeros bytes
                 if (foroAdjunto.Adjunto.Length > 4)
                 {
                     byte[] headerBytes = foroAdjunto.Adjunto.Take(4).ToArray();
@@ -132,31 +93,30 @@ namespace SistemaBase.Controllers
 
                     contentType = headerHex switch
                     {
-                        "25504446" => "application/pdf", // PDF (%PDF)
+                        "25504446" => "application/pdf", // PDF
                         "FFD8FFDB" or "FFD8FFE0" => "image/jpeg", // JPG
                         "89504E47" => "image/png", // PNG
                         "47494638" => "image/gif", // GIF
-                        "D0CF11E0" => "application/vnd.ms-excel", // .xls (OLE format, igual a .doc y .ppt antiguos)
-                        "504B0304" => "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // XLSX (ZIP format, igual a .docx y .pptx)
+                        "D0CF11E0" => "application/msword", // Word o Excel antiguos (DOC, XLS)
+                        "504B0304" => DetectarTipoOpenXml(foroAdjunto.Adjunto), // DOCX, XLSX o PPTX
                         _ => "application/octet-stream"
                     };
 
-                    // Archivos visualizables en el navegador
                     esVisualizable = contentType is "application/pdf" or "image/jpeg" or "image/png" or "image/gif";
 
-                    // Nombre de archivo basado en el tipo
                     defaultFileName = contentType switch
                     {
                         "application/pdf" => "documento.pdf",
                         "image/jpeg" => "imagen.jpg",
                         "image/png" => "imagen.png",
                         "image/gif" => "imagen.gif",
-                        "application/vnd.ms-excel" => "hoja_calculo.xls",
+                        "application/msword" => "documento.doc",
+                        "application/vnd.openxmlformats-officedocument.wordprocessingml.document" => "documento.docx",
                         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" => "hoja_calculo.xlsx",
-                        _ => "archivo_desconocido"
+                        "application/vnd.openxmlformats-officedocument.presentationml.presentation" => "presentacion.pptx",
+                        _ => "archivo_descargado"
                     };
                 }
-
                 if (esVisualizable)
                 {
                     // Retorna el archivo para abrirlo en el navegador
@@ -172,6 +132,18 @@ namespace SistemaBase.Controllers
             return NotFound();
         }
 
+        private string DetectarTipoOpenXml(byte[] archivo)
+        {
+            string contenidoTexto = System.Text.Encoding.ASCII.GetString(archivo);
+            if (contenidoTexto.Contains("word"))
+                return "application/vnd.openxmlformats-officedocument.wordprocessingml.document"; // DOCX
+            if (contenidoTexto.Contains("xl/") || contenidoTexto.Contains("xl\\"))
+                return "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"; // XLSX
+            if (contenidoTexto.Contains("ppt"))
+                return "application/vnd.openxmlformats-officedocument.presentationml.presentation"; // PPTX
+
+            return "application/octet-stream";
+        }
 
         [HttpGet]
         public IActionResult AbrirAddComentario()

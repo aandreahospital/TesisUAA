@@ -25,9 +25,19 @@
 <script src="~/js/cdnjs.cloudflare.com_ajax_libs_moment.js_2.29.4_moment.min.js"></script>
 <script src="~/js/cdnjs.cloudflare.com_ajax_libs_sweetalert_2.1.2_sweetalert.min.js"></script>
 
-<script>
+@* <script>
     function AbrirAdjunto(IdForoDebate) {
         window.open('@Url.Action("AbrirAdjunto", "ComentarioForo")?IdForoDebate=' + IdForoDebate, '_blank');
+    }
+</script> *@
+<script>
+    function AbrirAdjunto(IdForoDebate) {
+        const link = document.createElement('a');
+        link.href = '@Url.Action("AbrirAdjunto", "ComentarioForo")?IdForoDebate=' + IdForoDebate;
+        link.download = ''; // Esto fuerza el comportamiento de descarga
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     }
 </script>
 
@@ -92,8 +102,22 @@
                                             <button type="button" onclick="AbrirAdjunto('@item.IdForoDebate')">Ver Adjunto</button>
                                         }
                                     </td>
-                                    <td class="@Html.DisplayNameFor(modelItem => item.Estado)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.Estado)</td>
-                                    
+@*                                     <td class="@Html.DisplayNameFor(modelItem => item.Estado)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.Estado)</td>
+                            *@
+                                        <td class="@Html.DisplayNameFor(modelItem => item.Estado) fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2">
+                                            @if (item.Estado == "S")
+                                            {
+                                                <span class="badge bg-success">Abierto</span>
+                                            }
+                                            else if (item.Estado == "N")
+                                            {
+                                                <span class="badge bg-danger">Cerrado</span>
+                                            }
+                                            else
+                                            {
+                                                @item.Estado
+                                            }
+                                        </td>
                                 </tr>
                              }
                             }else{

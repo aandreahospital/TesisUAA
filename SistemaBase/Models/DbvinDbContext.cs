@@ -166,8 +166,7 @@ namespace SistemaBase.Models
                     .HasColumnName("COD_USUARIO");
 
                 entity.Property(e => e.Descripcion)
-                    .HasMaxLength(500)
-                    .IsUnicode(false)
+                    .HasColumnType("NVARCHAR(MAX)")
                     .HasColumnName("DESCRIPCION");
 
                 entity.Property(e => e.FechaComentario)
@@ -403,17 +402,19 @@ namespace SistemaBase.Models
                     .HasColumnName("ESTADO");
 
                 entity.Property(e => e.FechaCierre)
-                    .HasColumnType("date")
+                    .HasColumnType("DATETIME")
                     .HasColumnName("FECHA_CIERRE");
 
                 entity.Property(e => e.FechaCreacion)
-                    .HasColumnType("date")
+                    .HasColumnType("DATETIME")
                     .HasColumnName("FECHA_CREACION");
 
                 entity.Property(e => e.Titulo)
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("TITULO");
+                entity.Property(e => e.Adjunto)
+                   .HasColumnName("ARCHIVO");
 
                 //entity.HasOne(d => d.CodUsuarioNavigation)
                 //    .WithMany(p => p.OfertaAcademicas)
@@ -450,12 +451,20 @@ namespace SistemaBase.Models
                     .HasColumnName("ESTADO");
 
                 entity.Property(e => e.FechaCierre)
-                    .HasColumnType("date")
+                    .HasColumnType("DATETIME")
                     .HasColumnName("FECHA_CIERRE");
 
                 entity.Property(e => e.FechaCreacion)
-                    .HasColumnType("date")
+                    .HasColumnType("DATETIME")
                     .HasColumnName("FECHA_CREACION");
+
+                entity.Property(e => e.Adjunto)
+                 .HasColumnName("ARCHIVO");
+
+                entity.Property(e => e.Titulo)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("TITULO");
 
                 //entity.HasOne(d => d.CodUsuarioNavigation)
                 //    .WithMany(p => p.OfertaLaborals)
