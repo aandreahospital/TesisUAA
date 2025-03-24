@@ -18,6 +18,6 @@ namespace SistemaBase.Models
 
         public string? MateriaTrabajo { get; set; }
 
-        //public virtual Usuario CodUsuarioNavigation { get; set; } = null!;
+        public virtual Usuario CodUsuarioNavigation { get; set; } = null!;
     }
 }

@@ -220,11 +220,11 @@ namespace SistemaBase.Models
 
                 entity.Property(e => e.IdCentroEstudio).HasColumnName("ID_CENTRO_ESTUDIO");
 
-                //entity.HasOne(d => d.CodUsuarioNavigation)
-                //    .WithMany(p => p.DatosAcademicos)
-                //    .HasForeignKey(d => d.CodUsuario)
-                //    .OnDelete(DeleteBehavior.ClientSetNull)
-                //    .HasConstraintName("FK_DA_USUARIOS");
+                entity.HasOne(d => d.CodUsuarioNavigation)
+                    .WithMany(p => p.DatosAcademicos)
+                    .HasForeignKey(d => d.CodUsuario)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DA_USUARIOS");
 
                 entity.HasOne(d => d.IdCarreraNavigation)
                     .WithMany(p => p.DatosAcademicos)
@@ -271,11 +271,11 @@ namespace SistemaBase.Models
                     .IsUnicode(false)
                     .HasColumnName("LUGAR_TRABAJO");
 
-                //entity.HasOne(d => d.CodUsuarioNavigation)
-                //    .WithMany(p => p.DatosLaborales)
-                //    .HasForeignKey(d => d.CodUsuario)
-                //    .OnDelete(DeleteBehavior.ClientSetNull)
-                //    .HasConstraintName("FK_DL_USUARIOS");
+                entity.HasOne(d => d.CodUsuarioNavigation)
+                    .WithMany(p => p.DatosLaborales)
+                    .HasForeignKey(d => d.CodUsuario)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DL_USUARIOS");
             });
 
             modelBuilder.Entity<Forma>(entity =>
@@ -554,7 +554,7 @@ namespace SistemaBase.Models
                     .HasColumnName("COD_PERSONA");
 
                 entity.Property(e => e.FecCreacion)
-                    .HasColumnType("date")
+                    .HasColumnType("DATETIME")
                     .HasColumnName("FEC_CREACION");
 
                 entity.HasOne(d => d.CodGrupoNavigation)
