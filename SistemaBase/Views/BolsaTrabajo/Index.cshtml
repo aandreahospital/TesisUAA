@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<SistemaBase.Models.OfertaLaboral>
-
+@using System.Security.Claims
 @{
     List<string> columns = new List<string>();
     columns.Add("\"" + Html.DisplayNameFor(model => model.IdOfertaLaboral) + "\"");
@@ -16,6 +16,11 @@
 }
 @{
     ViewData["Title"] = "Index";
+}
+@{
+    var user = Context.User;
+    var roleClaim = user.FindFirst(ClaimTypes.Role)?.Value;
+
 }
 @section styles {
     <link rel="stylesheet" type="text/css" href="./css/cdn.datatables.net_1.13.6_css_jquery.dataTables.min.css">
@@ -94,7 +99,7 @@
                                 {
                                     <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                                         <td class="fs--1 align-middle ps-0 text-center col-1 pt-2 pb-2 pl-2">
-                                            @if (User.Identity.Name == item.CodUsuario)
+                                            @if (User.Identity.Name == item.CodUsuario || roleClaim =="ADMIN")
                                             {
                                                 <a asp-action="DeleteForo" asp-route-id="@item.IdOfertaLaboral" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar este registro?');">
                                                     <span class="btn-label"><i class="fa fa-trash"></i></span>

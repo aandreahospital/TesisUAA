@@ -33,6 +33,19 @@
     <script src="/js/Helper.js"></script>
     <script src="~/js/lottie.min.js"></script>
     <style>
+        nav, .navbar, .navbar-nav {
+            overflow: visible !important;
+        }
+
+        /* Ajusta el dropdown para que se vea completamente */
+        .custom-dropdown {
+            position: absolute !important; /* Evita que se corte */
+            right: 0 !important; /* Asegura que salga correctamente alineado */
+            min-width: 220px !important; /* Ajusta el ancho mínimo */
+            white-space: nowrap; /* Evita que el texto se corte */
+            z-index: 1050 !important; /* Se asegura de que esté encima de otros elementos */
+        }
+
 
         .arrow-button {
             position: relative;
@@ -101,6 +114,9 @@
             white-space: normal; /* Permite el desbordamiento del texto */
             overflow: visible; /* Permite que el contenido se desborde */
         }
+
+      
+
     </style>
 
     <!-- ===============================================-->
@@ -429,7 +445,7 @@
                     </div>
                     @if (Context.User.Identity.IsAuthenticated)
                     {
-                        <a class="nav-link" asp-controller="Login" asp-action="Logout" data-bs-toggle="" aria-expanded="false">
+                        @* <a class="nav-link" asp-controller="Login" asp-action="Logout" data-bs-toggle="" aria-expanded="false">
                             <div class="d-flex align-items-center">
                                 <span class="nav-link-text">
                                     <div class="me-3">
@@ -438,7 +454,6 @@
 
                                         <span id="nombreUsuario">@Context.User.Claims.FirstOrDefault(x => x.Type == "NombreUsuario").Value</span>
 
-                                        @*<span id="nombreUsuario">@Context.User.Claims.FirstOrDefault(x => x.Type == "NombreUsuario").Value</span>*@
                                         <br />
                                         <!-- Mostrar fecha y hora en tiempo real -->
                                         <span>
@@ -455,7 +470,62 @@
                                 </span>
 
                             </div>
-                        </a>
+                        </a> 
+                    <a class="nav-link">
+                            <div class="d-flex align-items-center">
+                                <span class="nav-link-text">
+                                    <div class="me-3">
+                                    <!-- Mostrar mensaje de bienvenida y nombre del usuario -->
+                                    <span>Bienvenido/a, </span>
+                                    <span id="nombreUsuario">@Context.User.Claims.FirstOrDefault(x => x.Type == "NombreUsuario")?.Value</span>
+                                    <br />
+                                    <!-- Mostrar fecha y hora en tiempo real -->
+                                    <span>
+                                        Hoy es <span id="fechaHora"></span>
+                                    </span>
+                                    <span>
+                                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                                <li><a class="dropdown-item" asp-controller="Login" asp-action="CambiarContrasena">Cambiar Contraseña</a></li>
+                                                <li><a class="dropdown-item" asp-controller="Login" asp-action="Logout">Cerrar Sesión</a></li>
+                                            </ul>
+                                        </a>
+                                    </span>
+                                    </div>
+                                </span>
+                            </div>
+                    </a>
+                    *@
+                     <a class="nav-link">
+                            <div class="d-flex align-items-center">
+                                <div class="me-3">
+                                    <!-- Mostrar mensaje de bienvenida y nombre del usuario -->
+                                    <span>Bienvenido/a, </span>
+                                    <span id="nombreUsuario">@Context.User.Claims.FirstOrDefault(x => x.Type == "NombreUsuario")?.Value</span>
+                                    <br />
+                                    <!-- Mostrar fecha y hora en tiempo real -->
+                                    <span>
+                                        Hoy es <span id="fechaHora"></span>
+                                    </span>
+                                </div>
+                                <!-- Botón de opciones con icono -->
+                                <div class="dropdown">
+
+
+                                    <a class="nav-link text-white dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fa fa-ellipsis-v"></i> <!-- Icono de opciones (tres puntos verticales) -->
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                        <li><a class="dropdown-item text-wrap" asp-controller="Login" asp-action="ActualizarPass" asp-route-user="@User.Identity.Name">Pass </a></li>
+                                        <li><a class="dropdown-item text-wrap" asp-controller="Login" asp-action="Logout">Logout</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                           
+                      </a>
+
+
                     }
                     else
                     {
@@ -494,6 +564,7 @@
         </div>
 
         <script>
+
             const navbar = document.querySelector('.navbar');
             const content = document.querySelector('.content');
 

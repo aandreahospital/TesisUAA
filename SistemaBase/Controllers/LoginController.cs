@@ -8,6 +8,8 @@ using SistemaBase.Models;
 using System.Security.Claims;
 //using PJAuthenticationService;
 using SistemaBase.ModelsCustom;
+using Org.BouncyCastle.Crypto.Generators;
+using System.Text.RegularExpressions;
 
 namespace SistemaBase.Controllers
 {
@@ -26,7 +28,153 @@ namespace SistemaBase.Controllers
         }
 
         [HttpPost]
-        public bool login(string usuario, string pass)
+        public JsonResult PrimerLogin(string usuario, string pass)
+        {
+            try
+            {
+                var persona = _context.Personas.FirstOrDefault(x => x.CodPersona == usuario);
+                if (persona == null)
+                {
+                    return Json(new { success = false, message = "No tienes credenciales correctas" });
+                }
+
+                var usuarioExistente = _context.Usuarios.FirstOrDefault(x => x.CodUsuario == usuario && x.Clave == usuario);
+                if (usuarioExistente != null)
+                {
+                    return Json(new { success = false, redirect = Url.Action("ActualizarPass", "Login", new { user = usuario }) });
+                }
+
+                return Json(new { success = true });
+            }
+            catch
+            {
+                return Json(new { success = false, message = "Error en el servidor" });
+            }
+        }
+
+
+        public IActionResult ActualizarPass(string user)
+        {
+            // Obtener el usuario autenticado
+            if (User.Identity.Name != null)
+            {
+                user = User.Identity.Name;
+            }
+            var usuario = user;
+            if (string.IsNullOrEmpty(usuario))
+            {
+                return RedirectToAction("Login"); // Si no está autenticado, redirigir
+            }
+
+            // Pasar el usuario a la vista
+            ViewBag.Usuario = usuario;
+            return View();
+        }
+
+
+        [HttpPost]
+        public JsonResult Login(string usuario, string pass)
+        {
+            try
+            {
+                var login = _context.Usuarios.FirstOrDefault(x => x.CodUsuario == usuario && x.Clave == pass);
+                if (login == null)
+                {
+                    return Json(new { success = false, message = "No tienes credenciales correctas" });
+                }
+
+                var persona = _context.Personas.FirstOrDefault(p => p.CodPersona == login.CodPersona);
+
+                // Crear identidad y autenticación
+                ClaimsIdentity identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
+                identity.AddClaims(new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, login.CodUsuario),
+                    new Claim(ClaimTypes.Role, login.CodGrupo),
+                    new Claim("IdUsuario", login.CodUsuario.ToString()),
+                    new Claim("IdPersona", login.CodPersona),
+                    new Claim("NombreUsuario", persona?.Nombre ?? "")
+                });
+
+                ClaimsPrincipal userPrincipal = new ClaimsPrincipal(identity);
+                HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userPrincipal, new AuthenticationProperties
+                {
+                    ExpiresUtc = DateTime.Now.AddMinutes(45)
+                });
+
+                return Json(new { success = true, redirect = "/Bienvenido" });
+            }
+            catch
+            {
+                return Json(new { success = false, message = "Error en el servidor" });
+            }
+        }
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> ActualizarPassword(string usuario, string pass, string confirmarPass)
+        {
+            if (string.IsNullOrEmpty(pass) || pass != confirmarPass)
+            {
+                TempData["Error"] = "Las contraseñas no coinciden.";
+                return RedirectToAction("ActualizarPassword");
+            }
+           
+            try
+            {
+                    var persona = await _context.Personas.FirstOrDefaultAsync(u => u.CodPersona == usuario);
+                if (persona == null)
+                {
+                    TempData["Error"] = "Datos incorrectos.";
+                    return RedirectToAction("Login");
+                }
+                    var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.CodPersona == usuario);
+                    if (user == null)
+                    {
+                        Usuario addUsuario = new()
+                        {
+                            CodUsuario = usuario,
+                            CodPersona = usuario,
+                            Clave = pass,
+                            FecCreacion = DateTime.Now,
+                            CodGrupo ="USER"
+
+                        };
+                        _context.Add(addUsuario);
+
+                    }
+                    else
+                    {
+                        user.Clave = pass;
+                        _context.Update(user);
+                    }
+                    _context.SaveChanges();
+                    //await _context.SaveChangesAsync();
+
+                    
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = "Ocurrió un error al actualizar la contraseña.";
+                return RedirectToAction("Login");
+            }
+        }
+
+        // Método para validar la contraseña
+        private bool EsPasswordValido(string password)
+        {
+            // Expresión regular para validar:
+            // - Máximo 8 caracteres
+            // - Al menos una letra mayúscula
+            // - Al menos un carácter especial
+            string pattern = @"^(?=.*[A-Z])(?=.*[\W_]).{1,8}$";
+            return Regex.IsMatch(password, pattern);
+        }
+
+        [HttpPost]
+        public bool loginsinws(string usuario, string pass)
         {
             try
             {

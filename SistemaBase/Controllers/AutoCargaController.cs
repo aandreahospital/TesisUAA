@@ -99,7 +99,7 @@ namespace SistemaBase.Controllers
                             {
                                 CodUsuario = codPersonaExcel,
                                 CodPersona = codPersonaExcel,
-                                Clave = codPersonaExcel, 
+                                Clave = codPersonaExcel,
                                 CodGrupo = hoja.Cells[fila, 8].GetValue<string>(),
                                 FecCreacion = DateTime.Now
                             };
