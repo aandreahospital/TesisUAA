@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OfficeOpenXml;
 using SistemaBase.Models;
+using SistemaBase.ModelsCustom;
+using System.Linq;
 
 namespace SistemaBase.Controllers
 {
@@ -125,6 +127,111 @@ namespace SistemaBase.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public async Task<IActionResult> ProcesarDatos([FromBody] List<PersonaDTOCustom> personasDto)
+        {
+            if (personasDto == null || !personasDto.Any())
+            {
+                return BadRequest("No se recibieron datos para procesar.");
+            }
+
+            var listaPersonas = new List<Persona>();
+            var listaUsuarios = new List<Usuario>();
+
+            // Obtener todos los códigos de persona del JSON
+            var codPersonasExcel = personasDto.Select(p => p.CodPersona).ToHashSet();
+
+            // Consultar en la BD cuáles ya existen
+            var personasExistentes = _context.Personas
+                .Where(p => codPersonasExcel.Contains(p.CodPersona))
+                .Select(p => p.CodPersona)
+                .ToHashSet();
+
+            var usuariosExistentes = _context.Usuarios
+                .Where(u => codPersonasExcel.Contains(u.CodPersona))
+                .Select(u => u.CodPersona)
+                .ToHashSet();
+
+            foreach (var personaDto in personasDto)
+            {
+                if (!personasExistentes.Contains(personaDto.CodPersona))
+                {
+                 
+                    var nuevaPersona = new Persona
+                    {
+                        CodPersona = personaDto.CodPersona,
+                        Nombre = personaDto.Nombre,
+                        Sexo = personaDto.Sexo,
+                        FecNacimiento = personaDto.FechaNacimiento,
+                        EstadoCivil = personaDto.EstadoCivil,
+                        Email = personaDto.Email,
+                        FecAlta = DateTime.Now
+                    };
+                    listaPersonas.Add(nuevaPersona);
+                }
+
+                if (!usuariosExistentes.Contains(personaDto.CodPersona))
+                {
+                    var nuevoUsuario = new Usuario
+                    {
+                        CodUsuario = personaDto.CodPersona,
+                        CodPersona = personaDto.CodPersona,
+                        Clave = personaDto.CodPersona,
+                        CodGrupo = personaDto.CodGrupo,
+                        FecCreacion = DateTime.Now
+                    };
+                    listaUsuarios.Add(nuevoUsuario);
+                }
+            }
+
+            if (listaPersonas.Any())
+            {
+                _context.AddRange(listaPersonas);
+            }
+
+            if (listaUsuarios.Any())
+            {
+                _context.AddRange(listaUsuarios);
+            }
+
+            await _context.SaveChangesAsync();
+
+            return Ok(new { mensaje = "Carga masiva realizada con éxito." });
+        }
+
+
+        [HttpGet]
+        public IActionResult FormatoBase()
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial; // EPPlus requiere esto
+
+            using (var package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Formato Base de la Planilla Masiva");
+
+                // Encabezados
+                worksheet.Cells["A1"].Value = "CodPersona";
+                worksheet.Cells["B1"].Value = "Nombre";
+                worksheet.Cells["C1"].Value = "Sexo"; 
+                worksheet.Cells["D1"].Value = "FechaNacimiento";
+                worksheet.Cells["E1"].Value = "EstadoCivil";
+                worksheet.Cells["F1"].Value = "Email";
+                worksheet.Cells["G1"].Value = "Clave";
+                worksheet.Cells["H1"].Value = "CodGrupo";
+                worksheet.Cells["I1"].Value = "Carrera";
+
+                // Datos de ejemplo
+                worksheet.Cells["A2"].Value = "";
+                worksheet.Cells["G2"].Value = "=A1";
+
+                worksheet.Cells["A1:I1"].Style.Font.Bold = true; // Negrita para encabezados
+
+                // Convertimos el archivo a bytes
+                var excelBytes = package.GetAsByteArray();
+
+                return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Formato_Base_Planilla_Masiva.xlsx");
+            }
+        }
 
         [HttpGet]
         public IActionResult CargarExcel()
