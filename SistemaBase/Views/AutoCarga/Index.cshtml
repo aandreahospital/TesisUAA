@@ -16,11 +16,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
 
-<h2 class="text-center mb-4">📂 Importación Masiva de Alumnos</h2>
+<h2 class="text-rigth mb-4">Importación Masiva de Alumnos</h2>
 
 <div class="container">
     <div class="row">
-        <div class="col-md-12 text-center mb-3">
+        <div class="col-md-12 text-rigth mb-3">
             <a href="@Url.Action("FormatoBase", "AutoCarga")" class="btn btn-success">
                 Descargar Formato Base <i class="fa fa-file-excel"></i>
             </a>
@@ -28,10 +28,10 @@
     </div>
     <br />
  
-    <div class="row justify-content-center">
-        <h4 class="text-center mb-4">📁 Seleccione un archivo Excel (.xlsx):</h4>
+    <div class="row justify-content-rigth">
+        <h4 class="text-rigth mb-4">Seleccione un archivo Excel (.xlsx):</h4>
         <div class="col-md-6">
-            <div class="form-group text-center">
+            <div class="form-group text-rigth">
                 <input type="file" id="archivoExcel" class="form-control" accept=".xlsx" required />
             </div>
         </div>
@@ -40,13 +40,13 @@
         </div>
     </div>
 
-    <div class="row text-center mt-3">
+    <div class="row text-rigth mt-3">
         
     </div>
 
     <div class="row mt-4">
         <div class="col-md-12">
-            <h4 class="text-center">Datos Cargados</h4>
+            <h4 class="text-rigth">Datos Cargados</h4>
             <table id="tablaAlumnos" class="table table-striped table-bordered" style="width:100%">
                 <thead class="table">
                     <tr>
@@ -68,7 +68,7 @@
         </div>
     </div>
 
-    <div class="text-center mt-4">
+    <div class="text-rigth mt-4">
         <button id="btnProcesar" class="btn btn-success w-50" disabled> Procesar Datos</button>
     </div>
 </div>

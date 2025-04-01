@@ -195,7 +195,7 @@ namespace SistemaBase.Controllers
             }
 
             await _context.SaveChangesAsync();
-
+            TempData["Mensaje"] = "Carga masiva realizada con éxito.";
             return Ok(new { mensaje = "Carga masiva realizada con éxito." });
         }
 

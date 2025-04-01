@@ -1,7 +1,12 @@
 ﻿document.getElementById("btnCargar").addEventListener("click", function () {
     let archivo = document.getElementById("archivoExcel").files[0];
     if (!archivo) {
-        alert("Seleccione un archivo Excel primero.");
+        //alert("Seleccione un archivo Excel primero.");
+        swal({
+            icon: 'warning',
+            title: 'Atención',
+            text: 'Seleccione un archivo Excel primero.',
+        });
         return;
     }
 
@@ -46,7 +51,11 @@
 document.getElementById("btnProcesar").addEventListener("click", function () {
     let datos = localStorage.getItem("datosExcel");
     if (!datos) {
-        alert("No hay datos cargados.");
+        swal({
+            icon: 'warning',
+            title: 'Atención',
+            text: 'No hay datos cargados.',
+        });
         return;
     }
 
@@ -57,10 +66,22 @@ document.getElementById("btnProcesar").addEventListener("click", function () {
     })
         .then(response => response.json())
         .then(data => {
-            alert(data.mensaje);
-            localStorage.removeItem("datosExcel");
-            document.querySelector("#tablaAlumnos tbody").innerHTML = "";
-            document.getElementById("btnProcesar").disabled = true;
+            swal({
+                icon: 'success',
+                title: 'Listo',
+                text: 'La operación se realizó correctamente.'
+            }).then(() => {
+                localStorage.removeItem("datosExcel");
+                document.querySelector("#tablaAlumnos tbody").innerHTML = "";
+                document.getElementById("btnProcesar").disabled = true;
+            });
         })
-        .catch(error => console.error("Error:", error));
+        .catch(error => {
+            swal({
+                icon: 'error',
+                title: 'Error',
+                text: 'Ocurrió un error al procesar los datos.',
+            });
+            console.error("Error:", error);
+        });
 });

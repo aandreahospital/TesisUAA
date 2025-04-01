@@ -443,6 +443,7 @@
                         </a>
 
                     </div>
+                    <div class="collapse navbar-collapse justify-content-between">
                     @if (Context.User.Identity.IsAuthenticated)
                     {
                         @* <a class="nav-link" asp-controller="Login" asp-action="Logout" data-bs-toggle="" aria-expanded="false">
@@ -496,28 +497,24 @@
                             </div>
                     </a>
                     *@
+
                      <a class="nav-link">
                             <div class="d-flex align-items-center">
-                                <div class="me-3">
-                                    <!-- Mostrar mensaje de bienvenida y nombre del usuario -->
-                                    <span>Bienvenido/a, </span>
-                                    <span id="nombreUsuario">@Context.User.Claims.FirstOrDefault(x => x.Type == "NombreUsuario")?.Value</span>
-                                    <br />
-                                    <!-- Mostrar fecha y hora en tiempo real -->
-                                    <span>
-                                        Hoy es <span id="fechaHora"></span>
-                                    </span>
-                                </div>
-                                <!-- Botón de opciones con icono -->
                                 <div class="dropdown">
+                                            <span>Bienvenido/a, </span>
+                                            <span id="nombreUsuario">@Context.User.Claims.FirstOrDefault(x => x.Type == "NombreUsuario")?.Value</span>
+                                            <br />
 
-
+                                            <span>
+                                                Hoy es <span id="fechaHora"></span>
+                                            </span>
+                                     
                                     <a class="nav-link text-white dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="fa fa-ellipsis-v"></i> <!-- Icono de opciones (tres puntos verticales) -->
+                                        <i class="fa fa-ellipsis-v"></i> 
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                                        <li><a class="dropdown-item text-wrap" asp-controller="Login" asp-action="ActualizarPass" asp-route-user="@User.Identity.Name">Pass </a></li>
-                                        <li><a class="dropdown-item text-wrap" asp-controller="Login" asp-action="Logout">Logout</a></li>
+                                        <li><a class="dropdown-item text-wrap" asp-controller="Login" asp-action="ActualizarPass" asp-route-user="@User.Identity.Name">Cambiar Contraseña</a></li>
+                                        <li><a class="dropdown-item text-wrap" asp-controller="Login" asp-action="Logout">Salir</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -552,7 +549,7 @@
                         </a>
                     }
                  
-                    
+                    </div>
                 </div>
             </nav>
 

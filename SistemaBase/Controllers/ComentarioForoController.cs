@@ -43,7 +43,8 @@ namespace SistemaBase.Controllers
                         Comentarios = dbComentarios.Select(c => new Comentario
                         {
                             IdComentario = c.IdComentario,
-                            CodUsuario = c.CodUsuario,
+                            // CodUsuario = c.CodUsuario,
+                            CodUsuario = _context.Personas.Where(p => p.CodPersona == c.CodUsuario).Select(p => p.Nombre).FirstOrDefault(),
                             Descripcion = c.Descripcion,
                             FechaComentario = c.FechaComentario
                         }).ToList()
