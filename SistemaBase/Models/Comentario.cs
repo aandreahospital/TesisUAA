@@ -9,9 +9,9 @@ namespace SistemaBase.Models
         public string CodUsuario { get; set; } = null!;
         public int IdForoDebate { get; set; }
         public string? Descripcion { get; set; }
-        public DateTime? FechaComentario { get; set; }
+        public DateTime? FechaComentario { get; set; } 
 
         //public virtual Usuario CodUsuarioNavigation { get; set; } = null!;
-       /// public virtual ForoDebate IdForoDebateNavigation { get; set; } = null!;
+        /// public virtual ForoDebate IdForoDebateNavigation { get; set; } = null!;
     }
 }

@@ -14,7 +14,7 @@ namespace SistemaBase.ModelsCustom
         public string? DescripcionForo { get; set; }
         public string? Estado { get; set; }
 
-        public List<Comentario>? Comentarios;
+        public List<ComentarioCustom>? Comentarios;
     }
 
 }
