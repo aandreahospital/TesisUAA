@@ -11,9 +11,9 @@ namespace SistemaBase.Controllers
 {
     public class AccesosGrupoController : Controller
     {
-        private readonly DbvinDbContext _context;
+        private readonly UAADbContext _context;
 
-        public AccesosGrupoController(DbvinDbContext context)
+        public AccesosGrupoController(UAADbContext context)
         {
             _context = context;
         }
@@ -21,9 +21,9 @@ namespace SistemaBase.Controllers
         // GET: AccesosGrupo
     public async Task<IActionResult> Index()
     {
-        ViewData["CodModulo"] = new SelectList(_context.Formas, "CodModulo", "CodModulo");
-        var dbvinDbContext = _context.AccesosGrupos.Include(a => a.Forma);
-        return View(await dbvinDbContext.AsNoTracking().ToListAsync());
+            return _context.AccesosGrupos != null ?
+              View(await _context.AccesosGrupos.AsNoTracking().ToListAsync()) :
+              Problem("Entity set 'UAADbContext.AccesosGrupos'  is null.");
     }
 
 
@@ -37,10 +37,10 @@ namespace SistemaBase.Controllers
     public async Task<IActionResult>
     ResultTable()
     {
-        ViewData["CodModulo"] = new SelectList(_context.Formas, "CodModulo", "CodModulo");
     ViewData["Show"] = true;
-        var dbvinDbContext = _context.AccesosGrupos.Include(a => a.Forma);
-        return View("Index",await dbvinDbContext.AsNoTracking().ToListAsync());
+            return _context.AccesosGrupos != null ?
+              View("Index", await _context.AccesosGrupos.AsNoTracking().ToListAsync()) :
+              Problem("Entity set 'UAADbContext.AccesosGrupos'  is null.");
     }
 
 
@@ -70,7 +70,6 @@ namespace SistemaBase.Controllers
             // GET: AccesosGrupo/Create
             public IActionResult Create()
             {
-            ViewData["CodModulo"] = new SelectList(_context.Formas, "CodModulo", "CodModulo");
             return View();
             }
 
@@ -86,7 +85,6 @@ namespace SistemaBase.Controllers
                 return RedirectToAction("ResultTable");
 
                 //return RedirectToAction(nameof(Index));
-                ViewData["CodModulo"] = new SelectList(_context.Formas, "CodModulo", "CodModulo", accesosGrupo.CodModulo);
                 return RedirectToAction("ResultTable");
 
                 // return View(accesosGrupo);
@@ -101,7 +99,6 @@ namespace SistemaBase.Controllers
                     {
                     return NotFound();
                     }
-                    ViewData["CodModulo"] = new SelectList(_context.Formas, "CodModulo", "CodModulo", accesosGrupo.CodModulo);
                     return View(accesosGrupo);
                     }
 
@@ -133,7 +130,6 @@ namespace SistemaBase.Controllers
                         return RedirectToAction("ResultTable");
 
                         // return RedirectToAction(nameof(Index));
-                        ViewData["CodModulo"] = new SelectList(_context.Formas, "CodModulo", "CodModulo", accesosGrupo.CodModulo);
                         return RedirectToAction("ResultTable");
 
                         //return View(accesosGrupo);
@@ -162,7 +158,7 @@ namespace SistemaBase.Controllers
                                 {
                                 if (_context.AccesosGrupos == null)
                                 {
-                                return Problem("Entity set 'DbvinDbContext.AccesosGrupos'  is null.");
+                                return Problem("Entity set 'UAADbContext.AccesosGrupos'  is null.");
                                 }
                                 var accesosGrupo = await _context.AccesosGrupos.FindAsync(CodGrupo,CodModulo,NomForma);
                                 if (accesosGrupo != null)

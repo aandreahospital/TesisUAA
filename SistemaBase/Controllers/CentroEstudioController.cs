@@ -9,21 +9,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SistemaBase.Controllers
 {
-    public class DatosAcademicoController : Controller
+    public class CentroEstudioController : Controller
     {
         private readonly Models.UAADbContext _context;
 
-        public DatosAcademicoController(Models.UAADbContext context)
+        public CentroEstudioController(Models.UAADbContext context)
         {
             _context = context;
         }
 
-        // GET: DatosAcademico
+        // GET: CentroEstudio
     public async Task<IActionResult> Index()
     {
-            return _context.DatosAcademicos != null ?
-              View(await _context.DatosAcademicos.AsNoTracking().ToListAsync()) :
-              Problem("Entity set 'DbvinDbContext.DatosAcademicos'  is null.");
+            return _context.CentroEstudios != null ?
+              View(await _context.CentroEstudios.AsNoTracking().ToListAsync()) :
+              Problem("Entity set 'DbvinDbContext.CentroEstudios'  is null.");
     }
 
 
@@ -38,9 +38,9 @@ namespace SistemaBase.Controllers
     ResultTable()
     {
     ViewData["Show"] = true;
-            return _context.DatosAcademicos != null ?
-              View("Index", await _context.DatosAcademicos.AsNoTracking().ToListAsync()) :
-              Problem("Entity set 'DbvinDbContext.DatosAcademicos'  is null.");
+            return _context.CentroEstudios != null ?
+              View("Index", await _context.CentroEstudios.AsNoTracking().ToListAsync()) :
+              Problem("Entity set 'DbvinDbContext.CentroEstudios'  is null.");
     }
 
 
@@ -54,71 +54,71 @@ namespace SistemaBase.Controllers
 
 
 
-        // GET: DatosAcademico/Details/5
-        public async Task<IActionResult> Details(int IdDatosAcademicos)
+        // GET: CentroEstudio/Details/5
+        public async Task<IActionResult> Details(int IdCentroEstudio)
             {
-            var datosAcademico = await _context.DatosAcademicos
-            .FindAsync(IdDatosAcademicos);
-            if (datosAcademico == null)
+            var centroEstudio = await _context.CentroEstudios
+            .FindAsync(IdCentroEstudio);
+            if (centroEstudio == null)
             {
             return NotFound();
             }
 
-            return View(datosAcademico);
+            return View(centroEstudio);
             }
 
-            // GET: DatosAcademico/Create
+            // GET: CentroEstudio/Create
             public IActionResult Create()
             {
             return View();
             }
 
-            // POST: DatosAcademico/Create
+            // POST: CentroEstudio/Create
             // To protect from overposting attacks, enable the specific properties you want to bind to.
             // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
             [HttpPost]
             [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create( DatosAcademico datosAcademico)
+        public async Task<IActionResult> Create( CentroEstudio centroEstudio)
                 {
-            _context.Add(datosAcademico);
+            _context.Add(centroEstudio);
             await _context.SaveChangesAsync();
                 return RedirectToAction("ResultTable");
 
                 //return RedirectToAction(nameof(Index));
                 return RedirectToAction("ResultTable");
 
-                // return View(datosAcademico);
+                // return View(centroEstudio);
                 }
 
-                // GET: DatosAcademico/Edit/5
-        public async Task<IActionResult> Edit(int IdDatosAcademicos)
+                // GET: CentroEstudio/Edit/5
+        public async Task<IActionResult> Edit(int IdCentroEstudio)
                     {
 
-                    var datosAcademico = await _context.DatosAcademicos.FindAsync(IdDatosAcademicos);
-                    if (datosAcademico == null)
+                    var centroEstudio = await _context.CentroEstudios.FindAsync(IdCentroEstudio);
+                    if (centroEstudio == null)
                     {
                     return NotFound();
                     }
-                    return View(datosAcademico);
+                    return View(centroEstudio);
                     }
 
-                    // POST: DatosAcademico/Edit/5
+                    // POST: CentroEstudio/Edit/5
                     // To protect from overposting attacks, enable the specific properties you want to bind to.
                     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
                     [HttpPost]
                     [ValidateAntiForgeryToken]
                     public async Task<IActionResult>
-                        Edit(int IdDatosAcademicos,  DatosAcademico datosAcademico)
+                        Edit(int IdCentroEstudio,  CentroEstudio centroEstudio)
                         {
 
                         try
                         {
-                        _context.Update(datosAcademico);
+                        _context.Update(centroEstudio);
                         await _context.SaveChangesAsync();
                         }
                         catch (DbUpdateConcurrencyException)
                         {
-                        if (!DatosAcademicoExists(datosAcademico.IdDatosAcademicos))
+                        if (!CentroEstudioExists(centroEstudio.IdCentroEstudio))
                         {
                         return NotFound();
                         }
@@ -132,38 +132,38 @@ namespace SistemaBase.Controllers
                         // return RedirectToAction(nameof(Index));
                         return RedirectToAction("ResultTable");
 
-                        //return View(datosAcademico);
+                        //return View(centroEstudio);
                         }
 
-                        // GET: DatosAcademico/Delete/5
+                        // GET: CentroEstudio/Delete/5
                         public async Task<IActionResult>
-                            Delete(int IdDatosAcademicos)
+                            Delete(int IdCentroEstudio)
                             {
 
-                            var datosAcademico = await _context.DatosAcademicos
-                            .FindAsync(IdDatosAcademicos);
-                            if (datosAcademico == null)
+                            var centroEstudio = await _context.CentroEstudios
+                            .FindAsync(IdCentroEstudio);
+                            if (centroEstudio == null)
                             {
                             return NotFound();
                             }
 
-                            return View(datosAcademico);
+                            return View(centroEstudio);
                             }
 
-                            // POST: DatosAcademico/Delete/5
+                            // POST: CentroEstudio/Delete/5
                             [HttpPost, ActionName("Delete")]
                             [ValidateAntiForgeryToken]
                             public async Task<IActionResult>
-                                DeleteConfirmed(int IdDatosAcademicos)
+                                DeleteConfirmed(int IdCentroEstudio)
                                 {
-                                if (_context.DatosAcademicos == null)
+                                if (_context.CentroEstudios == null)
                                 {
-                                return Problem("Entity set 'DbvinDbContext.DatosAcademicos'  is null.");
+                                return Problem("Entity set 'DbvinDbContext.CentroEstudios'  is null.");
                                 }
-                                var datosAcademico = await _context.DatosAcademicos.FindAsync(IdDatosAcademicos);
-                                if (datosAcademico != null)
+                                var centroEstudio = await _context.CentroEstudios.FindAsync(IdCentroEstudio);
+                                if (centroEstudio != null)
                                 {
-                                _context.DatosAcademicos.Remove(datosAcademico);
+                                _context.CentroEstudios.Remove(centroEstudio);
                                 }
 
                                 await _context.SaveChangesAsync();
@@ -173,9 +173,9 @@ namespace SistemaBase.Controllers
                                 //return RedirectToAction(nameof(Index));
                                 }
 
-                                private bool DatosAcademicoExists(int id)
+                                private bool CentroEstudioExists(int id)
                                 {
-                                return (_context.DatosAcademicos?.Any(e => e.IdDatosAcademicos == id)).GetValueOrDefault();
+                                return (_context.CentroEstudios?.Any(e => e.IdCentroEstudio == id)).GetValueOrDefault();
                                 }
                                 }
                                 }

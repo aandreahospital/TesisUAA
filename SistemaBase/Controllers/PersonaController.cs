@@ -11,9 +11,9 @@ namespace SistemaBase.Controllers
 {
     public class PersonaController : Controller
     {
-        private readonly DbvinDbContext _context;
+        private readonly Models.UAADbContext _context;
 
-        public PersonaController(DbvinDbContext context)
+        public PersonaController(Models.UAADbContext context)
         {
             _context = context;
         }

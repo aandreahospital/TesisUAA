@@ -14,9 +14,9 @@ namespace SistemaBase.Controllers
     [Authorize]
     public class Error500Controller : BaseRyMController
     {
-        private readonly DbvinDbContext _context;
+        private readonly Models.UAADbContext _context;
 
-        public Error500Controller(DbvinDbContext context, IServiceProvider serviceProvider) : base(serviceProvider)
+        public Error500Controller(Models.UAADbContext context, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _context = context;
         }

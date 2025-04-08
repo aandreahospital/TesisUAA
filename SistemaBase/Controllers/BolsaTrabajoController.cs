@@ -8,9 +8,9 @@ namespace SistemaBase.Controllers
     public class BolsaTrabajoController : Controller
     {
 
-        private readonly DbvinDbContext _context;
+        private readonly Models.UAADbContext _context;
 
-        public BolsaTrabajoController(DbvinDbContext context)
+        public BolsaTrabajoController(Models.UAADbContext context)
         {
             _context = context;
         }

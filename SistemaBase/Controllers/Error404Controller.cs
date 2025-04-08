@@ -14,9 +14,9 @@ namespace SistemaBase.Controllers
     [Authorize]
     public class Error404Controller : BaseRyMController
     {
-        private readonly DbvinDbContext _context;
+        private readonly Models.UAADbContext _context;
 
-        public Error404Controller(DbvinDbContext context, IServiceProvider serviceProvider) : base(serviceProvider)
+        public Error404Controller(Models.UAADbContext context, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _context = context;
         }

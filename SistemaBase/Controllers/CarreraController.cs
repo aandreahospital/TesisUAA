@@ -11,9 +11,9 @@ namespace SistemaBase.Controllers
 {
     public class CarreraController : Controller
     {
-        private readonly DbvinDbContext _context;
+        private readonly Models.UAADbContext _context;
 
-        public CarreraController(DbvinDbContext context)
+        public CarreraController(Models.UAADbContext context)
         {
             _context = context;
         }

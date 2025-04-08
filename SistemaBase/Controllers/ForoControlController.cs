@@ -8,9 +8,9 @@ namespace SistemaBase.Controllers
     public class ForoControlController : Controller
     {
 
-        private readonly DbvinDbContext _context;
+        private readonly Models.UAADbContext _context;
 
-        public ForoControlController(DbvinDbContext context)
+        public ForoControlController(Models.UAADbContext context)
         {
             _context = context;
         }

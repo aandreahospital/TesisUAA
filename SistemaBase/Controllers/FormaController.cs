@@ -11,9 +11,9 @@ namespace SistemaBase.Controllers
 {
     public class FormaController : Controller
     {
-        private readonly DbvinDbContext _context;
+        private readonly UAADbContext _context;
 
-        public FormaController(DbvinDbContext context)
+        public FormaController(UAADbContext context)
         {
             _context = context;
         }
@@ -21,9 +21,9 @@ namespace SistemaBase.Controllers
         // GET: Forma
     public async Task<IActionResult> Index()
     {
-            return _context.Formas != null ?
-              View(await _context.Formas.AsNoTracking().ToListAsync()) :
-              Problem("Entity set 'DbvinDbContext.Formas'  is null.");
+        ViewData["CodModulo"] = new SelectList(_context.Modulos, "CodModulo", "CodModulo");
+        var uAADbContext = _context.Formas.Include(f => f.CodModuloNavigation);
+        return View(await uAADbContext.AsNoTracking().ToListAsync());
     }
 
 
@@ -37,10 +37,10 @@ namespace SistemaBase.Controllers
     public async Task<IActionResult>
     ResultTable()
     {
+        ViewData["CodModulo"] = new SelectList(_context.Modulos, "CodModulo", "CodModulo");
     ViewData["Show"] = true;
-            return _context.Formas != null ?
-              View("Index", await _context.Formas.AsNoTracking().ToListAsync()) :
-              Problem("Entity set 'DbvinDbContext.Formas'  is null.");
+        var uAADbContext = _context.Formas.Include(f => f.CodModuloNavigation);
+        return View("Index",await uAADbContext.AsNoTracking().ToListAsync());
     }
 
 
@@ -70,6 +70,7 @@ namespace SistemaBase.Controllers
             // GET: Forma/Create
             public IActionResult Create()
             {
+            ViewData["CodModulo"] = new SelectList(_context.Modulos, "CodModulo", "CodModulo");
             return View();
             }
 
@@ -85,6 +86,7 @@ namespace SistemaBase.Controllers
                 return RedirectToAction("ResultTable");
 
                 //return RedirectToAction(nameof(Index));
+                ViewData["CodModulo"] = new SelectList(_context.Modulos, "CodModulo", "CodModulo", forma.CodModulo);
                 return RedirectToAction("ResultTable");
 
                 // return View(forma);
@@ -99,6 +101,7 @@ namespace SistemaBase.Controllers
                     {
                     return NotFound();
                     }
+                    ViewData["CodModulo"] = new SelectList(_context.Modulos, "CodModulo", "CodModulo", forma.CodModulo);
                     return View(forma);
                     }
 
@@ -130,6 +133,7 @@ namespace SistemaBase.Controllers
                         return RedirectToAction("ResultTable");
 
                         // return RedirectToAction(nameof(Index));
+                        ViewData["CodModulo"] = new SelectList(_context.Modulos, "CodModulo", "CodModulo", forma.CodModulo);
                         return RedirectToAction("ResultTable");
 
                         //return View(forma);
@@ -158,7 +162,7 @@ namespace SistemaBase.Controllers
                                 {
                                 if (_context.Formas == null)
                                 {
-                                return Problem("Entity set 'DbvinDbContext.Formas'  is null.");
+                                return Problem("Entity set 'UAADbContext.Formas'  is null.");
                                 }
                                 var forma = await _context.Formas.FindAsync(CodModulo,NomForma);
                                 if (forma != null)

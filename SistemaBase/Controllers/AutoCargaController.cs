@@ -9,9 +9,9 @@ namespace SistemaBase.Controllers
     public class AutoCargaController : Controller
     {
 
-        private readonly DbvinDbContext _context;
+        private readonly UAADbContext _context;
 
-        public AutoCargaController(DbvinDbContext context)
+        public AutoCargaController(UAADbContext context)
         {
             _context = context;
         }

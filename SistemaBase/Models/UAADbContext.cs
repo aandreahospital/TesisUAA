@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace SistemaBase.Models
 {
-    public partial class DbvinDbContext : DbContext
+    public partial class UAADbContext : DbContext
     {
-        public DbvinDbContext()
+        public UAADbContext()
         {
         }
 
-        public DbvinDbContext(DbContextOptions<DbvinDbContext> options)
+        public UAADbContext(DbContextOptions<UAADbContext> options)
             : base(options)
         {
         }
@@ -232,11 +232,11 @@ namespace SistemaBase.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_DA_CARRERA");
 
-                entity.HasOne(d => d.IdCentroEstudioNavigation)
-                    .WithMany(p => p.DatosAcademicos)
-                    .HasForeignKey(d => d.IdCentroEstudio)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_DA_CENTRO_ESTUDIOS");
+                //entity.HasOne(d => d.IdCentroEstudioNavigation)
+                //    .WithMany(p => p.DatosAcademicos)
+                //    .HasForeignKey(d => d.IdCentroEstudio)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_DA_CENTRO_ESTUDIOS");
             });
 
             modelBuilder.Entity<DatosLaborale>(entity =>
@@ -539,7 +539,6 @@ namespace SistemaBase.Models
                     .HasColumnName("COD_USUARIO");
 
                 entity.Property(e => e.Clave)
-                    .HasMaxLength(15)
                     .IsUnicode(false)
                     .HasColumnName("CLAVE");
 

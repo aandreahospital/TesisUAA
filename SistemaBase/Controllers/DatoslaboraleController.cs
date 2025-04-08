@@ -11,9 +11,9 @@ namespace SistemaBase.Controllers
 {
     public class DatosLaboraleController : Controller
     {
-        private readonly DbvinDbContext _context;
+        private readonly Models.UAADbContext _context;
 
-        public DatosLaboraleController(DbvinDbContext context)
+        public DatosLaboraleController(Models.UAADbContext context)
         {
             _context = context;
         }

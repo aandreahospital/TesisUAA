@@ -11,9 +11,9 @@ namespace SistemaBase.Controllers
 {
     public class ModuloController : Controller
     {
-        private readonly DbvinDbContext _context;
+        private readonly Models.UAADbContext _context;
 
-        public ModuloController(DbvinDbContext context)
+        public ModuloController(Models.UAADbContext context)
         {
             _context = context;
         }

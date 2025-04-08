@@ -1,11 +1,9 @@
-@model IEnumerable<SistemaBase.Models.Forma>
+@model IEnumerable<SistemaBase.Models.CentroEstudio>
 
      @{
       List<string> columns =  new List<string>();
-                                        columns.Add("\""+Html.DisplayNameFor(model => model.CodModulo)+"\""); 
-                                        columns.Add("\""+Html.DisplayNameFor(model => model.NomForma)+"\""); 
+                                        columns.Add("\""+Html.DisplayNameFor(model => model.IdCentroEstudio)+"\""); 
                                         columns.Add("\""+Html.DisplayNameFor(model => model.Descripcion)+"\""); 
-                                      columns.Add("\""+Html.DisplayNameFor(model => model.CodModuloNavigation)+"\""); 
      if (ViewData["Show"] != null)
      {
          Layout = "";
@@ -24,7 +22,7 @@
                          <div data-list='{"valueNames":[@string.Join(",", columns) ],"page":16}'>
                  <div class="row align-items-end justify-content-between pb-5 g-3">
                      <div class="col-auto">
-                         <h3> Forma</h3>
+                         <h3> Centros de Estudio</h3>
                           <button class="btnAbm  mt-3" onclick="modalcreate()">
                             <span class="btn-label"><i class="fa fa-plus"></i></span> Nuevo
                         </button>
@@ -48,21 +46,19 @@
                         <thead>
                             <tr>
                                 <th class="white-space-nowrap fs--1 ps-0 align-middle text-center col-1 pt-2 pb-2 pl-2"></th>
-                                    <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0"  data-sort="@Html.DisplayNameFor(model => model.NomForma))"> @Html.DisplayNameFor(model => model.NomForma)</th>
+                                    <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0"  data-sort="@Html.DisplayNameFor(model => model.IdCentroEstudio))"> @Html.DisplayNameFor(model => model.IdCentroEstudio)</th>
                                         <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0" data-sort="@Html.DisplayNameFor(model => model.Descripcion)"> @Html.DisplayNameFor(model => model.Descripcion)</th>
-                                       <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0  text-center col-2 p-0"  data-sort="@Html.DisplayNameFor(model => model.CodModuloNavigation))"> @Html.DisplayNameFor(model => model.CodModuloNavigation)</th>
                             </tr>
                         </thead>
                         <tbody class="list">
                             @foreach (var item in Model) {
                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                                     <td class="fs--1 align-middle ps-0 text-center col-1 pt-2 pb-2 pl-2">
-                                        <button class="btnAbm" onclick="modaledit('@item.CodModulo', '@item.NomForma')"><i class="fa fa-pencil"></i></button>
-                                        <button class="btnAbm" onclick="modaldelete('@item.CodModulo', '@item.NomForma')"><i class="fa fa-trash"></i></button>
+                                        <button class="btnAbm" onclick="modaledit('@item.IdCentroEstudio')"><i class="fa fa-pencil"></i></button>
+                                        <button class="btnAbm" onclick="modaldelete('@item.IdCentroEstudio')"><i class="fa fa-trash"></i></button>
                                     </td>
-                                       <td class="@Html.DisplayNameFor(modelItem => item.NomForma) fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.NomForma)</td>
+                                       <td class="@Html.DisplayNameFor(modelItem => item.IdCentroEstudio) fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.IdCentroEstudio)</td>
                                         <td class="@Html.DisplayNameFor(modelItem => item.Descripcion)  fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.Descripcion)</td>
-                                        <td class="@Html.DisplayNameFor(modelItem => item.CodModuloNavigation) fs--1 align-middle ps-0 text-left col-2 pt-2 pb-2 ps-2"> @Html.DisplayFor(modelItem => item.CodModuloNavigation.CodModulo)</td>
                             </tr>
                                                                         }
                         </tbody>
@@ -83,13 +79,13 @@
         </div>
         <div id="details"></div>
         <script>
-    const editsubmit = (CodModulo,NomForma) => {
+    const editsubmit = (IdCentroEstudio) => {
     e.preventDefault();
-    const form = document.getElementById( "Forma" + "FormEdit" );
+    const form = document.getElementById( "CentroEstudio" + "FormEdit" );
     const formData = new FormData(form);
     axios({
     method: "post",
-    url: "Forma"+"" + `/Edit`,
+    url: "CentroEstudio"+"" + `/Edit`,
     data: formData,
     headers: {
     "Content-Type": "multipart/form-data",
@@ -106,7 +102,7 @@
     };
     const modalcreate = () => {
     axios({
-    baseURL: "Forma"+"" + "/Create" ,
+    baseURL: "CentroEstudio"+"" + "/Create" ,
     method: 'Get',
     headers: {
     'Accept': 'application/json',
@@ -118,9 +114,9 @@
     document.getElementById("detailsview").click();
     });
     };
-    const modaledit = (CodModulo,NomForma) => {
+    const modaledit = (IdCentroEstudio) => {
     axios({
-    baseURL: "Forma"+"" + "/Edit?" +`CodModulo=${CodModulo}&NomForma=${NomForma}`,
+    baseURL: "CentroEstudio"+"" + "/Edit?" +`IdCentroEstudio=${IdCentroEstudio}`,
     method: 'Get',
     headers: {
     'Accept': 'application/json',
@@ -132,9 +128,9 @@
     document.getElementById("detailsview").click();
     });
     };
-    const modaldetails = (CodModulo,NomForma) => {
+    const modaldetails = (IdCentroEstudio) => {
     axios({
-    baseURL: "Forma"+"" + "/Details?" +`CodModulo=${CodModulo}&NomForma=${NomForma}`,
+    baseURL: "CentroEstudio"+"" + "/Details?" +`IdCentroEstudio=${IdCentroEstudio}`,
     method: 'Get',
     headers: {
     'Accept': 'application/json',
@@ -146,9 +142,9 @@
     document.getElementById("detailsview").click();
     });
     };
-    const modaldelete = (CodModulo,NomForma) => {
+    const modaldelete = (IdCentroEstudio) => {
     axios({
-    baseURL: "Forma"+"" + "/Delete?" +`CodModulo=${CodModulo}&NomForma=${NomForma}`,
+    baseURL: "CentroEstudio"+"" + "/Delete?" +`IdCentroEstudio=${IdCentroEstudio}`,
     method: 'Get',
     headers: {
     'Accept': 'application/json',
@@ -167,7 +163,7 @@
         const formData = new FormData(form);
         axios({
         method: "post",
-        url:  "Forma"+"/" + `${url}`,
+        url:  "CentroEstudio"+"/" + `${url}`,
         data: formData,
         headers: {
         "Content-Type": "multipart/form-data",
@@ -218,22 +214,20 @@ refreshjs.forEach((item) =>
                         <thead>
                             <tr>
                                 <th class="white-space-nowrap fs--1 ps-0 align-middle"></th>
-                                    <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle"  data-sort="@Html.DisplayNameFor(model => model.NomForma))"> @Html.DisplayNameFor(model => model.NomForma)</th>
+                                    <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle"  data-sort="@Html.DisplayNameFor(model => model.IdCentroEstudio))"> @Html.DisplayNameFor(model => model.IdCentroEstudio)</th>
                                         <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle" data-sort="@Html.DisplayNameFor(model => model.Descripcion)"> @Html.DisplayNameFor(model => model.Descripcion)</th>
-                                       <th class="sort align-middle ps-3 white-space-nowrap fs--1 ps-0 align-middle"  data-sort="@Html.DisplayNameFor(model => model.CodModuloNavigation))"> @Html.DisplayNameFor(model => model.CodModuloNavigation)</th>
                             </tr>
                         </thead>
                         <tbody class="list">
                             @foreach (var item in Model) {
                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                                     <td class="fs--1 align-middle ps-0">
-                                        <button class="btnAbm" onclick="modaledit('@item.CodModulo', '@item.NomForma')"><i class="fa fa-pencil"></i></button>
-                                        <button class="btnAbm" onclick="modaldelete('@item.CodModulo', '@item.NomForma')"><i class="fa fa-trash"></i></button>
-                                        <button class="btnAbm" onclick="modaldetails('@item.CodModulo', '@item.NomForma')"><i class="fa fa-arrow-right"></i></button>
+                                        <button class="btnAbm" onclick="modaledit('@item.IdCentroEstudio')"><i class="fa fa-pencil"></i></button>
+                                        <button class="btnAbm" onclick="modaldelete('@item.IdCentroEstudio')"><i class="fa fa-trash"></i></button>
+                                        <button class="btnAbm" onclick="modaldetails('@item.IdCentroEstudio')"><i class="fa fa-arrow-right"></i></button>
                                     </td>
-                                       <td class="@Html.DisplayNameFor(modelItem => item.NomForma) fs--1 align-middle ps-0"> @Html.DisplayFor(modelItem => item.NomForma)</td>
+                                       <td class="@Html.DisplayNameFor(modelItem => item.IdCentroEstudio) fs--1 align-middle ps-0"> @Html.DisplayFor(modelItem => item.IdCentroEstudio)</td>
                                         <td class="@Html.DisplayNameFor(modelItem => item.Descripcion)  fs--1 align-middle ps-0 "> @Html.DisplayFor(modelItem => item.Descripcion)</td>
-                                        <td class="@Html.DisplayNameFor(modelItem => item.CodModuloNavigation) fs--1 align-middle ps-0 "> @Html.DisplayFor(modelItem => item.CodModuloNavigation.CodModulo)</td>
                             </tr>
                             }
                         </tbody>

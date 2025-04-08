@@ -13,9 +13,9 @@ namespace SistemaBase.Controllers
     public class DatosAlumnoController : Controller
     {
 
-        private readonly DbvinDbContext _context;
+        private readonly Models.UAADbContext _context;
 
-        public DatosAlumnoController(DbvinDbContext context)
+        public DatosAlumnoController(Models.UAADbContext context)
         {
             _context = context;
         }

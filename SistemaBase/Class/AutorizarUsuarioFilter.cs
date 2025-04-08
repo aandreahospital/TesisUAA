@@ -13,13 +13,13 @@ public class AutorizarUsuarioFilter : IAuthorizationFilter
     private readonly string controlador;
 
     private readonly ILogger<AutorizarUsuarioFilter> logger;
-    private readonly DbvinDbContext _dbContext;
+    private readonly UAADbContext _dbContext;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private string? accion;
-    private DbvinDbContext dbContext;
+    private UAADbContext dbContext;
     private IHttpContextAccessor httpContextAccessor;
 
-    public AutorizarUsuarioFilter(string? controlador, string? accion, ILogger<AutorizarUsuarioFilter> logger, DbvinDbContext dbContext, IHttpContextAccessor httpContextAccessor)
+    public AutorizarUsuarioFilter(string? controlador, string? accion, ILogger<AutorizarUsuarioFilter> logger, UAADbContext dbContext, IHttpContextAccessor httpContextAccessor)
     {
         this.controlador = controlador;
         this.accion = accion;
@@ -33,7 +33,7 @@ public class AutorizarUsuarioFilter : IAuthorizationFilter
         string operacion,
         string controlador,
         ILogger<AutorizarUsuarioFilter> logger,
-        DbvinDbContext context,
+        UAADbContext context,
         IHttpContextAccessor httpContextAccessor)
     {
         this.modulo = modulo;

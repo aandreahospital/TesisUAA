@@ -15,9 +15,9 @@ namespace SistemaBase.Controllers
 {
     public class LoginController : Controller
     {
-        private readonly DbvinDbContext _context;
+        private readonly Models.UAADbContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public LoginController(DbvinDbContext context, IHttpContextAccessor httpContextAccessor)
+        public LoginController(Models.UAADbContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _httpContextAccessor = httpContextAccessor;
@@ -77,11 +77,15 @@ namespace SistemaBase.Controllers
         {
             try
             {
-                var login = _context.Usuarios.FirstOrDefault(x => x.CodUsuario == usuario && x.Clave == pass);
+                string hashedPassword = HashPassword(pass);
+
+                var login = _context.Usuarios.FirstOrDefault(x => x.CodUsuario == usuario && x.Clave == hashedPassword);
                 if (login == null)
                 {
                     return Json(new { success = false, message = "No tienes credenciales correctas" });
                 }
+
+                
 
                 var persona = _context.Personas.FirstOrDefault(p => p.CodPersona == login.CodPersona);
 
@@ -129,14 +133,17 @@ namespace SistemaBase.Controllers
                     TempData["Error"] = "Datos incorrectos.";
                     return RedirectToAction("Login");
                 }
-                    var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.CodPersona == usuario);
+
+                string hashedPassword = HashPassword(pass);
+
+                var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.CodPersona == usuario);
                     if (user == null)
                     {
                         Usuario addUsuario = new()
                         {
                             CodUsuario = usuario,
                             CodPersona = usuario,
-                            Clave = pass,
+                            Clave = hashedPassword,
                             FecCreacion = DateTime.Now,
                             CodGrupo ="USER"
 
@@ -146,7 +153,7 @@ namespace SistemaBase.Controllers
                     }
                     else
                     {
-                        user.Clave = pass;
+                        user.Clave = hashedPassword;
                         _context.Update(user);
                     }
                     _context.SaveChanges();
@@ -172,6 +179,19 @@ namespace SistemaBase.Controllers
             string pattern = @"^(?=.*[A-Z])(?=.*[\W_]).{1,8}$";
             return Regex.IsMatch(password, pattern);
         }
+
+
+        private string HashPassword(string password)
+        {
+            using (var sha256 = System.Security.Cryptography.SHA256.Create())
+            {
+                var bytes = System.Text.Encoding.UTF8.GetBytes(password);
+                var hash = sha256.ComputeHash(bytes);
+                return Convert.ToBase64String(hash);
+            }
+        }
+
+
 
         [HttpPost]
         public bool loginsinws(string usuario, string pass)

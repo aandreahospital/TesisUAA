@@ -7,9 +7,9 @@ namespace SistemaBase.Controllers
 {
     public class VitrinaController : Controller
     {
-        private readonly DbvinDbContext _context;
+        private readonly Models.UAADbContext _context;
 
-        public VitrinaController(DbvinDbContext context)
+        public VitrinaController(Models.UAADbContext context)
         {
             _context = context;
         }

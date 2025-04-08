@@ -11,9 +11,9 @@ namespace SistemaBase.Controllers
 {
     public class GruposUsuarioController : Controller
     {
-        private readonly DbvinDbContext _context;
+        private readonly Models.UAADbContext _context;
 
-        public GruposUsuarioController(DbvinDbContext context)
+        public GruposUsuarioController(Models.UAADbContext context)
         {
             _context = context;
         }

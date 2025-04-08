@@ -11,9 +11,9 @@ namespace SistemaBase.Controllers
     {
 
 
-        private readonly DbvinDbContext _context;
+        private readonly Models.UAADbContext _context;
 
-        public ComentarioForoController(DbvinDbContext context)
+        public ComentarioForoController(Models.UAADbContext context)
         {
             _context = context;
         }
