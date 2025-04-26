@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MimeKit;
+using MailKit.Net.Smtp;
 using OfficeOpenXml;
 using SistemaBase.Models;
 using SistemaBase.ModelsCustom;
@@ -93,6 +95,8 @@ namespace SistemaBase.Controllers
                                 FecAlta = DateTime.Now
                             };
                             listaPersonas.Add(nuevaPersona);
+                           
+
                         }
 
                         if (!usuariosExistentes.Contains(codPersonaExcel))
@@ -168,6 +172,8 @@ namespace SistemaBase.Controllers
                         FecAlta = DateTime.Now
                     };
                     listaPersonas.Add(nuevaPersona);
+                    // Luego de guardar el usuario:
+                  //  await EnviarCorreoAsync(nuevaPersona.Email, nuevaPersona.Nombre);
                 }
 
                 if (!usuariosExistentes.Contains(personaDto.CodPersona))
@@ -239,7 +245,26 @@ namespace SistemaBase.Controllers
             return View();
         }
 
+        public async Task EnviarCorreoAsync(string destinatario, string nombreUsuario)
+        {
+            var mensaje = new MimeMessage();
+            mensaje.From.Add(new MailboxAddress("UAA", "uaafacyt@outlook.com"));
+            mensaje.To.Add(new MailboxAddress(nombreUsuario, destinatario));
+            mensaje.Subject = "Bienvenido al sistema";
 
+            mensaje.Body = new TextPart("plain")
+            {
+                Text = $"Hola {nombreUsuario}, tu usuario ha sido registrado exitosamente en el sistema."
+            };
+
+            using (var cliente = new SmtpClient())
+            {
+                await cliente.ConnectAsync("smtp.office365.com", 587, MailKit.Security.SecureSocketOptions.StartTls);
+                await cliente.AuthenticateAsync("uaafacyt@outlook.com", "Facyt123!");
+                await cliente.SendAsync(mensaje);
+                await cliente.DisconnectAsync(true);
+            }
+        }
 
 
     }

@@ -232,11 +232,11 @@ namespace SistemaBase.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_DA_CARRERA");
 
-                //entity.HasOne(d => d.IdCentroEstudioNavigation)
-                //    .WithMany(p => p.DatosAcademicos)
-                //    .HasForeignKey(d => d.IdCentroEstudio)
-                //    .OnDelete(DeleteBehavior.ClientSetNull)
-                //    .HasConstraintName("FK_DA_CENTRO_ESTUDIOS");
+                entity.HasOne(d => d.IdCentroEstudioNavigation)
+                    .WithMany(p => p.DatosAcademicos)
+                    .HasForeignKey(d => d.IdCentroEstudio)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DA_CENTRO_ESTUDIOS");
             });
 
             modelBuilder.Entity<DatosLaborale>(entity =>
