@@ -5,6 +5,8 @@ using OfficeOpenXml;
 using SistemaBase.Models;
 using SistemaBase.ModelsCustom;
 using System.Linq;
+using MailKit.Security;
+using Microsoft.Identity.Client;
 
 namespace SistemaBase.Controllers
 {
@@ -173,7 +175,7 @@ namespace SistemaBase.Controllers
                     };
                     listaPersonas.Add(nuevaPersona);
                     // Luego de guardar el usuario:
-                  //  await EnviarCorreoAsync(nuevaPersona.Email, nuevaPersona.Nombre);
+                    await EnviarCorreoAsync(nuevaPersona.Email, nuevaPersona.Nombre);
                 }
 
                 if (!usuariosExistentes.Contains(personaDto.CodPersona))
@@ -224,11 +226,12 @@ namespace SistemaBase.Controllers
                 worksheet.Cells["F1"].Value = "Email";
                 worksheet.Cells["G1"].Value = "Clave";
                 worksheet.Cells["H1"].Value = "CodGrupo";
-                worksheet.Cells["I1"].Value = "Carrera";
+                //worksheet.Cells["I1"].Value = "Carrera";
 
                 // Datos de ejemplo
-                worksheet.Cells["A2"].Value = "";
-                worksheet.Cells["G2"].Value = "=A1";
+                worksheet.Column(4).Style.Numberformat.Format = "dd/MM/yyyy";
+                // worksheet.Cells["A2"].Value = "";
+                //worksheet.Cells["G2"].Value = "=A1";
 
                 worksheet.Cells["A1:I1"].Style.Font.Bold = true; // Negrita para encabezados
 
@@ -245,7 +248,77 @@ namespace SistemaBase.Controllers
             return View();
         }
 
-        public async Task EnviarCorreoAsync(string destinatario, string nombreUsuario)
+        public static async Task EnviarCorreoAsync(string destinatario, string nombreUsuario)
+        {
+            var clientId = "fdac99ee-22f1-4b28-8aca-d640c96d0459"; // Application (client) ID
+            var tenantId = "common"; // Usa "common" para cuentas personales
+            var redirectUri = "http://localhost";
+            var scopes = new[] { "https://outlook.office365.com/.default" };
+
+            var app = PublicClientApplicationBuilder
+                .Create(clientId)
+                .WithRedirectUri(redirectUri)
+                .Build();
+
+            // Pedimos login interactivo
+            var result = await app.AcquireTokenInteractive(scopes).ExecuteAsync();
+
+            var mensaje = new MimeMessage();
+            mensaje.From.Add(new MailboxAddress("UAA", result.Account.Username));
+            mensaje.To.Add(new MailboxAddress(nombreUsuario, destinatario));
+            mensaje.Subject = "Bienvenido al sistema";
+            mensaje.Body = new TextPart("plain")
+            {
+                Text = $"Hola {nombreUsuario}, tu usuario ha sido registrado exitosamente en el sistema."
+            };
+
+            using var smtp = new SmtpClient();
+            await smtp.ConnectAsync("smtp.office365.com", 587, SecureSocketOptions.StartTls);
+
+            // Autenticación OAuth2
+            var oauth2 = new SaslMechanismOAuth2(result.Account.Username, result.AccessToken);
+            await smtp.AuthenticateAsync(oauth2);
+            await smtp.SendAsync(mensaje);
+            await smtp.DisconnectAsync(true);
+
+            Console.WriteLine("Correo enviado correctamente.");
+        }
+
+        public async Task EnviarCorreoAsync3333(string destinatario, string nombreUsuario)
+        {
+            try
+            {
+                var mensaje = new MimeMessage();
+                mensaje.From.Add(new MailboxAddress("UAA", "uaafacyt@outlook.com"));
+                mensaje.To.Add(new MailboxAddress(nombreUsuario, destinatario));
+                mensaje.Subject = "Bienvenido al sistema";
+
+                mensaje.Body = new TextPart("plain")
+                {
+                    Text = $"Hola {nombreUsuario}, tu usuario ha sido registrado exitosamente en el sistema."
+                };
+
+                using (var cliente = new SmtpClient())
+                {
+                    cliente.ServerCertificateValidationCallback = (s, c, h, e) => true; // Para evitar fallos por certificado
+                    await cliente.ConnectAsync("smtp.office365.com", 587, SecureSocketOptions.StartTls);
+
+                    await cliente.AuthenticateAsync("uaafacyt@outlook.com", "zvvmkyvplagpnhur");
+
+                    await cliente.SendAsync(mensaje);
+                    await cliente.DisconnectAsync(true);
+
+                    Console.WriteLine("Correo enviado correctamente.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al enviar el correo:");
+                Console.WriteLine(ex.ToString());
+            }
+        }
+
+        public async Task EnviarCorreoAsync222(string destinatario, string nombreUsuario)
         {
             var mensaje = new MimeMessage();
             mensaje.From.Add(new MailboxAddress("UAA", "uaafacyt@outlook.com"));
@@ -260,7 +333,7 @@ namespace SistemaBase.Controllers
             using (var cliente = new SmtpClient())
             {
                 await cliente.ConnectAsync("smtp.office365.com", 587, MailKit.Security.SecureSocketOptions.StartTls);
-                await cliente.AuthenticateAsync("uaafacyt@outlook.com", "Facyt123!");
+                await cliente.AuthenticateAsync("uaafacyt@outlook.com", "zvvmkyvplagpnhur");
                 await cliente.SendAsync(mensaje);
                 await cliente.DisconnectAsync(true);
             }
