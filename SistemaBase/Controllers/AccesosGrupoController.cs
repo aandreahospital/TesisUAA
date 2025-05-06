@@ -18,8 +18,12 @@ namespace SistemaBase.Controllers
             _context = context;
         }
 
+        //FILTRO QUE AUTORIZA AL USUARIO PARA ACCEDER AL CONTROLADOR CON EL PERMISO
+        [TypeFilter(typeof(AutorizarUsuarioFilter), Arguments = new object[] { "BSACGR", "Index", "AccesosGrupo" })]
+
+
         // GET: AccesosGrupo
-    public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index()
     {
             return _context.AccesosGrupos != null ?
               View(await _context.AccesosGrupos.AsNoTracking().ToListAsync()) :

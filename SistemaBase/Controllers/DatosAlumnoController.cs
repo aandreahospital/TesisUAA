@@ -20,7 +20,7 @@ namespace SistemaBase.Controllers
             _context = context;
         }
 
-        //[TypeFilter(typeof(AutorizarUsuarioFilter), Arguments = new object[] { "SCDATOS", "Index", "DatosAlumno" })]
+        [TypeFilter(typeof(AutorizarUsuarioFilter), Arguments = new object[] { "SCDATOS", "Index", "DatosAlumno" })]
 
         public IActionResult Index()
         {

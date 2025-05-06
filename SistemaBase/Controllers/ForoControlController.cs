@@ -14,6 +14,9 @@ namespace SistemaBase.Controllers
         {
             _context = context;
         }
+        //FILTRO QUE AUTORIZA AL USUARIO PARA ACCEDER AL CONTROLADOR CON EL PERMISO
+        [TypeFilter(typeof(AutorizarUsuarioFilter), Arguments = new object[] { "SCFORO", "Index", "ForoControl" })]
+
         public async Task<IActionResult> Index()
         {
 

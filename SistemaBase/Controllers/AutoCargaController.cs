@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MimeKit;
-using MailKit.Net.Smtp;
 using OfficeOpenXml;
 using SistemaBase.Models;
 using SistemaBase.ModelsCustom;
-using System.Linq;
-using MailKit.Security;
-using Microsoft.Identity.Client;
+using System;
+using System.Net;
+using System.Net.Mail;
+using System.Threading.Tasks;
 
 namespace SistemaBase.Controllers
 {
@@ -19,6 +19,10 @@ namespace SistemaBase.Controllers
         {
             _context = context;
         }
+        //FILTRO QUE AUTORIZA AL USUARIO PARA ACCEDER AL CONTROLADOR CON EL PERMISO
+       // [TypeFilter(typeof(AutorizarUsuarioFilter), Arguments = new object[] { "BSAUTCA", "Index", "AutoCarga" })]
+
+
         public IActionResult Index()
         {
             return View();
@@ -175,7 +179,8 @@ namespace SistemaBase.Controllers
                     };
                     listaPersonas.Add(nuevaPersona);
                     // Luego de guardar el usuario:
-                    await EnviarCorreoAsync(nuevaPersona.Email, nuevaPersona.Nombre);
+                   
+                    await EnviarCorreoAsync(nuevaPersona.Email, nuevaPersona.Nombre, nuevaPersona.CodPersona);
                 }
 
                 if (!usuariosExistentes.Contains(personaDto.CodPersona))
@@ -201,7 +206,7 @@ namespace SistemaBase.Controllers
             {
                 _context.AddRange(listaUsuarios);
             }
-
+           
             await _context.SaveChangesAsync();
             TempData["Mensaje"] = "Carga masiva realizada con éxito.";
             return Ok(new { mensaje = "Carga masiva realizada con éxito." });
@@ -248,40 +253,100 @@ namespace SistemaBase.Controllers
             return View();
         }
 
-        public static async Task EnviarCorreoAsync(string destinatario, string nombreUsuario)
+
+        public static async Task EnviarCorreoAsync(string destinatario, string nombreUsuario, string ci)
         {
-            var clientId = "fdac99ee-22f1-4b28-8aca-d640c96d0459"; // Application (client) ID
-            var tenantId = "common"; // Usa "common" para cuentas personales
-            var redirectUri = "http://localhost";
-            var scopes = new[] { "https://outlook.office365.com/.default" };
-
-            var app = PublicClientApplicationBuilder
-                .Create(clientId)
-                .WithRedirectUri(redirectUri)
-                .Build();
-
-            // Pedimos login interactivo
-            var result = await app.AcquireTokenInteractive(scopes).ExecuteAsync();
-
-            var mensaje = new MimeMessage();
-            mensaje.From.Add(new MailboxAddress("UAA", result.Account.Username));
-            mensaje.To.Add(new MailboxAddress(nombreUsuario, destinatario));
-            mensaje.Subject = "Bienvenido al sistema";
-            mensaje.Body = new TextPart("plain")
+            try
             {
-                Text = $"Hola {nombreUsuario}, tu usuario ha sido registrado exitosamente en el sistema."
-            };
+                var remitente = "uaafacyt0@gmail.com"; 
+                var contrasenaApp = "lizz wiif vfww xhhs"; 
 
-            using var smtp = new SmtpClient();
-            await smtp.ConnectAsync("smtp.office365.com", 587, SecureSocketOptions.StartTls);
+                var mensaje = new MailMessage();
+                mensaje.From = new MailAddress(remitente, "EnvioCorreoUAA");
+                mensaje.To.Add(destinatario);
+                mensaje.Subject = "Bienvenido a nuestra plataforma";
+                ///mensaje.Body = $"Hola {nombreUsuario},\n\nTu usuario ha sido creado exitosamente.\nSaludos.";
+                mensaje.Body = $"Hola {nombreUsuario},\n\n" +
+               $"Tu usuario ha sido creado exitosamente en la plataforma para Graduados de la UAA.\n" +
+               $"Podés iniciar sesión en el siguiente enlace:\n" +
+               $"https://localhost:7062/Login\n\n" +
+               $"Usuario: {ci}\n" +
+               $"Contraseña: {ci}\n\n" +
+               $"Debes cambiar tu contraseña en el primer ingreso.\n\n" +
+               $"Saludos.";
 
-            // Autenticación OAuth2
-            var oauth2 = new SaslMechanismOAuth2(result.Account.Username, result.AccessToken);
-            await smtp.AuthenticateAsync(oauth2);
-            await smtp.SendAsync(mensaje);
-            await smtp.DisconnectAsync(true);
+                mensaje.IsBodyHtml = false;
 
-            Console.WriteLine("Correo enviado correctamente.");
+                var smtp = new SmtpClient("smtp.gmail.com", 587);
+                smtp.Credentials = new NetworkCredential(remitente, contrasenaApp);
+                smtp.EnableSsl = true;
+
+                await smtp.SendMailAsync(mensaje);
+
+                Console.WriteLine("Correo enviado correctamente.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al enviar el correo:");
+                Console.WriteLine(ex.ToString());
+            }
+        }
+
+        public static async Task EnviarCorreoAsync444444(string destinatario, string nombreUsuario)
+        {
+            try
+            {
+                // Declarás tus datos directamente
+                var tenantId = "1168ba71-b99e-4763-931b-5ab9decd04bd";
+                var clientId = "fdac99ee-22f1-4b28-8aca-d640c96d0459";
+                var clientSecret = "";
+                var remitente = "uaafacyt@outlook.com";
+
+                // Crear credencial
+                var credential = new Azure.Identity.ClientSecretCredential(
+                    tenantId,
+                    clientId,
+                    clientSecret
+                );
+
+                var graphClient = new Microsoft.Graph.GraphServiceClient(credential);
+
+        //        var mensaje = new Microsoft.Graph.Message
+        //        {
+        //            Subject = "Bienvenido a nuestra plataforma",
+        //            Body = new Microsoft.Graph.ItemBody
+        //            {
+        //                ContentType = Microsoft.Graph.BodyType.Text,
+        //                Content = $"Hola {nombre},\n\nTu usuario ha sido creado exitosamente.\nSaludos."
+        //            },
+        //            ToRecipients = new List<Microsoft.Graph.Recipient>
+        //{
+        //    new Microsoft.Graph.Recipient
+        //    {
+        //        EmailAddress = new Microsoft.Graph.EmailAddress
+        //        {
+        //            Address = destinatario
+        //        }
+        //    }
+        //}
+        //        };
+
+        //        await graphClient.Users[remitente]
+        //            .SendMail(mensaje, null)
+        //            .Request()
+        //            .PostAsync();
+
+                Console.WriteLine("Correo enviado correctamente.");
+
+               
+
+            } 
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al enviar el correo:");
+                Console.WriteLine(ex.ToString());
+            }
+    
         }
 
         public async Task EnviarCorreoAsync3333(string destinatario, string nombreUsuario)
@@ -298,18 +363,18 @@ namespace SistemaBase.Controllers
                     Text = $"Hola {nombreUsuario}, tu usuario ha sido registrado exitosamente en el sistema."
                 };
 
-                using (var cliente = new SmtpClient())
-                {
-                    cliente.ServerCertificateValidationCallback = (s, c, h, e) => true; // Para evitar fallos por certificado
-                    await cliente.ConnectAsync("smtp.office365.com", 587, SecureSocketOptions.StartTls);
+                //using (var cliente = new SmtpClient())
+                //{
+                //    cliente.ServerCertificateValidationCallback = (s, c, h, e) => true; // Para evitar fallos por certificado
+                //    await cliente.ConnectAsync("smtp.office365.com", 587, SecureSocketOptions.StartTls);
 
-                    await cliente.AuthenticateAsync("uaafacyt@outlook.com", "zvvmkyvplagpnhur");
+                //    await cliente.AuthenticateAsync("uaafacyt@outlook.com", "zvvmkyvplagpnhur");
 
-                    await cliente.SendAsync(mensaje);
-                    await cliente.DisconnectAsync(true);
+                //    await cliente.SendAsync(mensaje);
+                //    await cliente.DisconnectAsync(true);
 
-                    Console.WriteLine("Correo enviado correctamente.");
-                }
+                //    Console.WriteLine("Correo enviado correctamente.");
+                //}
             }
             catch (Exception ex)
             {
@@ -330,13 +395,13 @@ namespace SistemaBase.Controllers
                 Text = $"Hola {nombreUsuario}, tu usuario ha sido registrado exitosamente en el sistema."
             };
 
-            using (var cliente = new SmtpClient())
-            {
-                await cliente.ConnectAsync("smtp.office365.com", 587, MailKit.Security.SecureSocketOptions.StartTls);
-                await cliente.AuthenticateAsync("uaafacyt@outlook.com", "zvvmkyvplagpnhur");
-                await cliente.SendAsync(mensaje);
-                await cliente.DisconnectAsync(true);
-            }
+            //using (var cliente = new SmtpClient())
+            //{
+            //    await cliente.ConnectAsync("smtp.office365.com", 587, MailKit.Security.SecureSocketOptions.StartTls);
+            //    await cliente.AuthenticateAsync("uaafacyt@outlook.com", "zvvmkyvplagpnhur");
+            //    await cliente.SendAsync(mensaje);
+            //    await cliente.DisconnectAsync(true);
+            //}
         }
 
 

@@ -13,6 +13,10 @@ namespace SistemaBase.Controllers
         {
             _context = context;
         }
+
+        //FILTRO QUE AUTORIZA AL USUARIO PARA ACCEDER AL CONTROLADOR CON EL PERMISO
+        [TypeFilter(typeof(AutorizarUsuarioFilter), Arguments = new object[] { "SCVITRI", "Index", "Vitrina" })]
+
         public async Task<IActionResult> Index()
         {
             var roleClaim = User.FindFirst(ClaimTypes.Role)?.Value;
