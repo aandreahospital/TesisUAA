@@ -29,7 +29,7 @@ namespace SistemaBase.Controllers
             var alumno = _context.Personas.Where(a => a.CodPersona == usuarios.CodPersona).FirstOrDefault();
             if (alumno == null)
             {
-                return NotFound("Datos del alumno no encontrados");
+                return NotFound("Datos del graduado no encontrados");
             }
 
             var experiencia = ObtenerExperienciaLaboral();

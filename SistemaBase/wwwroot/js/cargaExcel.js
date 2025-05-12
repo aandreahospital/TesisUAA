@@ -50,6 +50,7 @@
 
 document.getElementById("btnProcesar").addEventListener("click", function () {
     let datos = localStorage.getItem("datosExcel");
+    let idCarrera = document.getElementById("Idcarrera").value;
     if (!datos) {
         swal({
             icon: 'warning',
@@ -58,11 +59,14 @@ document.getElementById("btnProcesar").addEventListener("click", function () {
         });
         return;
     }
-
+    let personas = JSON.parse(datos);
     fetch("/AutoCarga/ProcesarDatos", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: datos
+        body: JSON.stringify({
+            personas: personas,
+            carrera: parseFloat(idCarrera) // asegúrate de enviar como número si en C# es decimal
+        })
     })
         .then(response => response.json())
         .then(data => {

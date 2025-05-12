@@ -1,7 +1,7 @@
 ﻿@model SistemaBase.Models.Persona
 
 @{
-    ViewData["Title"] = "Importación masiva de Alumnos";
+    ViewData["Title"] = "Importación masiva de Graduados";
 }
 
 @section styles {
@@ -16,7 +16,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
 
-<h2 class="text-rigth mb-4">Importación Masiva de Alumnos</h2>
+<h2 class="text-rigth mb-4">Importación Masiva de Graduados</h2>
 
 <div class="container">
     <div class="row">
@@ -41,7 +41,11 @@
     </div>
 
     <div class="row text-rigth mt-3">
-        
+                            <label class="form-control-label fs-0 subTitleModal ">Carrera</label>
+                            <div class="dropup">
+                                <select id="Idcarrera" class="form-select" data-choices="data-choices" single="single" data-options='{"removeItemButton":true,"placeholder":true}' asp-items="ViewBag.Carrera" required>
+                                </select>
+                            </div>
     </div>
 
     <div class="row mt-4">

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using MimeKit;
 using OfficeOpenXml;
 using SistemaBase.Models;
@@ -25,6 +26,7 @@ namespace SistemaBase.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.Carrera = new SelectList(_context.Carreras, "IdCarrera", "Descripcion");
             return View();
         }
 
@@ -138,8 +140,15 @@ namespace SistemaBase.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ProcesarDatos([FromBody] List<PersonaDTOCustom> personasDto)
+        public async Task<IActionResult> ProcesarDatos([FromBody] ProcesarDatosRequest request)
         {
+            var personasDto = request.Personas;
+            decimal carrera = request.Carrera;
+
+            if (personasDto == null || !personasDto.Any())
+            {
+                return BadRequest("No se recibieron datos para procesar.");
+            }
             if (personasDto == null || !personasDto.Any())
             {
                 return BadRequest("No se recibieron datos para procesar.");
@@ -147,11 +156,17 @@ namespace SistemaBase.Controllers
 
             var listaPersonas = new List<Persona>();
             var listaUsuarios = new List<Usuario>();
+            var listaDatoAcademico = new List<DatosAcademico>();
 
             // Obtener todos los códigos de persona del JSON
             var codPersonasExcel = personasDto.Select(p => p.CodPersona).ToHashSet();
 
             // Consultar en la BD cuáles ya existen
+            var datoAcademicoExis = _context.DatosAcademicos
+                .Where(p => codPersonasExcel.Contains(p.CodUsuario) && p.IdCarrera == carrera)
+                .Select(p => p.CodUsuario)
+                .ToHashSet();
+
             var personasExistentes = _context.Personas
                 .Where(p => codPersonasExcel.Contains(p.CodPersona))
                 .Select(p => p.CodPersona)
@@ -195,6 +210,18 @@ namespace SistemaBase.Controllers
                     };
                     listaUsuarios.Add(nuevoUsuario);
                 }
+
+
+                if (!datoAcademicoExis.Contains(personaDto.CodPersona))
+                {
+                    var nuevoUserCarrera = new DatosAcademico
+                    {
+                        CodUsuario = personaDto.CodPersona,
+                        IdCentroEstudio = 1,
+                        IdCarrera = Convert.ToInt32(carrera)
+                    };
+                    listaDatoAcademico.Add(nuevoUserCarrera);
+                }
             }
 
             if (listaPersonas.Any())
@@ -206,7 +233,11 @@ namespace SistemaBase.Controllers
             {
                 _context.AddRange(listaUsuarios);
             }
-           
+            if (listaDatoAcademico.Any())
+            {
+                _context.AddRange(listaDatoAcademico);
+            }
+
             await _context.SaveChangesAsync();
             TempData["Mensaje"] = "Carga masiva realizada con éxito.";
             return Ok(new { mensaje = "Carga masiva realizada con éxito." });
@@ -291,119 +322,6 @@ namespace SistemaBase.Controllers
                 Console.WriteLine(ex.ToString());
             }
         }
-
-        public static async Task EnviarCorreoAsync444444(string destinatario, string nombreUsuario)
-        {
-            try
-            {
-                // Declarás tus datos directamente
-                var tenantId = "1168ba71-b99e-4763-931b-5ab9decd04bd";
-                var clientId = "fdac99ee-22f1-4b28-8aca-d640c96d0459";
-                var clientSecret = "";
-                var remitente = "uaafacyt@outlook.com";
-
-                // Crear credencial
-                var credential = new Azure.Identity.ClientSecretCredential(
-                    tenantId,
-                    clientId,
-                    clientSecret
-                );
-
-                var graphClient = new Microsoft.Graph.GraphServiceClient(credential);
-
-        //        var mensaje = new Microsoft.Graph.Message
-        //        {
-        //            Subject = "Bienvenido a nuestra plataforma",
-        //            Body = new Microsoft.Graph.ItemBody
-        //            {
-        //                ContentType = Microsoft.Graph.BodyType.Text,
-        //                Content = $"Hola {nombre},\n\nTu usuario ha sido creado exitosamente.\nSaludos."
-        //            },
-        //            ToRecipients = new List<Microsoft.Graph.Recipient>
-        //{
-        //    new Microsoft.Graph.Recipient
-        //    {
-        //        EmailAddress = new Microsoft.Graph.EmailAddress
-        //        {
-        //            Address = destinatario
-        //        }
-        //    }
-        //}
-        //        };
-
-        //        await graphClient.Users[remitente]
-        //            .SendMail(mensaje, null)
-        //            .Request()
-        //            .PostAsync();
-
-                Console.WriteLine("Correo enviado correctamente.");
-
-               
-
-            } 
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error al enviar el correo:");
-                Console.WriteLine(ex.ToString());
-            }
-    
-        }
-
-        public async Task EnviarCorreoAsync3333(string destinatario, string nombreUsuario)
-        {
-            try
-            {
-                var mensaje = new MimeMessage();
-                mensaje.From.Add(new MailboxAddress("UAA", "uaafacyt@outlook.com"));
-                mensaje.To.Add(new MailboxAddress(nombreUsuario, destinatario));
-                mensaje.Subject = "Bienvenido al sistema";
-
-                mensaje.Body = new TextPart("plain")
-                {
-                    Text = $"Hola {nombreUsuario}, tu usuario ha sido registrado exitosamente en el sistema."
-                };
-
-                //using (var cliente = new SmtpClient())
-                //{
-                //    cliente.ServerCertificateValidationCallback = (s, c, h, e) => true; // Para evitar fallos por certificado
-                //    await cliente.ConnectAsync("smtp.office365.com", 587, SecureSocketOptions.StartTls);
-
-                //    await cliente.AuthenticateAsync("uaafacyt@outlook.com", "zvvmkyvplagpnhur");
-
-                //    await cliente.SendAsync(mensaje);
-                //    await cliente.DisconnectAsync(true);
-
-                //    Console.WriteLine("Correo enviado correctamente.");
-                //}
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error al enviar el correo:");
-                Console.WriteLine(ex.ToString());
-            }
-        }
-
-        public async Task EnviarCorreoAsync222(string destinatario, string nombreUsuario)
-        {
-            var mensaje = new MimeMessage();
-            mensaje.From.Add(new MailboxAddress("UAA", "uaafacyt@outlook.com"));
-            mensaje.To.Add(new MailboxAddress(nombreUsuario, destinatario));
-            mensaje.Subject = "Bienvenido al sistema";
-
-            mensaje.Body = new TextPart("plain")
-            {
-                Text = $"Hola {nombreUsuario}, tu usuario ha sido registrado exitosamente en el sistema."
-            };
-
-            //using (var cliente = new SmtpClient())
-            //{
-            //    await cliente.ConnectAsync("smtp.office365.com", 587, MailKit.Security.SecureSocketOptions.StartTls);
-            //    await cliente.AuthenticateAsync("uaafacyt@outlook.com", "zvvmkyvplagpnhur");
-            //    await cliente.SendAsync(mensaje);
-            //    await cliente.DisconnectAsync(true);
-            //}
-        }
-
 
     }
 }
