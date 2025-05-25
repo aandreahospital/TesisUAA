@@ -38,7 +38,6 @@
                 <td>${fila.Email}</td>
                 <td>${fila.Clave}</td>
                 <td>${fila.CodGrupo}</td>
-                <td>${fila.Carrera}</td>
             `;
             tabla.appendChild(tr);
         });
