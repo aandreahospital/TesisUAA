@@ -57,7 +57,7 @@
         <br></br>
         <br></br>
         <br></br>
-        <p class="user-message" style="text-align:center;"><b>¡HOLA,
+        @* <p class="user-message" style="text-align:center;"><b>¡HOLA,
                 @if (Context.User.Identity.IsAuthenticated)
                 {
                     <span id="nombreUsuario">@Context.User.Claims.FirstOrDefault(x => x.Type == "NombreUsuario").Value</span>
@@ -67,7 +67,7 @@
                     <span id="mensajeUsuarioOnline">Usuario Online</span>
                 }!
             </b>
-        </p>
+        </p> *@
             
 
     </div>

@@ -257,7 +257,7 @@
                                                     <a class="nav-link" asp-controller="AutoCarga" asp-action="index"
                                                        data-bs-toggle="" aria-expanded="false">
                                                         <div class="d-flex align-items-center">
-                                                            <span class="nav-link-text">Auto Carga Graduados</span>
+                                                            <span class="nav-link-text">Importacion Masiva Graduados</span>
                                                         </div>
                                                     </a>
                                                 </li>
@@ -350,7 +350,7 @@
                                                     <a class="nav-link" asp-controller="Vitrina" asp-action="index"
                                                        data-bs-toggle="" aria-expanded="false">
                                                         <div class="d-flex align-items-center">
-                                                            <span class="nav-link-text">Vitrina Academica</span>
+                                                            <span class="nav-link-text">Ofertas Academicas</span>
                                                         </div>
                                                     </a>
                                                 </li>
@@ -508,7 +508,7 @@
                      <a class="nav-link">
                             <div class="d-flex align-items-center">
                                 <div class="dropdown">
-                                            <span>Bienvenido/a, </span>
+                                           @*  <span>Bienvenido/a, </span> *@
                                             <span id="nombreUsuario">@Context.User.Claims.FirstOrDefault(x => x.Type == "NombreUsuario")?.Value</span>
                                             <br />
 
