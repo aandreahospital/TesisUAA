@@ -29,7 +29,9 @@
             }
 
             let tr = document.createElement("tr");
-            tr.innerHTML = `
+            let codPersona = fila.CodPersona ? fila.CodPersona.trim() : "";
+            tr.setAttribute("data-codpersona", codPersona);
+                tr.innerHTML = `
                 <td>${fila.CodPersona}</td>
                 <td>${fila.Nombre}</td>
                 <td>${fila.Sexo}</td>
@@ -38,7 +40,7 @@
                 <td>${fila.Email}</td>
                 <td>${fila.Clave}</td>
                 <td>${fila.CodGrupo}</td>
-            `;
+                `;
             tabla.appendChild(tr);
         });
 
@@ -47,9 +49,11 @@
     };
 });
 
+
 document.getElementById("btnProcesar").addEventListener("click", function () {
     let datos = localStorage.getItem("datosExcel");
     let idCarrera = document.getElementById("Idcarrera").value;
+
     if (!datos) {
         swal({
             icon: 'warning',
@@ -58,26 +62,66 @@ document.getElementById("btnProcesar").addEventListener("click", function () {
         });
         return;
     }
+
     let personas = JSON.parse(datos);
+
     fetch("/AutoCarga/ProcesarDatos", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             personas: personas,
-            carrera: parseFloat(idCarrera) // asegúrate de enviar como número si en C# es decimal
+            carrera: parseFloat(idCarrera)
         })
     })
         .then(response => response.json())
         .then(data => {
-            swal({
-                icon: 'success',
-                title: 'Listo',
-                text: 'La operación se realizó correctamente.'
-            }).then(() => {
-                localStorage.removeItem("datosExcel");
-                document.querySelector("#tablaAlumnos tbody").innerHTML = "";
-                document.getElementById("btnProcesar").disabled = true;
-            });
+            if (data.errores && data.errores.length > 0) {
+                // Limpiar marcas anteriores
+                document.querySelectorAll("#tablaAlumnos tbody tr").forEach(row => {
+                    row.classList.remove("fila-error");
+                    row.querySelectorAll("td").forEach(td => {
+                        td.title = "";
+                    });
+                });
+
+                // Marcar filas con error
+                data.errores.forEach(error => {
+                    //let row = document.querySelector(`#tablaAlumnos tbody tr[data-codpersona="${error.codPersona}"]`);
+                   // let codPersona = error.codPersona ? error.codPersona.trim() : "";
+                    let codPersona = (error.codPersona !== undefined && error.codPersona !== null)
+                        ? error.codPersona.trim()
+                        : "";
+
+                    // Buscar la fila: si codPersona está vacío, buscar por filas con data-codpersona=""
+                    let selector = codPersona === ""
+                        ? '#tablaAlumnos tbody tr[data-codpersona=""]'
+                        : `#tablaAlumnos tbody tr[data-codpersona="${codPersona}"]`;
+                    let row = document.querySelector(selector);
+                    if (row) {
+                        row.classList.add("fila-error");
+                        row.querySelectorAll("td").forEach(td => {
+                            td.title = error.error; // mostrar el mensaje como tooltip
+                        });
+                    }
+                   
+                });
+
+                swal({
+                    icon: 'warning',
+                    title: 'Carga parcial',
+                    text: 'Algunas filas no se procesaron. Revisa los errores en la tabla.',
+                });
+            } else {
+                swal({
+                    icon: 'success',
+                    title: 'Listo',
+                    text: 'La operación se realizó correctamente.'
+                }).then(() => {
+                    localStorage.removeItem("datosExcel");
+                    document.querySelector("#tablaAlumnos tbody").innerHTML = "";
+                    document.getElementById("btnProcesar").disabled = true;
+                });
+            }
         })
         .catch(error => {
             swal({

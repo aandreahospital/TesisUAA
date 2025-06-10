@@ -7,6 +7,7 @@ using SistemaBase.ModelsCustom;
 using System;
 using System.Net;
 using System.Net.Mail;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace SistemaBase.Controllers
@@ -157,6 +158,7 @@ namespace SistemaBase.Controllers
             var listaPersonas = new List<Persona>();
             var listaUsuarios = new List<Usuario>();
             var listaDatoAcademico = new List<DatosAcademico>();
+            var errores = new List<object>(); // Lista para errores por fila
 
             // Obtener todos los códigos de persona del JSON
             var codPersonasExcel = personasDto.Select(p => p.CodPersona).ToHashSet();
@@ -177,51 +179,74 @@ namespace SistemaBase.Controllers
                 .Select(u => u.CodPersona)
                 .ToHashSet();
 
+            int fila = 1;
+
             foreach (var personaDto in personasDto)
             {
-                if (!personasExistentes.Contains(personaDto.CodPersona))
+                try
                 {
-                 
-                    var nuevaPersona = new Persona
+                    if (string.IsNullOrWhiteSpace(personaDto.CodPersona))
+                        throw new Exception("CodPersona vacío.");
+
+                    if (string.IsNullOrWhiteSpace(personaDto.Nombre))
+                        throw new Exception("Nombre vacío.");
+
+                    if (!string.IsNullOrWhiteSpace(personaDto.Email) &&
+                        !Regex.IsMatch(personaDto.Email, @"^\S+@\S+\.\S+$"))
+                        throw new Exception("Email inválido.");
+
+                    if (!personasExistentes.Contains(personaDto.CodPersona))
                     {
+                        var nuevaPersona = new Persona
+                        {
+                            CodPersona = personaDto.CodPersona,
+                            Nombre = personaDto.Nombre,
+                            Sexo = personaDto.Sexo,
+                            FecNacimiento = personaDto.FechaNacimiento,
+                            EstadoCivil = personaDto.EstadoCivil,
+                            Email = personaDto.Email,
+                            FecAlta = DateTime.Now
+                        };
+                        listaPersonas.Add(nuevaPersona);
+
+                        await EnviarCorreoAsync(nuevaPersona.Email, nuevaPersona.Nombre, nuevaPersona.CodPersona);
+                    }
+
+                    if (!usuariosExistentes.Contains(personaDto.CodPersona))
+                    {
+                        var nuevoUsuario = new Usuario
+                        {
+                            CodUsuario = personaDto.CodPersona,
+                            CodPersona = personaDto.CodPersona,
+                            Clave = personaDto.CodPersona,
+                            CodGrupo = personaDto.CodGrupo,
+                            FecCreacion = DateTime.Now
+                        };
+                        listaUsuarios.Add(nuevoUsuario);
+                    }
+
+                    if (!datoAcademicoExis.Contains(personaDto.CodPersona))
+                    {
+                        var nuevoUserCarrera = new DatosAcademico
+                        {
+                            CodUsuario = personaDto.CodPersona,
+                            IdCentroEstudio = 1,
+                            IdCarrera = Convert.ToInt32(carrera)
+                        };
+                        listaDatoAcademico.Add(nuevoUserCarrera);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    errores.Add(new
+                    {
+                        Fila = fila,
                         CodPersona = personaDto.CodPersona,
-                        Nombre = personaDto.Nombre,
-                        Sexo = personaDto.Sexo,
-                        FecNacimiento = personaDto.FechaNacimiento,
-                        EstadoCivil = personaDto.EstadoCivil,
-                        Email = personaDto.Email,
-                        FecAlta = DateTime.Now
-                    };
-                    listaPersonas.Add(nuevaPersona);
-                    // Luego de guardar el usuario:
-                   
-                    await EnviarCorreoAsync(nuevaPersona.Email, nuevaPersona.Nombre, nuevaPersona.CodPersona);
+                        Error = ex.Message
+                    });
                 }
 
-                if (!usuariosExistentes.Contains(personaDto.CodPersona))
-                {
-                    var nuevoUsuario = new Usuario
-                    {
-                        CodUsuario = personaDto.CodPersona,
-                        CodPersona = personaDto.CodPersona,
-                        Clave = personaDto.CodPersona,
-                        CodGrupo = personaDto.CodGrupo,
-                        FecCreacion = DateTime.Now
-                    };
-                    listaUsuarios.Add(nuevoUsuario);
-                }
-
-
-                if (!datoAcademicoExis.Contains(personaDto.CodPersona))
-                {
-                    var nuevoUserCarrera = new DatosAcademico
-                    {
-                        CodUsuario = personaDto.CodPersona,
-                        IdCentroEstudio = 1,
-                        IdCarrera = Convert.ToInt32(carrera)
-                    };
-                    listaDatoAcademico.Add(nuevoUserCarrera);
-                }
+                fila++;
             }
 
             if (listaPersonas.Any())
@@ -237,9 +262,16 @@ namespace SistemaBase.Controllers
             {
                 _context.AddRange(listaDatoAcademico);
             }
-
             await _context.SaveChangesAsync();
-            TempData["Mensaje"] = "Carga masiva realizada con éxito.";
+            if (errores.Any())
+            {
+                return Ok(new
+                {
+                    mensaje = "Algunos registros fallaron.",
+                    errores
+                });
+            }
+
             return Ok(new { mensaje = "Carga masiva realizada con éxito." });
         }
 
