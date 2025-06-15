@@ -195,6 +195,10 @@ namespace SistemaBase.Controllers
                         !Regex.IsMatch(personaDto.Email, @"^\S+@\S+\.\S+$"))
                         throw new Exception("Email inválido.");
 
+                    if (!personaDto.FechaNacimiento.HasValue || personaDto.FechaNacimiento.Value == DateTime.MinValue)
+                        throw new Exception("Fecha de nacimiento vacía o inválida.");
+
+
                     if (!personasExistentes.Contains(personaDto.CodPersona))
                     {
                         var nuevaPersona = new Persona
