@@ -1,6 +1,7 @@
 ﻿@{
     Layout = "_Layout-Original";
 }
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <form class="was-validated" id="FormLogin" onsubmit="ingresar(event)" style="background: #F0F3F4;">
     <div class="container">
@@ -67,7 +68,7 @@
                     <button class="btnAbm mb-4" type="submit" style="width: 80%;">Ingresar</button>
                 </div>
                 <!-- <button class="btn btn-primary w-100 mb-3" type="submit" style="margin-bottom: 20px !important;">Ingresar</button> -->
-                </div?>
+                </div>
             </div>
         </div>
 </form>
@@ -91,8 +92,14 @@
                     window.location.href = response.data.redirect;
                     return;
                 }
-                alert(response.data.message);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.data.message,
+                });
                 return;
+               // alert(response.data.message);
+               // return;
             }
 
             // Si pasa PrimerLogin, procede con Login
@@ -103,10 +110,19 @@
             if (response.data.success) {
                 window.location.href = response.data.redirect;
             } else {
-                alert(response.data.message);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.data.message,
+                });
             }
         } catch (error) {
-            alert('Error al procesar la solicitud');
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error al procesar la solicitud',
+            });
+            //alert('Error al procesar la solicitud');
         } finally {
             document.getElementById("loader_login").style.visibility = "hidden";
         }

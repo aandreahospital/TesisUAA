@@ -32,7 +32,7 @@ namespace SistemaBase.Controllers
         {
             try
             {
-                var persona = _context.Personas.FirstOrDefault(x => x.CodPersona == usuario);
+                var persona = _context.Usuarios.FirstOrDefault(x => x.CodUsuario == usuario && x.Clave == pass);
                 if (persona == null)
                 {
                     return Json(new { success = false, message = "No tienes credenciales correctas" });
@@ -41,7 +41,7 @@ namespace SistemaBase.Controllers
                 var usuarioExistente = _context.Usuarios.FirstOrDefault(x => x.CodUsuario == usuario && x.Clave == usuario);
                 if (usuarioExistente != null)
                 {
-                    return Json(new { success = false, redirect = Url.Action("ActualizarPass", "Login", new { user = usuario }) });
+                    return Json(new { success = true, redirect = Url.Action("ActualizarPass", "Login", new { user = usuario }) });
                 }
 
                 return Json(new { success = true });
