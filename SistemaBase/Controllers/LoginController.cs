@@ -32,7 +32,8 @@ namespace SistemaBase.Controllers
         {
             try
             {
-                var persona = _context.Usuarios.FirstOrDefault(x => x.CodUsuario == usuario && x.Clave == pass);
+                string hashedPassword = HashPassword(pass);
+                var persona = _context.Usuarios.FirstOrDefault(x => x.CodUsuario == usuario && x.Clave == hashedPassword);
                 if (persona == null)
                 {
                     return Json(new { success = false, message = "No tienes credenciales correctas" });
