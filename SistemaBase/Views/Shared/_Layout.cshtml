@@ -385,42 +385,7 @@
                     </div>
                 }
 
-                @if (!Context.User.Identity.IsAuthenticated)
-                {
-
-
-                    <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
-
-                        <div class="navbar-vertical-content">
-
-                            <ul class="navbar-nav flex-column" id="navbarVerticalNav">
-
-                                <li class="nav-item">
-                                    <a class="nav-link dropdown-indicator" href="#online" onclick="handleDropdownClick(event, 'online')">
-                                        <div class="d-flex align-items-center">
-                                            <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-text">Online</span>
-                                        </div>
-                                    </a>
-
-                                    <div class="parent-wrapper">
-                                        <ul class="nav collapse parent" data-bs-parent="#online" id="online">
-
-                                            <li class="nav-item">
-                                                <a class="nav-link" asp-controller="Online" asp-action="index"
-                                                   data-bs-toggle="" aria-expanded="false">
-                                                    <div class="d-flex align-items-center">
-                                                        <span class="nav-link-text">Entradas</span>
-                                                    </div>
-                                                </a>
-                                            </li>
-
-                                        </ul>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                }
+               
                 <div class="navbar-vertical-footer">
             <button class="btn navbar-vertical-toggle border-0 fw-semi-bold w-100 text-start white-space-nowrap arrow-button">
                 <span class="navbar-vertical-footer-text ms-2">Cerrar vista</span>
@@ -540,7 +505,7 @@
                                         <!-- Mostrar mensaje de bienvenida y nombre del usuario -->
                                         <span>Bienvenido/a, </span>
 
-                                        <span id="nombreUsuario">Usuario Online</span>
+                                        <span id="nombreUsuario">Debe Loguearse </span>
 
                                         @*<span id="nombreUsuario">@Context.User.Claims.FirstOrDefault(x => x.Type == "NombreUsuario").Value</span>*@
                                         <br />

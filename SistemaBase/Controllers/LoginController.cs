@@ -32,17 +32,17 @@ namespace SistemaBase.Controllers
         {
             try
             {
+                var usuarioExistente = _context.Usuarios.FirstOrDefault(x => x.CodUsuario == usuario && x.Clave == usuario);
+                if (usuarioExistente != null)
+                {
+                    return Json(new { success = true, redirect = Url.Action("ActualizarPass", "Login", new { user = usuario }) });
+                }
+
                 string hashedPassword = HashPassword(pass);
                 var persona = _context.Usuarios.FirstOrDefault(x => x.CodUsuario == usuario && x.Clave == hashedPassword);
                 if (persona == null)
                 {
                     return Json(new { success = false, message = "No tienes credenciales correctas" });
-                }
-
-                var usuarioExistente = _context.Usuarios.FirstOrDefault(x => x.CodUsuario == usuario && x.Clave == usuario);
-                if (usuarioExistente != null)
-                {
-                    return Json(new { success = true, redirect = Url.Action("ActualizarPass", "Login", new { user = usuario }) });
                 }
 
                 return Json(new { success = true });
