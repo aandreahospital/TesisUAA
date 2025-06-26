@@ -32,7 +32,7 @@ namespace SistemaBase.Controllers
         {
             try
             {
-                var usuarioExistente = _context.Usuarios.FirstOrDefault(x => x.CodUsuario == usuario && x.Clave == usuario);
+                var usuarioExistente = _context.Usuarios.FirstOrDefault(x => x.CodUsuario == usuario && x.Clave == usuario && usuario == pass );
                 if (usuarioExistente != null)
                 {
                     return Json(new { success = true, redirect = Url.Action("ActualizarPass", "Login", new { user = usuario }) });
