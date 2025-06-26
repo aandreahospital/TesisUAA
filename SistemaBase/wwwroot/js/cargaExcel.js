@@ -77,8 +77,11 @@ document.getElementById("btnCargar").addEventListener("click", function () {
 
         datos.forEach((fila, index) => {
             let codPersona = fila.CodPersona ? fila.CodPersona.trim() : "";
+            let email = fila.Email ? fila.Email.trim() : "";
             let fechaStr = fila.FechaNacimiento;
             let fechaValida = true;
+            let codPersonaValida = true;
+            let emailValido = true;
             let fechaFormateada = "";
 
             if (fechaStr) {
@@ -97,14 +100,41 @@ document.getElementById("btnCargar").addEventListener("click", function () {
                 fila.FechaNacimiento = fechaFormateada;
             }
 
+            // Validación de CodPersona vacío
+            if (!codPersona) {
+                codPersonaValida = false;
+            }
+
+            // Validación de email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                emailValido = false;
+            }
+
             let tr = document.createElement("tr");
             tr.setAttribute("data-codpersona", codPersona);
 
-            // Marcar fila con error si la fecha es inválida
-            if (!fechaValida) {
+            // Agregar clase de error si alguna validación falla
+            if (!fechaValida || !codPersonaValida || !emailValido) {
                 tr.classList.add("fila-error");
+            }
+
+            if (!fechaValida) {
                 errores.push(`Fila ${index + 2}: Fecha de nacimiento inválida (${fechaStr})`);
             }
+            if (!codPersonaValida) {
+                errores.push(`Fila ${index + 2}: CodPersona vacío`);
+            }
+            if (!emailValido) {
+                errores.push(`Fila ${index + 2}: Email inválido (${email})`);
+            }
+
+
+            //// Marcar fila con error si la fecha es inválida
+            //if (!fechaValida) {
+            //    tr.classList.add("fila-error");
+            //    errores.push(`Fila ${index + 2}: Fecha de nacimiento inválida (${fechaStr})`);
+            //}
 
             tr.innerHTML = `
                 <td>${fila.CodPersona}</td>
