@@ -1,4 +1,48 @@
 ﻿
+const modaldelete = (IdOfertaLaboral) => {
+    axios({
+        url: `/BolsaTrabajo/Delete?IdOfertaLaboral=${IdOfertaLaboral}`,
+        method: 'get',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Response-View': 'Json'
+        }
+    }).then(response => {
+        document.getElementById("details").innerHTML = response.data;
+        document.getElementById("detailsview").click(); // Esto dispara el modal
+    });
+};
+
+
+const submitforms = (e, url, id) => {
+    e.preventDefault();
+    document.getElementById("loader_inv").style.visibility = "visible";
+    const form = document.getElementById(id);
+    const formData = new FormData(form);
+
+    axios({
+        method: "post",
+        url: "BolsaTrabajo/" + url,
+        data: formData,
+        headers: {
+            "Content-Type": "multipart/form-data",
+            'X-Response-View': 'Json'
+        }
+    })
+        .then(function (response) {
+            location.reload();
+
+        })
+        .catch(function (response) {
+            console.log(response);
+        })
+        .finally(() => {
+            document.getElementById("loader_inv").style.visibility = "hidden";
+            refrestjsfunction();
+        });
+};
+
 
 const AbrirOferta = (e) => {
     e.preventDefault();
@@ -28,6 +72,15 @@ const AddOferta = (e) => {
 
     // Para el campo 'AnexoPDF'
     var anexoInput = $('#Adjunto')[0];
+    if (anexoInput.files.length === 0 || anexoInput.files[0].size === 0) {
+        swal({
+            icon: 'warning',
+            title: 'Archivo requerido',
+            text: 'Debe adjuntar un archivo válido.'
+        });
+       // document.getElementById('btnAddForo').disabled = false;
+        return;
+    }
 
     // Asegúrate de que se ha seleccionado un archivo
     if (anexoInput.files.length > 0) {
@@ -103,6 +156,15 @@ const AddEditOferta = (e) => {
 
     // Para el campo 'AnexoPDF'
     var anexoInput = $('#Adjunto')[0];
+    if (anexoInput.files.length === 0 || anexoInput.files[0].size === 0) {
+        swal({
+            icon: 'warning',
+            title: 'Archivo requerido',
+            text: 'Debe adjuntar un archivo válido.'
+        });
+       // document.getElementById('btnAddForo').disabled = false;
+        return;
+    }
 
     // Asegúrate de que se ha seleccionado un archivo
     if (anexoInput.files.length > 0) {

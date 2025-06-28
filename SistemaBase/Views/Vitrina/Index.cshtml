@@ -94,9 +94,11 @@
                                 {
                                     <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                                         <td class="fs--1 align-middle ps-0 text-center col-1 pt-2 pb-2 pl-2">
-                                            <a asp-action="DeleteForo" asp-route-id="@item.IdOfertaAcademica" style="@ViewBag.StyleAdmin" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar este registro?');">
+
+                                            <a onclick="modaldelete(@item.IdOfertaAcademica)" class="btn btn-danger btn-sm" style="@ViewBag.StyleAdmin">
                                                 <span class="btn-label"><i class="fa fa-trash"></i></span>
                                             </a>
+
                                             <button class="btnAbm" onclick="abrirEditOferta('@item.IdOfertaAcademica')" style="@ViewBag.StyleAdmin"><i class="fa fa-pencil"></i></button>
 
                                         </td>

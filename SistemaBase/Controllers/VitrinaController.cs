@@ -255,5 +255,44 @@ namespace SistemaBase.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
+
+
+        public async Task<IActionResult> Delete(int IdOfertaAcademica)
+        {
+
+            var foro = await _context.OfertaAcademicas
+            .FindAsync(IdOfertaAcademica);
+            if (foro == null)
+            {
+                return NotFound();
+            }
+
+            return View("Delete", foro);
+            //return View(foro);
+        }
+
+        // POST: DatosLaborale/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int IdOfertaAcademica)
+        {
+
+            var foros = _context.OfertaAcademicas.Find(IdOfertaAcademica);
+            if (foros == null)
+            {
+                return NotFound();
+            }
+            _context.OfertaAcademicas.Remove(foros);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+
+
+        }
+
+
+
+
+
+
     }
 }

@@ -259,6 +259,38 @@ namespace SistemaBase.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> Delete(int IdOfertaLaboral)
+        {
+
+            var foro = await _context.OfertaLaborals
+            .FindAsync(IdOfertaLaboral);
+            if (foro == null)
+            {
+                return NotFound();
+            }
+
+            return View("Delete", foro);
+            //return View(foro);
+        }
+
+        // POST: DatosLaborale/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int IdOfertaLaboral)
+        {
+
+            var foros = _context.OfertaLaborals.Find(IdOfertaLaboral);
+            if (foros == null)
+            {
+                return NotFound();
+            }
+            _context.OfertaLaborals.Remove(foros);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+
+
+        }
+
 
 
 

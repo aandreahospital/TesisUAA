@@ -1,5 +1,70 @@
 ﻿
 
+const modaldelete = (IdOfertaAcademica) => {
+    axios({
+        url: `/Vitrina/Delete?IdOfertaAcademica=${IdOfertaAcademica}`,
+        method: 'get',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Response-View': 'Json'
+        }
+    }).then(response => {
+        document.getElementById("details").innerHTML = response.data;
+        document.getElementById("detailsview").click(); // Esto dispara el modal
+    });
+};
+
+
+const submitforms = (e, url, id) => {
+    e.preventDefault();
+    document.getElementById("loader_inv").style.visibility = "visible";
+    const form = document.getElementById(id);
+    const formData = new FormData(form);
+
+    axios({
+        method: "post",
+        url: "Vitrina/" + url,
+        data: formData,
+        headers: {
+            "Content-Type": "multipart/form-data",
+            'X-Response-View': 'Json'
+        }
+    })
+        .then(function (response) {
+            location.reload();
+
+        })
+        .catch(function (response) {
+            console.log(response);
+        })
+        .finally(() => {
+            document.getElementById("loader_inv").style.visibility = "hidden";
+            refrestjsfunction();
+        });
+};
+
+
+
+const refrestjsfunction = () => {
+    const refreshjs = document.querySelectorAll("script");
+    refreshjs.forEach((item) => {
+        var src = item.src;
+        item.remove();
+        var script,
+            scriptTag;
+        script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = src;
+        scriptTag = document.getElementsByTagName('script')[0];
+        scriptTag.parentNode.insertBefore(script, scriptTag);
+    })
+}
+
+
+
+
+
 const AbrirOferta = (e) => {
     e.preventDefault();
     axios({
@@ -28,6 +93,15 @@ const AddOferta = (e) => {
 
     // Para el campo 'AnexoPDF'
     var anexoInput = $('#Adjunto')[0];
+    if (anexoInput.files.length === 0 || anexoInput.files[0].size === 0) {
+        swal({
+            icon: 'warning',
+            title: 'Archivo requerido',
+            text: 'Debe adjuntar un archivo válido.'
+        });
+        ///document.getElementById('btnAddForo').disabled = false;
+        return;
+    }
 
     // Asegúrate de que se ha seleccionado un archivo
     if (anexoInput.files.length > 0) {
@@ -103,6 +177,15 @@ const AddEditOferta = (e) => {
 
     // Para el campo 'AnexoPDF'
     var anexoInput = $('#Adjunto')[0];
+    if (anexoInput.files.length === 0 || anexoInput.files[0].size === 0) {
+        swal({
+            icon: 'warning',
+            title: 'Archivo requerido',
+            text: 'Debe adjuntar un archivo válido.'
+        });
+        //document.getElementById('btnAddForo').disabled = false;
+        return;
+    }
 
     // Asegúrate de que se ha seleccionado un archivo
     if (anexoInput.files.length > 0) {

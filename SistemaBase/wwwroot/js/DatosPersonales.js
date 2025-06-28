@@ -392,3 +392,177 @@ const AddAcademico = (e) => {
         })
 
 }
+
+
+const deleteLaboral = (IdDatosLaborales) => {
+    axios({
+        baseURL: "DatosLaborale" + "" + "/Delete?" + `IdDatosLaborales=${IdDatosLaborales}`,
+        method: 'Get',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Response-View': 'Json'
+        }
+    }).then(response => {
+        document.getElementById("details").innerHTML = response.data;
+        document.getElementById("detailsview").click();
+    });
+};
+
+const modaldelete = (IdDatosAcademicos) => {
+    axios({
+        baseURL: "DatosAcademico" + "" + "/Delete?" + `IdDatosAcademicos=${IdDatosAcademicos}`,
+        method: 'Get',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Response-View': 'Json'
+        }
+    }).then(response => {
+        document.getElementById("details").innerHTML = response.data;
+        document.getElementById("detailsview").click();
+    });
+};
+
+const submitforms = (e, url, id) => {
+    e.preventDefault();
+    document.getElementById("loader_inv").style.visibility = "visible";
+
+    const form = document.getElementById(id);
+    const formData = new FormData(form);
+
+    // Verifica si es académica o laboral
+    let controlador = "";
+    if (formData.has("IdDatosAcademicos")) {
+        controlador = "DatosAcademico";
+    } else if (formData.has("IdDatosLaborales")) {
+        controlador = "DatosLaborale";
+    } else {
+        console.error("No se pudo determinar el tipo de formulario.");
+        return;
+    }
+
+    axios({
+        method: "post",
+        url: controlador + "/" + url,
+        data: formData,
+        headers: {
+            "Content-Type": "multipart/form-data",
+            'X-Response-View': 'Json'
+        }
+    })
+        .then(function (response) {
+            location.reload(); // Recarga para ver el cambio reflejado
+        })
+        .catch(function (response) {
+            console.log(response);
+        })
+        .finally(() => {
+            document.getElementById("loader_inv").style.visibility = "hidden";
+            refrestjsfunction();
+        });
+};
+
+
+
+//const submitforms = (e, url, id) => {
+//    e.preventDefault();
+//    document.getElementById("loader_inv").style.visibility = "visible";
+//    const form = document.getElementById(id);
+//    const formData = new FormData(form);
+
+//    axios({
+//        method: "post",
+//        url: "DatosAcademico/" + url,
+//        data: formData,
+//        headers: {
+//            "Content-Type": "multipart/form-data",
+//            'X-Response-View': 'Json'
+//        }
+//    })
+//        .then(function (response) {
+//            location.reload();
+//            // Actualizar la tabla
+//            //document.getElementById("listbody").innerHTML = response.data;
+
+//            //// Cerrar el modal correctamente
+//            //const modal = bootstrap.Modal.getInstance(document.getElementById("editmodal"));
+//            //if (modal) modal.hide();
+
+//            //// Eliminar el fondo gris si quedó
+//            //const backdrop = document.querySelector(".modal-backdrop");
+//            //if (backdrop) backdrop.remove();
+
+//        })
+//        .catch(function (response) {
+//            console.log(response);
+//        })
+//        .finally(() => {
+//            document.getElementById("loader_inv").style.visibility = "hidden";
+//            refrestjsfunction();
+//        });
+//};
+
+
+const refrestjsfunction = () => {
+    const refreshjs = document.querySelectorAll("script");
+    refreshjs.forEach((item) => {
+        var src = item.src;
+        item.remove();
+        var script,
+            scriptTag;
+        script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = src;
+        scriptTag = document.getElementsByTagName('script')[0];
+        scriptTag.parentNode.insertBefore(script, scriptTag);
+    })
+}
+
+const EliminarAcademico = (id) => {
+    Swal.fire({
+        title: '¿Estás segura?',
+        text: 'Este registro será eliminado permanentemente.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const formData = new FormData();
+            formData.append('id', id);
+
+            axios({
+                method: "post",
+                url: "/DatosAlumno/DeleteAcademico",
+                data: formData,
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    'X-Response-View': 'Json'
+                }
+            })
+                .then(function (response) {
+                    if (response.status === 200) {
+                        swal({
+                            icon: 'success',
+                            title: 'Eliminado',
+                            text: 'El registro fue eliminado correctamente.'
+                        }).then(() => {
+                            location.reload();
+                        });
+                    }
+                })
+                .catch(function (error) {
+                    console.error(error);
+                    swal({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Ocurrió un error al intentar eliminar.'
+                    });
+                });
+        }
+    });
+};
+

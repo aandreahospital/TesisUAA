@@ -176,9 +176,9 @@
                             <a  onclick="AbrirEditLab(@exp.IdDatosLaborales)" class="btn btn-warning btn-sm">
                                 <span class="btn-label"><i class="fa fa-pencil"></i></span>
                             </a>
-                            <a asp-action="DeleteLaboral" asp-route-id="@exp.IdDatosLaborales" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar este registro?');">
+                            <a onclick="deleteLaboral(@exp.IdDatosLaborales)" class="btn btn-danger btn-sm">
                                 <span class="btn-label"><i class="fa fa-trash"></i></span>
-                                </a>
+                            </a>
                         </td>
                     </tr>
                 }
@@ -224,7 +224,7 @@
                             <a onclick="AbrirEditAca(@edu.IdDatosAcademicos)"  class="btn btn-warning btn-sm">
                                 <span class="btn-label"><i class="fa fa-pencil"></i></span>
                             </a>
-                            <a asp-action="DeleteAcademico" asp-route-id="@edu.IdDatosAcademicos" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar este registro?');">
+                            <a onclick="modaldelete(@edu.IdDatosAcademicos)" class="btn btn-danger btn-sm">
                                 <span class="btn-label"><i class="fa fa-trash"></i></span>
                             </a>
                         </td>
@@ -241,4 +241,5 @@
     </table>
 </div>
 <div id="details"></div>
-<script src="/js/DatosPersonales.js"></script>
+<script src="~/js/sweetalert2.min.js"></script>
+<script src="~/js/DatosPersonales.js"></script>

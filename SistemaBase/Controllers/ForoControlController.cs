@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SistemaBase.Models;
 using System.Security.Claims;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace SistemaBase.Controllers
 {
@@ -172,6 +173,38 @@ namespace SistemaBase.Controllers
             _context.ForoDebates.Remove(foros);
             _context.SaveChanges();
             return RedirectToAction("Index");
+        }
+        // GET: DatosLaborale/Delete/5
+        public async Task<IActionResult>Delete(int IdForoDebate)
+        {
+
+            var foro = await _context.ForoDebates
+            .FindAsync(IdForoDebate);
+            if (foro == null)
+            {
+                return NotFound();
+            }
+
+            return View("Delete", foro);
+            //return View(foro);
+        }
+
+        // POST: DatosLaborale/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int IdForoDebate)
+        {
+
+            var foros = _context.ForoDebates.Find(IdForoDebate);
+            if (foros == null)
+            {
+                return NotFound();
+            }
+            _context.ForoDebates.Remove(foros);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+           
+
         }
 
 

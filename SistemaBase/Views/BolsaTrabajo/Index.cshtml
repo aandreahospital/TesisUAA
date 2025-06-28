@@ -101,9 +101,10 @@
                                         <td class="fs--1 align-middle ps-0 text-center col-1 pt-2 pb-2 pl-2">
                                             @if (User.Identity.Name == item.CodUsuario || roleClaim =="ADMIN")
                                             {
-                                                <a asp-action="DeleteForo" asp-route-id="@item.IdOfertaLaboral" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar este registro?');">
+                                                <a onclick="modaldelete(@item.IdOfertaLaboral)" class="btn btn-danger btn-sm" >
                                                     <span class="btn-label"><i class="fa fa-trash"></i></span>
                                                 </a>
+
                                                 <button class="btnAbm" onclick="abrirEditOferta('@item.IdOfertaLaboral')"><i class="fa fa-pencil"></i></button>
                                             }
                                             </td>

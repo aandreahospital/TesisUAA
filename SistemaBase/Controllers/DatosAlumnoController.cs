@@ -52,7 +52,34 @@ namespace SistemaBase.Controllers
         }
 
 
+        public async Task<IActionResult> ResultTable()
+        {
+            var usuarios = _context.Usuarios.FirstOrDefault(x => x.CodUsuario == User.Identity.Name);
+            /// var alumno = ObtenerDatosAlumno(usuarios.CodPersona);
+            var alumno = _context.Personas.Where(a => a.CodPersona == usuarios.CodPersona).FirstOrDefault();
+            if (alumno == null)
+            {
+                return NotFound("Datos del graduado no encontrados");
+            }
 
+            var experiencia = ObtenerExperienciaLaboral();
+            var educacion = ObtenerEducacion();
+            DatosAlumnoCustom datosAlumno = new()
+            {
+                //NumeroEntrada = idMesaEntrada,
+                CodPersona = usuarios.CodPersona,
+                Nombre = alumno.Nombre,
+                Email = alumno?.Email ?? "",
+                SitioWeb = alumno?.SitioWeb ?? "",
+                Sexo = alumno?.Sexo ?? "",
+                DireccionParticular = alumno?.DireccionParticular ?? "",
+                FecNacimiento = alumno?.FecNacimiento,
+                ExperienciaLaboral = experiencia,
+                Educacion = educacion
+            };
+
+            return View(datosAlumno);
+        }
         private List<DatosLaborale> ObtenerExperienciaLaboral()
         {
             var laboral = _context.DatosLaborales.OrderByDescending(x=>x.IdDatosLaborales).Where(x => x.CodUsuario == User.Identity.Name).ToList();
