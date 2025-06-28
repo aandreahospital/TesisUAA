@@ -175,14 +175,33 @@ document.getElementById("btnProcesar").addEventListener("click", function () {
         });
         return;
     }
+    let todasLasPersonas = JSON.parse(datos);
 
-    let personas = JSON.parse(datos);
+    //  Filtrar solo las filas válidas (que no tengan la clase fila-error)
+    let filasValidas = [];
+    document.querySelectorAll("#tablaAlumnos tbody tr").forEach((tr, index) => {
+        if (!tr.classList.contains("fila-error")) {
+            filasValidas.push(todasLasPersonas[index]); // Usamos el mismo índice
+        }
+    });
+
+    if (filasValidas.length === 0) {
+        swal({
+            icon: 'error',
+            title: 'Sin datos válidos',
+            text: 'No hay filas válidas para procesar.',
+        });
+        return;
+    }
+
+
+   // let personas = JSON.parse(datos);
 
     fetch("/AutoCarga/ProcesarDatos", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            personas: personas,
+            personas: filasValidas,
             carrera: parseFloat(idCarrera)
         })
     })

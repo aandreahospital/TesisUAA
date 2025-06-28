@@ -185,18 +185,18 @@ namespace SistemaBase.Controllers
             {
                 try
                 {
-                    if (string.IsNullOrWhiteSpace(personaDto.CodPersona))
-                        throw new Exception("CodPersona vacío.");
+                //    if (string.IsNullOrWhiteSpace(personaDto.CodPersona))
+                //        throw new Exception("CodPersona vacío.");
 
-                    if (string.IsNullOrWhiteSpace(personaDto.Nombre))
-                        throw new Exception("Nombre vacío.");
+                //    if (string.IsNullOrWhiteSpace(personaDto.Nombre))
+                //        throw new Exception("Nombre vacío.");
 
-                    if (!string.IsNullOrWhiteSpace(personaDto.Email) &&
-                        !Regex.IsMatch(personaDto.Email, @"^\S+@\S+\.\S+$"))
-                        throw new Exception("Email inválido.");
+                //    if (!string.IsNullOrWhiteSpace(personaDto.Email) &&
+                //        !Regex.IsMatch(personaDto.Email, @"^\S+@\S+\.\S+$"))
+                //        throw new Exception("Email inválido.");
 
-                    if (!personaDto.FechaNacimiento.HasValue || personaDto.FechaNacimiento.Value == DateTime.MinValue)
-                        throw new Exception("Fecha de nacimiento vacía o inválida.");
+                //    if (!personaDto.FechaNacimiento.HasValue || personaDto.FechaNacimiento.Value == DateTime.MinValue)
+                //        throw new Exception("Fecha de nacimiento vacía o inválida.");
 
 
                     if (!personasExistentes.Contains(personaDto.CodPersona))
