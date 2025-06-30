@@ -77,57 +77,78 @@ document.getElementById("btnCargar").addEventListener("click", function () {
 
         datos.forEach((fila, index) => {
             let codPersona = fila.CodPersona ? fila.CodPersona.trim() : "";
+            let nombre = fila.Nombre ? fila.Nombre.trim() : "";
+            let codGrupo = fila.CodGrupo ? fila.CodGrupo.trim() : "";
             let email = fila.Email ? fila.Email.trim() : "";
             let fechaStr = fila.FechaNacimiento;
             let fechaValida = true;
             let codPersonaValida = true;
             let emailValido = true;
+            let nombreValido = true;
+            let codGrupoValido = true;
             let fechaFormateada = "";
 
-            if (fechaStr) {
+
+            // Validar Fecha no vacía y con formato válido
+            if (!fechaStr) {
+                fechaValida = false;
+            } else {
                 let fecha = new Date(fechaStr);
-                // Validar que sea una fecha válida
                 if (isNaN(fecha.getTime())) {
                     fechaValida = false;
                 } else {
                     fechaFormateada = fecha.toISOString().split("T")[0];
+                    fila.FechaNacimiento = fechaFormateada;
                 }
-            } else {
-                fechaValida = false;
             }
 
-            if (fechaValida) {
-                fila.FechaNacimiento = fechaFormateada;
-            }
+            //if (fechaStr) {
+            //    let fecha = new Date(fechaStr);
+            //    if (isNaN(fecha.getTime())) {
+            //        fechaValida = false;
+            //    } else {
+            //        fechaFormateada = fecha.toISOString().split("T")[0];
+            //    }
+            //} else {
+            //    fechaValida = false;
+            //}
 
-            // Validación de CodPersona vacío
-            if (!codPersona) {
-                codPersonaValida = false;
-            }
+            //if (fechaValida) {
+            //    fila.FechaNacimiento = fechaFormateada;
+            //}
 
-            // Validación de email
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
+            if (!codPersona) codPersonaValida = false;
+            if (!nombre) nombreValido = false;
+            if (!codGrupo) codGrupoValido = false;
+
+            // Validar Email no vacío y con formato correcto
+            if (!email) {
                 emailValido = false;
+            } else {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    emailValido = false;
+                }
             }
+
+            //const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            //if (!emailRegex.test(email)) {
+            //    emailValido = false;
+            //}
 
             let tr = document.createElement("tr");
             tr.setAttribute("data-codpersona", codPersona);
 
-            // Agregar clase de error si alguna validación falla
-            if (!fechaValida || !codPersonaValida || !emailValido) {
+            if (!fechaValida || !codPersonaValida || !emailValido || !nombreValido || !codGrupoValido) {
                 tr.classList.add("fila-error");
             }
 
-            if (!fechaValida) {
-                errores.push(`Fila ${index + 2}: Fecha de nacimiento inválida (${fechaStr})`);
-            }
-            if (!codPersonaValida) {
-                errores.push(`Fila ${index + 2}: CodPersona vacío`);
-            }
-            if (!emailValido) {
-                errores.push(`Fila ${index + 2}: Email inválido (${email})`);
-            }
+            // Acumular mensajes de error
+            if (!codPersonaValida) errores.push(`Fila ${index + 2}: CodPersona vacío`);
+            if (!nombreValido) errores.push(`Fila ${index + 2}: Nombre vacío`);
+            if (!codGrupoValido) errores.push(`Fila ${index + 2}: CodGrupo vacío`);
+            if (!emailValido) errores.push(`Fila ${index + 2}: Email inválido o vacío (${email})`);
+            if (!fechaValida) errores.push(`Fila ${index + 2}: Fecha de nacimiento inválida o vacía (${fechaStr})`);
 
 
             //// Marcar fila con error si la fecha es inválida

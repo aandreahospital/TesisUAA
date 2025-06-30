@@ -53,10 +53,10 @@ namespace SistemaBase.Controllers
                 };
 
                 const int maxFileSize = 5 * 1024 * 1024; // 5 MB
-                if (ArchivoPDF == null || ArchivoPDF.Length == 0)
-                {
-                    return Json(new { Success = false, ErrorMessage = "Por favor, selecciona una archivo en PDF" });
-                }
+                //if (ArchivoPDF == null || ArchivoPDF.Length == 0)
+                //{
+                //    return Json(new { Success = false, ErrorMessage = "Por favor, selecciona una archivo en PDF" });
+                //}
                 var allowedExtensions = new[] { ".pdf" };
                 if (ArchivoPDF != null && ArchivoPDF.Length > 0)
                 {
@@ -65,10 +65,10 @@ namespace SistemaBase.Controllers
                     //{
                     //    return Json(new { Success = false, ErrorMessage = "Error, el archivo debe ser en PDF." });
                     //}
-                    if (ArchivoPDF.Length > maxFileSize)
-                    {
-                        return Json(new { Success = false, ErrorMessage = "El tamaño del archivo no debe ser mayor de 5MB" });
-                    }
+                    //if (ArchivoPDF.Length > maxFileSize)
+                    //{
+                    //    return Json(new { Success = false, ErrorMessage = "El tamaño del archivo no debe ser mayor de 5MB" });
+                    //}
                     using (var memoryStream = new MemoryStream())
                     {
                         await ArchivoPDF.CopyToAsync(memoryStream);
@@ -139,10 +139,10 @@ namespace SistemaBase.Controllers
                         //{
                         //    return Json(new { Success = false, ErrorMessage = "Error, el archivo debe ser en PDF." });
                         //}
-                        if (ArchivoPDF.Length > maxFileSize)
-                        {
-                            return Json(new { Success = false, ErrorMessage = "El tamaño del archivo no debe ser mayor de 5MB" });
-                        }
+                        //if (ArchivoPDF.Length > maxFileSize)
+                        //{
+                        //    return Json(new { Success = false, ErrorMessage = "El tamaño del archivo no debe ser mayor de 5MB" });
+                        //}
                         using (var memoryStream = new MemoryStream())
                         {
                             await ArchivoPDF.CopyToAsync(memoryStream);

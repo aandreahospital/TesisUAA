@@ -90,15 +90,15 @@ const AddForo = (e) => {
 
     // Para el campo 'AnexoPDF'
     var anexoInput = $('#Adjunto')[0];
-    if (anexoInput.files.length === 0 || anexoInput.files[0].size === 0) {
-        swal({
-            icon: 'warning',
-            title: 'Archivo requerido',
-            text: 'Debe adjuntar un archivo válido.'
-        });
-       // document.getElementById('btnAddForo').disabled = false;
-        return;
-    }
+    //if (anexoInput.files.length === 0 || anexoInput.files[0].size === 0) {
+    //    swal({
+    //        icon: 'warning',
+    //        title: 'Archivo requerido',
+    //        text: 'Debe adjuntar un archivo válido.'
+    //    });
+    //   // document.getElementById('btnAddForo').disabled = false;
+    //    return;
+    //}
     // Asegúrate de que se ha seleccionado un archivo
     if (anexoInput.files.length > 0) {
         formData.append('ArchivoPDF', anexoInput.files[0]);
@@ -177,15 +177,15 @@ const AddEditForo = (e) => {
 
     // Para el campo 'AnexoPDF'
     var anexoInput = $('#Adjunto')[0];
-    if (anexoInput.files.length === 0 || anexoInput.files[0].size === 0) {
-        swal({
-            icon: 'warning',
-            title: 'Archivo requerido',
-            text: 'Debe adjuntar un archivo válido.'
-        });
-        ///document.getElementById('btnAddForo').disabled = false;
-        return;
-    }
+    //if (anexoInput.files.length === 0 || anexoInput.files[0].size === 0) {
+    //    swal({
+    //        icon: 'warning',
+    //        title: 'Archivo requerido',
+    //        text: 'Debe adjuntar un archivo válido.'
+    //    });
+    //    ///document.getElementById('btnAddForo').disabled = false;
+    //    return;
+    //}
     // Asegúrate de que se ha seleccionado un archivo
     if (anexoInput.files.length > 0) {
         formData.append('Adjunto', anexoInput.files[0]);
