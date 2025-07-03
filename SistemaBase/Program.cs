@@ -70,7 +70,7 @@ builder.Services.AddControllers();
 //var connectionString = builder.Configuration.GetConnectionString("AppDb");
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
-builder.Services.AddDbContext<UAADbContext>(options => options.UseSqlServer("Data Source=DESKTOP-KP48E0B\\SQLEXPRESS; Integrated Security=SSPI; Initial Catalog=UAAconecta;"));
+builder.Services.AddDbContext<UAADbContext>(options => options.UseSqlServer("Data Source=DESKTOP-9EU6M9V\\SQLEXPRESS; Integrated Security=SSPI; Initial Catalog=UAAconecta;"));
 builder.Services.AddControllersWithViews(options => options.EnableEndpointRouting = false).AddSessionStateTempDataProvider();
 builder.Services.AddAuthorization(options =>
 {

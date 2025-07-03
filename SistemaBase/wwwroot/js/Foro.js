@@ -151,7 +151,7 @@ const abrirEditForo = (id) => {
     }
     axios({
         baseURL: "/ForoControl/AbrirEditForo",
-        method: 'Get',
+        method: 'Get', 
         params: params,
         headers: {
             'Accept': 'application/json',
@@ -188,7 +188,7 @@ const AddEditForo = (e) => {
     //}
     // Asegúrate de que se ha seleccionado un archivo
     if (anexoInput.files.length > 0) {
-        formData.append('Adjunto', anexoInput.files[0]);
+        formData.append('ArchivoPDF', anexoInput.files[0]);
     }
 
     formData.append('CodUsuario', document.getElementById('CodUsuario').value)
