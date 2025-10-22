@@ -31,7 +31,21 @@ namespace SistemaBase.Controllers
             {
                 return NotFound("Datos del graduado no encontrados");
             }
+            // Buscar imagen del usuario
+            string fileName = $"{usuarios.CodPersona}.png";
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "assets", "img", fileName);
 
+            string fotoPerfil;
+            if (System.IO.File.Exists(filePath))
+            {
+                // Si existe la imagen, usarla
+                fotoPerfil = $"~/assets/img/{fileName}";
+            }
+            else
+            {
+                // Si no existe, usar una imagen vacía o por defecto
+                fotoPerfil = "~/assets/img/user.png";
+            }
             var experiencia = ObtenerExperienciaLaboral();
             var educacion = ObtenerEducacion();
             DatosAlumnoCustom datosAlumno = new()
@@ -45,7 +59,10 @@ namespace SistemaBase.Controllers
                 DireccionParticular = alumno?.DireccionParticular??"",
                 FecNacimiento = alumno?.FecNacimiento,
                 ExperienciaLaboral = experiencia,
-                Educacion = educacion
+                Educacion = educacion,
+                FotoPerfil = fotoPerfil
+
+
             };
            
             return View(datosAlumno);
@@ -127,7 +144,7 @@ namespace SistemaBase.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> GuardarDatos(DatosAlumnoCustom datosAlumno)
+        public async Task<IActionResult> GuardarDatos(DatosAlumnoCustom datosAlumno, IFormFile? FotoPerfil)
         {
             try
             {
@@ -144,7 +161,22 @@ namespace SistemaBase.Controllers
                     _context.Update(datosPersonales);
                     _context.SaveChanges();
                 }
+                if (FotoPerfil != null && FotoPerfil.Length > 0)
+                {
+                    string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "assets", "img");
+                    string fileName = $"{datosAlumno.CodPersona}.png"; 
+                    string filePath = Path.Combine(uploadsFolder, fileName);
 
+                    // Crear carpeta si no existe
+                    if (!Directory.Exists(uploadsFolder))
+                        Directory.CreateDirectory(uploadsFolder);
+
+                    // Guardar la imagen (reemplazando si ya existe)
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await FotoPerfil.CopyToAsync(stream);
+                    }
+                }
             }
             catch (DbUpdateConcurrencyException)
             {

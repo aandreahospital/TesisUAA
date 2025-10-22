@@ -20,7 +20,6 @@ const addEventListeners = () => {
 const EditarDatos = () => {
     document.getElementById('btnGuardar').disabled = false;
     document.getElementById('btnEditar').disabled = true;
-    //document.getElementById('CodPersona').disabled = false;
     document.getElementById('Nombre').disabled = false;
     document.getElementById('Correo').disabled = false;
     document.getElementById('FecNacimiento').disabled = false;
@@ -29,7 +28,11 @@ const EditarDatos = () => {
 
     var sexo = document.querySelector('select[name="Sexo"]');
     //sexo.disabled = false;
-   sexo.removeAttribute('disabled');
+    sexo.removeAttribute('disabled');
+
+    var cambiarFoto = document.getElementById('btnCambiarFoto');
+    cambiarFoto.classList.remove('disabled');
+    cambiarFoto.style.pointerEvents = 'auto';
 
 
     
@@ -49,6 +52,9 @@ const verifyCheckbox = (id) => {
 const GuardarDatos = (e) => {
     e.preventDefault();// Evita la propagación del evento
     document.getElementById('btnGuardar').disabled = true;
+    var cambiarFoto = document.getElementById('btnCambiarFoto');
+    cambiarFoto.classList.add('disabled');
+    cambiarFoto.style.pointerEvents = 'none';
     // Bloquear el formulario
     var datosFormulario = document.getElementById('formDatosAlumno');
     const formData = new FormData();
@@ -59,6 +65,11 @@ const GuardarDatos = (e) => {
     formData.append('Sexo', document.querySelector('select[name="Sexo"]').value)
     formData.append('DireccionParticular', document.querySelector('input[name="DireccionParticular"]').value)
     formData.append('SitioWeb', document.querySelector('input[name="SitioWeb"]').value)
+    const foto = document.getElementById('FotoPerfil').files[0];
+    if (foto) {
+        formData.append('FotoPerfil', foto);
+    }
+
     axios({
         method: "post",
         url: "/DatosAlumno/GuardarDatos",
@@ -76,6 +87,15 @@ const GuardarDatos = (e) => {
                     title: 'Listo',
                     text: 'La operación se realizó correctamente.'
                 }).then(() => {
+                    if (foto) {
+                        const codPersona = document.getElementById('CodPersona').value;
+                        const nuevaRuta = `/assets/img/${codPersona}.png?v=${new Date().getTime()}`;
+                        const fotoPreviewLayout = document.getElementById('fotoPreview');
+
+                        if (fotoPreviewLayout) {
+                            fotoPreviewLayout.src = nuevaRuta;
+                        }
+                    }
                     // Código para actualizar la pantalla después de cerrar el modal
                     location.reload();
                 });

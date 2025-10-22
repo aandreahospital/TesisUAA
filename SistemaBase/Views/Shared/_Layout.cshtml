@@ -155,7 +155,7 @@
     @{
         bool isAdmin = (roleClaim == "ADMIN");
         string displayStyle = (roleClaim == "ADMIN") ? "" : "display:none;";
-       
+        var cacheBuster = DateTime.Now.Ticks;
 
     }
 
@@ -473,6 +473,15 @@
                      <a class="nav-link">
                             <div class="d-flex align-items-center">
                                 <div class="dropdown">
+                                        
+
+                                        <img src="@Url.Content(@Context.User.Claims.FirstOrDefault(x => x.Type == "FotoPerfil").Value)"
+                                             alt="Foto de perfil"
+                                             class="rounded-circle border border-2 shadow-sm"
+                                             width="40"
+                                             height="40"
+                                             style="object-fit: cover;" />
+
                                            @*  <span>Bienvenido/a, </span> *@
                                             <span id="nombreUsuario">@Context.User.Claims.FirstOrDefault(x => x.Type == "NombreUsuario")?.Value</span>
                                             <br />

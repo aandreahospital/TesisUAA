@@ -127,8 +127,6 @@ namespace SistemaBase.Controllers
                    // foros.Adjunto = foroDebate?.Adjunto;
                     foros.Estado = foroDebate?.Estado;
 
-
-
                     const int maxFileSize = 5 * 1024 * 1024; // 5 MB
 
                     var allowedExtensions = new[] { ".pdf" };

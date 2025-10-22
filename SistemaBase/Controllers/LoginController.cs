@@ -86,7 +86,21 @@ namespace SistemaBase.Controllers
                     return Json(new { success = false, message = "No tienes credenciales correctas" });
                 }
 
-                
+                // Buscar imagen del usuario
+                string fileName = $"{login.CodPersona}.png";
+                string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "assets", "img", fileName);
+
+                string fotoPerfil;
+                if (System.IO.File.Exists(filePath))
+                {
+                    // Si existe la imagen, usarla
+                    fotoPerfil = $"~/assets/img/{fileName}";
+                }
+                else
+                {
+                    // Si no existe, usar una imagen vacía o por defecto
+                    fotoPerfil = "~/assets/img/user.png";
+                }
 
                 var persona = _context.Personas.FirstOrDefault(p => p.CodPersona == login.CodPersona);
 
@@ -98,7 +112,8 @@ namespace SistemaBase.Controllers
                     new Claim(ClaimTypes.Role, login.CodGrupo),
                     new Claim("IdUsuario", login.CodUsuario.ToString()),
                     new Claim("IdPersona", login.CodPersona),
-                    new Claim("NombreUsuario", persona?.Nombre ?? "")
+                    new Claim("NombreUsuario", persona?.Nombre ?? ""),
+                    new Claim("FotoPerfil", fotoPerfil)
                 });
 
                 ClaimsPrincipal userPrincipal = new ClaimsPrincipal(identity);

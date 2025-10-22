@@ -32,6 +32,7 @@ namespace SistemaBase.ModelsCustom
         public string? Universidadtrabajo { get; set; }
         public int? CargoIdcargo { get; set; }
         public string? Direccionlaboral { get; set; }
+        public string? FotoPerfil { get; set; }
         public int? Antiguedad { get; set; }
 
         public List <DatosAcademicoCustom>? Educacion;

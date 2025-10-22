@@ -46,6 +46,31 @@
     <p>
         <a class="d-none" id="detailsview" type="button" data-bs-toggle="modal" data-bs-target="#detailsModal"></a>
     </p>
+    <div class="mb-4 text-center">
+        <div class="position-relative d-inline-block">
+            <div class="text-center mb-4">
+                <div class="position-relative d-inline-block">
+                  
+                    <img id="fotoPreview"
+                         src="@Url.Content(Model.FotoPerfil)"
+                         alt="Foto de perfil"
+                         class="rounded-circle border border-2 shadow-sm"
+                         width="120"
+                         height="120"
+                         style="object-fit: cover;" />
+
+                  
+                    <div class="mt-2">
+                        <label id="btnCambiarFoto" for="FotoPerfil" class="btn btn-outline-primary btn-sm disabled">
+                            <i class="fa fa-camera"></i> Cambiar foto
+                        </label>
+                        <input type="file" id="FotoPerfil" name="FotoPerfil" accept="image/*"
+                               class="d-none" onchange="mostrarPreview(event)" />
+                    </div>
+                </div>
+            </div>
+    </div>
+
 
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h4>Datos Personales</h4>
@@ -54,7 +79,7 @@
     </div>
   
     <form class="was-validated" id="formDatosAlumno">
-       
+          
         <div class="mb-3">
             <div class="row">
                 <div class="col-sm-4">
@@ -242,4 +267,17 @@
 </div>
 <div id="details"></div>
 <script src="~/js/sweetalert2.min.js"></script>
+    <script>
+        function mostrarPreview(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('fotoPreview').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+
 <script src="~/js/DatosPersonales.js"></script>
